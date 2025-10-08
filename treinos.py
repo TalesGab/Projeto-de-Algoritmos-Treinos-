@@ -27,7 +27,7 @@ def treinos():
                 criarTreino(bd)
             elif opcao == qntItens + 3:
                 # menuAnterior()
-                pass
+                break
             elif opcao in [num for num in range(1, (qntItens + 1))]:
                 loading("Acessando treino")
             else:
@@ -56,29 +56,31 @@ def buscarTreino(bd: dict) -> str:
     while True:
         busca = console.input("[bold cyan]Digite o nome do treino: [/bold cyan]")
         while True:
+            contador = 0
             console.clear()
             console.print(Panel("[bold green]💪 Treinos[/bold green]", expand= False))
             opcoesDisponiveis = []   
             
-            for i, (dia, treino) in enumerate(bd.items(), start=1):
+            for dia, treino in bd.items():
                 nomeTreino = treino["nomeTreino"]
                 if nomeTreino.lower().count(busca.lower()):
+                    contador += 1
                     opcoesDisponiveis.append({
-                        "indice": i,
+                        "indice": (contador),
                         "dia": dia,
                         "nomeTreino": nomeTreino
                     })
 
             if opcoesDisponiveis:
-                opcaoMax = opcoesDisponiveis[-1]["indice"] + 1
+                opcaoMax = contador + 1
                 for item in opcoesDisponiveis:
-                    console.print(f"🗓️  {item[dia]}")
-                    console.print(f"| [yellow]{item[i]}[/yellow] - {item["nomeTreino"]}\n") 
+                    console.print(f"🗓️  {item["dia"]}")
+                    console.print(f"[grey19]|[/grey19] [yellow]{item["indice"]}[/yellow] - {item["nomeTreino"]}\n") 
             else:
-                opcaoMax = 1
+                opcaoMax = contador
                 console.print("[bold red]⚠ Nenhum treino encontrado com essa busca.[/bold red]\n")
 
-            console.print("---------------------")
+            console.print("[grey19]---------------------[/grey19]")
             console.print(f"[yellow]{opcaoMax}[/yellow] - Voltar 🔙")
 
             try:
