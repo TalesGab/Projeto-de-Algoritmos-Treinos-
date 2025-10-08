@@ -1,7 +1,7 @@
 {
     "DOMINGO": 
     {
-        "nomeTreino": "-",
+        "nomeTreino": "OFF",
         "divisoes": 
         [
             {
@@ -21,7 +21,7 @@
     },
     "SEGUNDA-FEIRA": 
     {
-        "nomeTreino": "-",
+        "nomeTreino": "PEITO",
         "divisoes": 
         [
             {
@@ -41,7 +41,7 @@
     },
     "TERÇA-FEIRA": 
     {
-        "nomeTreino": "-",
+        "nomeTreino": "OMBRO",
         "divisoes": 
         [
             {
@@ -61,7 +61,7 @@
     },
     "QUARTA-FEIRA": 
     {
-        "nomeTreino": "-",
+        "nomeTreino": "COSTAS",
         "divisoes": 
         [
             {
@@ -81,7 +81,7 @@
     },
     "QUINTA-FEIRA": 
     {
-        "nomeTreino": "-",
+        "nomeTreino": "BICEPS",
         "divisoes": 
         [
             {
@@ -101,7 +101,7 @@
     },
     "SEXTA-FEIRA": 
     {
-        "nomeTreino": "-",
+        "nomeTreino": "QUADRICEPS E GLUTEO",
         "divisoes": 
         [
             {
@@ -121,7 +121,7 @@
     },
     "SÁBADO": 
     {
-        "nomeTreino": "-",
+        "nomeTreino": "OFF",
         "divisoes": 
         [
             {

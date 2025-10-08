@@ -16,29 +16,41 @@ def treinos():
     while True:
         console.clear()
         console.print(Panel("[bold green]💪 Treinos[/bold green]", expand= False))
-        listarTreinos(bd)
+        qntItens = listarTreinos(bd)
         
-        opcao = console.input("\n[bold cyan]Escolha uma opção: [/bold cyan]")
+        try:
+            opcao = int(console.input("\n[bold cyan]Escolha uma opção: [/bold cyan]"))
 
-        if opcao in [str(num) for num in range(1, 8)]:
-            loading("Acessando treino")
-
-        elif opcao == '8':
-            buscarTreino(bd)
-        elif opcao == '9':
-            # menu()
-            pass
-        else:
+            if opcao == qntItens + 1:
+                buscarTreino(bd)
+            elif opcao == qntItens + 2:
+                criarTreino(bd)
+            elif opcao == qntItens + 3:
+                # menuAnterior()
+                pass
+            elif opcao in [num for num in range(1, (qntItens + 1))]:
+                loading("Acessando treino")
+            else:
+                console.print("[red]⚠ Opção inválida, tente novamente.[/red]")
+                time.sleep(2)
+        except ValueError:
             console.print("[red]⚠ Opção inválida, tente novamente.[/red]")
-            time.sleep(2)
 
-def listarTreinos(bd: dict) -> str:
-    for i, (dia, treino) in enumerate(bd.items(), start=1):
-        console.print(f"🗓️  {dia}")
-        console.print(f"| [yellow]{i}[/yellow] - {treino["nomeTreino"]}\n")
-    console.print("---------------------")
-    console.print("[yellow]8[/yellow] - Buscar treino 🔎")
-    console.print("[yellow]9[/yellow] - Voltar")
+def listarTreinos(bd: dict) -> int:
+    contador = 0
+    for dia, treino in bd.items():
+        if treino["nomeTreino"] != "OFF":
+            contador += 1
+            console.print(f"🗓️  {dia}")
+            console.print(f"[grey19]|[/grey19] [yellow]{contador}[/yellow] - {treino["nomeTreino"]}\n")
+        else: 
+            console.print(f"🗓️  {dia}")
+            console.print(f"[grey19]|[/grey19] [grey19]{treino["nomeTreino"]}[/grey19]\n")
+    console.print("[grey19]---------------------[/grey19]")
+    console.print(f"[yellow]{contador + 1}[/yellow] - Buscar treino 🔎")
+    console.print(f"[yellow]{contador + 2}[/yellow] - Criar treino ➕️")
+    console.print(f"[yellow]{contador + 3}[/yellow] - Voltar 🔙")
+    return contador
 
 def buscarTreino(bd: dict) -> str:
     while True:
@@ -84,7 +96,7 @@ def buscarTreino(bd: dict) -> str:
                 time.sleep(2)
     
 
-def criarTreino():
+def criarTreino(bd):
     pass
 
 def voltar():
