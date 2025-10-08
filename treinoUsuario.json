@@ -2,140 +2,112 @@
     "DOMINGO": 
     {
         "nomeTreino": "OFF",
-        "divisoes": 
+        "exercicios": 
         [
             {
+                "idExercicio": 1,
                 "nomeDivisao": "-",
-                "exercicios": 
-                [
-                    {
-                        "nome": "-",
-                        "repeticao": "-",
-                        "series": "-",
-                        "equipamento": "-",
-                        "peso": "-"
-                    }
-                ]
+                "nome": "-",
+                "repeticao": "-",
+                "series": "-",
+                "equipamento": "-",
+                "peso": "-"
             }
         ]
     },
     "SEGUNDA-FEIRA": 
     {
         "nomeTreino": "PEITO",
-        "divisoes": 
+        "exercicios": 
         [
             {
+                "idExercicio": 1,
                 "nomeDivisao": "-",
-                "exercicios": 
-                [
-                    {
-                        "nome": "-",
-                        "repeticao": "-",
-                        "series": "-",
-                        "equipamento": "-",
-                        "peso": "-"
-                    }
-                ]
+                "nome": "-",
+                "repeticao": "-",
+                "series": "-",
+                "equipamento": "-",
+                "peso": "-"
             }
         ]
     },
     "TERÇA-FEIRA": 
     {
         "nomeTreino": "OMBRO",
-        "divisoes": 
+        "exercicios": 
         [
             {
+                "idExercicio": 1,
                 "nomeDivisao": "-",
-                "exercicios": 
-                [
-                    {
-                        "nome": "-",
-                        "repeticao": "-",
-                        "series": "-",
-                        "equipamento": "-",
-                        "peso": "-"
-                    }
-                ]
+                "nome": "-",
+                "repeticao": "-",
+                "series": "-",
+                "equipamento": "-",
+                "peso": "-"
             }
         ]
     },
     "QUARTA-FEIRA": 
     {
         "nomeTreino": "COSTAS",
-        "divisoes": 
+        "exercicios": 
         [
             {
+                "idExercicio": 1,
                 "nomeDivisao": "-",
-                "exercicios": 
-                [
-                    {
-                        "nome": "-",
-                        "repeticao": "-",
-                        "series": "-",
-                        "equipamento": "-",
-                        "peso": "-"
-                    }
-                ]
+                "nome": "-",
+                "repeticao": "-",
+                "series": "-",
+                "equipamento": "-",
+                "peso": "-"
             }
         ]
     },
     "QUINTA-FEIRA": 
     {
         "nomeTreino": "BICEPS",
-        "divisoes": 
+        "exercicios": 
         [
             {
+                "idExercicio": 1,
                 "nomeDivisao": "-",
-                "exercicios": 
-                [
-                    {
-                        "nome": "-",
-                        "repeticao": "-",
-                        "series": "-",
-                        "equipamento": "-",
-                        "peso": "-"
-                    }
-                ]
+                "nome": "-",
+                "repeticao": "-",
+                "series": "-",
+                "equipamento": "-",
+                "peso": "-"
             }
         ]
     },
     "SEXTA-FEIRA": 
     {
         "nomeTreino": "QUADRICEPS E GLUTEO",
-        "divisoes": 
+        "exercicios": 
         [
             {
+                "idExercicio": 1,
                 "nomeDivisao": "-",
-                "exercicios": 
-                [
-                    {
-                        "nome": "-",
-                        "repeticao": "-",
-                        "series": "-",
-                        "equipamento": "-",
-                        "peso": "-"
-                    }
-                ]
+                "nome": "-",
+                "equipamento": "-",
+                "repeticao": "-",
+                "series": "-",
+                "peso": "-"
             }
         ]
     },
     "SÁBADO": 
     {
         "nomeTreino": "OFF",
-        "divisoes": 
+        "exercicios": 
         [
             {
+                "idExercicio": 1,
                 "nomeDivisao": "-",
-                "exercicios": 
-                [
-                    {
-                        "nome": "-",
-                        "repeticao": "-",
-                        "series": "-",
-                        "equipamento": "-",
-                        "peso": "-"
-                    }
-                ]
+                "nome": "-",
+                "repeticao": "-",
+                "series": "-",
+                "equipamento": "-",
+                "peso": "-"
             }
         ]
     }
