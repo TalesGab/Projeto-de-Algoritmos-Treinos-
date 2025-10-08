@@ -1,0 +1,142 @@
+{
+    "DOMINGO": 
+    {
+        "nomeTreino": "-",
+        "divisoes": 
+        [
+            {
+                "nomeDivisao": "-",
+                "exercicios": 
+                [
+                    {
+                        "nome": "-",
+                        "repeticao": "-",
+                        "series": "-",
+                        "equipamento": "-",
+                        "peso": "-"
+                    }
+                ]
+            }
+        ]
+    },
+    "SEGUNDA-FEIRA": 
+    {
+        "nomeTreino": "-",
+        "divisoes": 
+        [
+            {
+                "nomeDivisao": "-",
+                "exercicios": 
+                [
+                    {
+                        "nome": "-",
+                        "repeticao": "-",
+                        "series": "-",
+                        "equipamento": "-",
+                        "peso": "-"
+                    }
+                ]
+            }
+        ]
+    },
+    "TERÇA-FEIRA": 
+    {
+        "nomeTreino": "-",
+        "divisoes": 
+        [
+            {
+                "nomeDivisao": "-",
+                "exercicios": 
+                [
+                    {
+                        "nome": "-",
+                        "repeticao": "-",
+                        "series": "-",
+                        "equipamento": "-",
+                        "peso": "-"
+                    }
+                ]
+            }
+        ]
+    },
+    "QUARTA-FEIRA": 
+    {
+        "nomeTreino": "-",
+        "divisoes": 
+        [
+            {
+                "nomeDivisao": "-",
+                "exercicios": 
+                [
+                    {
+                        "nome": "-",
+                        "repeticao": "-",
+                        "series": "-",
+                        "equipamento": "-",
+                        "peso": "-"
+                    }
+                ]
+            }
+        ]
+    },
+    "QUINTA-FEIRA": 
+    {
+        "nomeTreino": "-",
+        "divisoes": 
+        [
+            {
+                "nomeDivisao": "-",
+                "exercicios": 
+                [
+                    {
+                        "nome": "-",
+                        "repeticao": "-",
+                        "series": "-",
+                        "equipamento": "-",
+                        "peso": "-"
+                    }
+                ]
+            }
+        ]
+    },
+    "SEXTA-FEIRA": 
+    {
+        "nomeTreino": "-",
+        "divisoes": 
+        [
+            {
+                "nomeDivisao": "-",
+                "exercicios": 
+                [
+                    {
+                        "nome": "-",
+                        "repeticao": "-",
+                        "series": "-",
+                        "equipamento": "-",
+                        "peso": "-"
+                    }
+                ]
+            }
+        ]
+    },
+    "SÁBADO": 
+    {
+        "nomeTreino": "-",
+        "divisoes": 
+        [
+            {
+                "nomeDivisao": "-",
+                "exercicios": 
+                [
+                    {
+                        "nome": "-",
+                        "repeticao": "-",
+                        "series": "-",
+                        "equipamento": "-",
+                        "peso": "-"
+                    }
+                ]
+            }
+        ]
+    }
+}
