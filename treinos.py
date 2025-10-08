@@ -5,14 +5,15 @@ from Menu import loading
 import json
 import pandas as pd
 
-caminho = "treinos.json"
-
-with open(caminho, 'r', encoding= "utf-8") as arquivo:
-    bd = json.load(arquivo)
+def treinoUsuario():
+    caminho = "treinoUsuario.json"
+    with open(caminho, 'r', encoding= "utf-8") as arquivo:
+        bd = json.load(arquivo)
+    return bd
 
 console = Console()
 
-def treinos():
+def treinos(bd: dict):
     while True:
         console.clear()
         console.print(Panel("[bold green]💪 Treinos[/bold green]", expand= False))
@@ -35,6 +36,7 @@ def treinos():
                 time.sleep(2)
         except ValueError:
             console.print("[red]⚠ Opção inválida, tente novamente.[/red]")
+            time.sleep(2)
 
 def listarTreinos(bd: dict) -> int:
     contador = 0
@@ -52,7 +54,7 @@ def listarTreinos(bd: dict) -> int:
     console.print(f"[yellow]{contador + 3}[/yellow] - Voltar 🔙")
     return contador
 
-def buscarTreino(bd: dict) -> str:
+def buscarTreino(bd: dict):
     while True:
         busca = console.input("[bold cyan]Digite o nome do treino: [/bold cyan]")
         while True:
@@ -63,7 +65,7 @@ def buscarTreino(bd: dict) -> str:
             
             for dia, treino in bd.items():
                 nomeTreino = treino["nomeTreino"]
-                if nomeTreino.lower().count(busca.lower()):
+                if nomeTreino.lower().count(busca.lower()) and treino["nomeTreino"] != "OFF":
                     contador += 1
                     opcoesDisponiveis.append({
                         "indice": (contador),
@@ -77,7 +79,7 @@ def buscarTreino(bd: dict) -> str:
                     console.print(f"🗓️  {item["dia"]}")
                     console.print(f"[grey19]|[/grey19] [yellow]{item["indice"]}[/yellow] - {item["nomeTreino"]}\n") 
             else:
-                opcaoMax = contador
+                opcaoMax = 1
                 console.print("[bold red]⚠ Nenhum treino encontrado com essa busca.[/bold red]\n")
 
             console.print("[grey19]---------------------[/grey19]")
@@ -87,8 +89,8 @@ def buscarTreino(bd: dict) -> str:
                 opcao = int(console.input("\n[bold cyan]Escolha uma opção: [/bold cyan]"))
 
                 if opcao == opcaoMax:
-                    treinos()
-                elif opcoesDisponiveis:
+                    treinos(bd)
+                elif opcao in [num for num in range(1, (contador + 1))]:
                     loading("Acessando treino")
                 else: 
                     console.print("[red]⚠ Opção inválida, tente novamente.[/red]")
@@ -101,9 +103,6 @@ def buscarTreino(bd: dict) -> str:
 def criarTreino(bd):
     pass
 
-def voltar():
-    #menuPrincipal()
-    pass
-
 if __name__ == "__main__":
-    treinos()
+    bd = treinoUsuario()
+    treinos(bd)
