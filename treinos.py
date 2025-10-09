@@ -122,19 +122,20 @@ def treinoSelecionado(bd: dict, dia: str):
         console.print(Panel(f"[bold green]🗓️  {dia}[/bold green]", expand=False))
         console.print(f"[bold]🏋️  {nome}[/bold]")
 
-        listarExercicios(treino)
+        MaiorID, IDs = listarExercicios(treino)
 
-        console.print("[yellow]1[/yellow] - Editar treino ✏️")
-        console.print("[bold red]2 - EXCLUIR treino[/bold red] ❌")
-        console.print("[yellow]3[/yellow] - Voltar 🔙")
+        console.print("[grey19]---------------------[/grey19]")
+        console.print(f"[yellow]{MaiorID + 1}[/yellow] - Editar treino ✏️")
+        console.print(f"[bold red]{MaiorID + 2} - EXCLUIR treino[/bold red] ❌")
+        console.print(f"[yellow]{MaiorID + 3}[/yellow] - Voltar 🔙")
 
         try:
             opcao = int(console.input("\n[bold cyan]Escolha uma opção: [/bold cyan]"))
 
-            if opcao == 1:
+            if opcao == (MaiorID + 1):
                 # Chamar função para editar os exercicios e ter a opção de editar nome
-                editarTreino(dia, nome)
-            elif opcao == 2:
+                editarTreino(bd, dia)
+            elif opcao == (MaiorID + 2):
                 while True:    
                     resposta = console.input("[bold yellow]⚠ Tem certeza que deseja EXCLUIR o treino (S/N)? [/bold yellow]").upper()
                     
@@ -145,7 +146,7 @@ def treinoSelecionado(bd: dict, dia: str):
                         break
                     else:
                         console.print("[red]⚠ Digite uma opção válida.[/red]")
-            elif opcao == 3:
+            elif opcao == (MaiorID + 3):
                 return
             else:
                 console.print("[red]⚠ Opção inválida, tente novamente.[/red]")
@@ -200,11 +201,32 @@ def editarTreino(bd: dict, dia: str):
         console.print(Panel(f"[bold green]🗓️  {dia}[/bold green]", expand=False))
         console.print(f"[bold]🏋️  {nome}[/bold]")
 
-        maiorID = listarExercicios(treino)
-
+        maiorID, IDs = listarExercicios(treino)
+        console.print("[grey19]--------------------------------[/grey19]")
         console.print(f"[yellow]{maiorID + 1}[/yellow] - Editar nome do treino ✏️")
         console.print(f"[yellow]{maiorID + 2}[/yellow] - Buscar exercício ✏️")
         console.print(f"[yellow]{maiorID + 3}[/yellow] - Voltar 🔙")
+        
+        try:
+            opcao = console.input("\n[bold cyan]Escolha uma opção: [/bold cyan]")
+        
+            if opcao == (maiorID + 1):
+                nomeNovoTreino = console.input("\n[bold cyan]Digite o novo nome do treino: [/bold cyan]")
+                loading(f"Alterando nome do treino {nome} para {nomeNovoTreino}")
+                editarNomeTreino(nome, nomeNovoTreino)
+                time.sleep(4)
+            elif opcao == (maiorID + 2):
+                pass
+            elif opcao == (maiorID + 3):
+                return
+            elif opcao :
+                pass
+            else:
+                console.print("[red]⚠ Digite um número válido.[/red]")
+                time.sleep(2)
+        except ValueError:
+            console.print("[red]⚠ Digite um número válido.[/red]")
+            time.sleep(2)
 
 #console.print("[yellow]2[/yellow] - Adicionar exercício ➕️")
       #  console.print("[yellow]3[/yellow] - Excluir exercício ❌")#

@@ -13,7 +13,7 @@ def listarExercicios(treino: dict) -> int:
     df = pd.DataFrame(treino["exercicios"])
     df = df.sort_values("idExercicio").reset_index(drop=True)
 
-    maiorID = df["idExercicio"].max() if not df.empty else 0
+    maiorID = int(df["idExercicio"].max()) if not df.empty else 0
 
     df_Arrumado = df.rename(columns={
         "nomeDivisao": "Divisão",
@@ -45,8 +45,10 @@ def listarExercicios(treino: dict) -> int:
             str(linha["Peso"])
         )
 
+    IDs = df["idExercicio"].to_list()
+
     console.print(tabela)
-    return maiorID
+    return maiorID, IDs
 
 def adicionarExercicio(dia: str, nomeEscolhido: str):
     bd = treinoUsuarioAtualizado()

@@ -19,4 +19,12 @@ def excluirTreino(dia):
 
 def adicionarTreino(dia):
     bd = treinoUsuarioAtualizado()
+
+    treino = bd[dia]
+    # Ver lógica que será criada
+
+def editarInformações(dia, editarExercicios):
+    bd = treinoUsuarioAtualizado()
+
+    treino = bd[dia]
     
