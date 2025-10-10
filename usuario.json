@@ -1,0 +1,32 @@
+[
+    {
+        "Nome": "Kevin Camargo",
+        "Idade": 21,
+        "Sexualidade": "Masculino",
+        "Peso": "69",
+        "Objetivo": "Ganhar Massa Muscular(Hipertrofia)",
+        "Lesões": [
+            "Nenhuma lesão relatada"
+        ]
+    },
+    {
+        "Nome": "Tales Gabriel",
+        "Idade": 20,
+        "Sexualidade": "Masculino",
+        "Peso": "69",
+        "Objetivo": "Perder Peso / Reduzir Gordura Corporal",
+        "Lesões": [
+            "Nenhuma lesão relatada"
+        ]
+    },
+    {
+        "Nome": "João Paulo",
+        "Idade": 30,
+        "Sexualidade": "Masculino",
+        "Peso": "66",
+        "Objetivo": "Treinos para Performance Esportiva Específica",
+        "Lesões": [
+            "Nenhuma lesão relatada"
+        ]
+    }
+]
