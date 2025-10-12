@@ -2,9 +2,9 @@ import time
 from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
-from manipulacaoJSON import *
+from manipulacaoJSON import atualizarTreino, treinoUsuarioAtualizado
 from Menu import loading
-from exercicios import listarExercicios, adicionarExercicio
+from exercicios import listarExercicios, adicionarExercicio, buscarExercicio
 import pandas as pd
 
 console = Console()
@@ -14,15 +14,15 @@ def treinos():
         bd = treinoUsuarioAtualizado()
         console.clear()
         console.print(Panel("[bold green]💪 Treinos[/bold green]", expand= False))
-        qntItens, mapaOpcoes = listarTreinos(bd)
+        qntItens, mapaOpcoes = listarTreinos()
         
         try:
             opcao = int(console.input("\n[bold cyan]Escolha uma opção: [/bold cyan]"))
 
             if opcao == qntItens + 1:
-                buscarTreino(bd)
+                buscarTreino()
             elif opcao == qntItens + 2:
-                criarTreino(bd)
+                criarTreino()
             elif opcao == qntItens + 3:
                 # menuAnterior()
                 break
@@ -31,7 +31,7 @@ def treinos():
                 nomeTreinoEscolhido = bd[diaEscolhido]["nomeTreino"]
 
                 loading(f"Acessando treino {nomeTreinoEscolhido} ({diaEscolhido})")
-                treinoSelecionado(bd, diaEscolhido)
+                treinoSelecionado(diaEscolhido)
             else:
                 console.print("[red]⚠ Opção inválida, tente novamente.[/red]")
                 time.sleep(2)
@@ -39,7 +39,8 @@ def treinos():
             console.print("[red]⚠ Digite um número válido.[/red]")
             time.sleep(2)
 
-def listarTreinos(bd: dict):
+def listarTreinos():
+    bd = treinoUsuarioAtualizado()
     contador = 0
     mapaOpcoes = {}
 
@@ -60,8 +61,9 @@ def listarTreinos(bd: dict):
 
     return contador, mapaOpcoes
 
-def buscarTreino(bd: dict):
+def buscarTreino():
     while True:
+        bd = treinoUsuarioAtualizado()
         busca = console.input("[bold cyan]Digite o nome do treino: [/bold cyan]")
         loading(f"Procurando treino: {busca}")
         time.sleep(2)
@@ -113,8 +115,9 @@ def buscarTreino(bd: dict):
                 console.print("[red]⚠ Digite um número válido.[/red]")
                 time.sleep(2)
     
-def treinoSelecionado(bd: dict, dia: str):
+def treinoSelecionado(dia: str):
     while True:
+        bd = treinoUsuarioAtualizado()
         console.clear()
         treino = bd[dia]
         nome = treino["nomeTreino"]
@@ -122,20 +125,20 @@ def treinoSelecionado(bd: dict, dia: str):
         console.print(Panel(f"[bold green]🗓️  {dia}[/bold green]", expand=False))
         console.print(f"[bold]🏋️  {nome}[/bold]")
 
-        MaiorID, IDs = listarExercicios(treino)
+        listarExercicios(treino)
 
         console.print("[grey19]---------------------[/grey19]")
-        console.print(f"[yellow]{MaiorID + 1}[/yellow] - Editar treino ✏️")
-        console.print(f"[bold red]{MaiorID + 2} - EXCLUIR treino[/bold red] ❌")
-        console.print(f"[yellow]{MaiorID + 3}[/yellow] - Voltar 🔙")
+        console.print(f"[yellow]1[/yellow] - Editar treino ✏️")
+        console.print(f"[bold red]2 - EXCLUIR treino[/bold red] ❌")
+        console.print(f"[yellow]3[/yellow] - Voltar 🔙")
 
         try:
             opcao = int(console.input("\n[bold cyan]Escolha uma opção: [/bold cyan]"))
 
-            if opcao == (MaiorID + 1):
-                # Chamar função para editar os exercicios e ter a opção de editar nome
-                editarTreino(bd, dia)
-            elif opcao == (MaiorID + 2):
+            if opcao == 1:
+                loading(f"Editando treino {nome}")
+                editarTreino(dia)
+            elif opcao == 2:
                 while True:    
                     resposta = console.input("[bold yellow]⚠ Tem certeza que deseja EXCLUIR o treino (S/N)? [/bold yellow]").upper()
                     
@@ -146,7 +149,7 @@ def treinoSelecionado(bd: dict, dia: str):
                         break
                     else:
                         console.print("[red]⚠ Digite uma opção válida.[/red]")
-            elif opcao == (MaiorID + 3):
+            elif opcao == 3:
                 return
             else:
                 console.print("[red]⚠ Opção inválida, tente novamente.[/red]")
@@ -155,8 +158,9 @@ def treinoSelecionado(bd: dict, dia: str):
             console.print("[red]⚠ Digite um número válido.[/red]")
             time.sleep(2)
 
-def criarTreino(bd: dict):
+def criarTreino():
     while True:
+        bd = treinoUsuarioAtualizado()
         console.clear()
         dicioAux = {}
         contador = 0
@@ -172,12 +176,14 @@ def criarTreino(bd: dict):
             for key, valor in dicioAux.items():
                 console.print(f"[yellow]{key}[/yellow] - 🗓️  {valor}")
             numVoltar = max(dicioAux, key=dicioAux.get) + 1
+            console.print("\n[grey19]---------------------[/grey19]")
             console.print(f"[yellow]{numVoltar}[/yellow] - Voltar 🔙")
         else: 
             console.print("[bold red]⚠ Nenhum dia vago.[/bold red]\n")
 
         try:
             opcao = int(console.input("\n[bold cyan]Escolha uma opção: [/bold cyan]"))
+
 
             if opcao == numVoltar:
                 return
@@ -186,37 +192,38 @@ def criarTreino(bd: dict):
                 loading(f"Criando treino {nomeTreinoNovo}")
                 adicionarExercicio(dicioAux[opcao], nomeTreinoNovo)
             else:
-                console.print("[red]⚠ Digite um número válido.[/red]")
+                console.print("[red]⚠ Opção inválida, tente novamente.[/red]")
                 time.sleep(2)
         except ValueError:
             console.print("[red]⚠ Digite um número válido.[/red]")
             time.sleep(2)
 
-def editarTreino(bd: dict, dia: str):
+def editarTreino(dia: str):
     while True:
+        bd = treinoUsuarioAtualizado()
         console.clear()
         treino = bd[dia]
         nome = treino["nomeTreino"]
 
         console.print(Panel(f"[bold green]🗓️  {dia}[/bold green]", expand=False))
-        console.print(f"[bold]🏋️  {nome}[/bold]")
+        console.print(f"[bold]🏋️  {nome} (editando...)[/bold]")
 
-        maiorID, IDs = listarExercicios(treino)
+        maiorID, IDs = listarExercicios(treino, None, True)
         console.print("[grey19]--------------------------------[/grey19]")
         console.print(f"[yellow]{maiorID + 1}[/yellow] - Editar nome do treino ✏️")
-        console.print(f"[yellow]{maiorID + 2}[/yellow] - Buscar exercício ✏️")
+        console.print(f"[yellow]{maiorID + 2}[/yellow] - Buscar exercício 🔎")
         console.print(f"[yellow]{maiorID + 3}[/yellow] - Voltar 🔙")
         
         try:
-            opcao = console.input("\n[bold cyan]Escolha uma opção: [/bold cyan]")
+            opcao = int(console.input("\n[bold cyan]Escolha uma opção: [/bold cyan]"))
         
             if opcao == (maiorID + 1):
                 nomeNovoTreino = console.input("\n[bold cyan]Digite o novo nome do treino: [/bold cyan]")
                 loading(f"Alterando nome do treino {nome} para {nomeNovoTreino}")
-                editarNomeTreino(nome, nomeNovoTreino)
-                time.sleep(4)
+                editarNomeTreino(dia, nomeNovoTreino)
+                return
             elif opcao == (maiorID + 2):
-                pass
+                buscarExercicio(dia)
             elif opcao == (maiorID + 3):
                 return
             elif opcao :
@@ -227,6 +234,24 @@ def editarTreino(bd: dict, dia: str):
         except ValueError:
             console.print("[red]⚠ Digite um número válido.[/red]")
             time.sleep(2)
+
+def excluirTreino(dia: str):
+    bd = treinoUsuarioAtualizado()
+    treino = bd[dia]
+    dicionarioItens = treino["exercicios"][0]
+
+    treino["nomeTreino"] = "OFF"
+    dicionarioItens.clear()
+    atualizarTreino(bd)
+    return
+    
+def editarNomeTreino(dia: str, nomeNovo: str):
+    bd = treinoUsuarioAtualizado()
+    treino = bd[dia]
+    treino["nomeTreino"] = nomeNovo.upper()
+    
+    atualizarTreino(bd)
+    return
 
 #console.print("[yellow]2[/yellow] - Adicionar exercício ➕️")
       #  console.print("[yellow]3[/yellow] - Excluir exercício ❌")#
