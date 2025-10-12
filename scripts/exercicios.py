@@ -2,8 +2,8 @@ import time
 from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
-from Menu import loading
-from manipulacaoJSON import treinoUsuarioAtualizado
+from scripts.Menu import loading
+from scripts.manipulacaoJSON import treinoUsuarioAtualizado
 import pandas as pd
 
 console = Console()

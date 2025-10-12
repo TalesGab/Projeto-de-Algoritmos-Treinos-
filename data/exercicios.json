@@ -1,0 +1,72 @@
+{
+  "Pernas": [
+    "Agachamento livre",
+    "Leg Press",
+    "Cadeira extensora",
+    "Mesa flexora",
+    "Stiff",
+    "Avanço (passada)",
+    "Panturrilha em pé",
+    "Panturrilha sentado"
+  ],
+  "Bíceps": [
+    "Rosca direta",
+    "Rosca alternada",
+    "Rosca martelo",
+    "Rosca concentrada",
+    "Rosca scott"
+  ],
+  "Tríceps": [
+    "Tríceps testa",
+    "Tríceps corda",
+    "Tríceps banco",
+    "Mergulho entre bancos",
+    "Tríceps francês"
+  ],
+  "Glúteos": [
+    "Agachamento sumô",
+    "Cadeira abdutora",
+    "Elevação pélvica",
+    "Avanço (lunge)",
+    "Stiff com halteres"
+  ],
+  "Costas": [
+    "Puxada frente (aberta)",
+    "Puxada triângulo",
+    "Remada curvada",
+    "Remada unilateral",
+    "Remada baixa",
+    "Barra fixa"
+  ],
+  "Peito": [
+    "Supino reto",
+    "Supino inclinado",
+    "Supino declinado",
+    "Crucifixo reto",
+    "Crossover",
+    "Flexão de braço"
+  ],
+  "Ombros": [
+    "Desenvolvimento com halteres",
+    "Elevação lateral",
+    "Elevação frontal",
+    "Remada alta",
+    "Encolhimento de ombros"
+  ],
+  "Abdômen": [
+    "Prancha",
+    "Abdominal reto",
+    "Abdominal infra",
+    "Abdominal oblíquo",
+    "Elevação de pernas",
+    "Bicicleta abdominal"
+  ],
+  "Cardio": [
+    "Esteira",
+    "Bicicleta ergométrica",
+    "Escada",
+    "Corrida livre",
+    "Corda",
+    "Polichinelo"
+  ]
+}

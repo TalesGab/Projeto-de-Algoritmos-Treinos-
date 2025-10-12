@@ -2,7 +2,7 @@ import time
 import sys
 import json
 import os
-from criar_usuario import criar_usuario
+from scripts.criar_usuario import criar_usuario
 from rich.console import Console
 from rich.panel import Panel
 
