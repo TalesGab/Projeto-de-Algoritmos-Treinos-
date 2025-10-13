@@ -3,6 +3,7 @@ import sys
 import json
 import os
 from criar_usuario import criar_usuario
+from treinos import treinos
 from rich.console import Console
 from rich.panel import Panel
 
@@ -117,7 +118,7 @@ def menu_usuario(usuario):
         elif opcao == "2":
             mostrar_perfil(usuario)
         elif opcao == "3":
-            meus_treinos(usuario)
+            treinos(usuario['Nome'])
         elif opcao == "4":
             console.print("[red]⬅ Voltando ao menu inicial...[/red]")
             time.sleep(1.5)
@@ -141,38 +142,6 @@ def mostrar_perfil(usuario):
     console.print(f"Idade: [bold]{usuario['Idade']}[/bold]")
     console.print(f"Sexo: [bold]{usuario.get('Sexo', 'Não informado')}[/bold]")
     input("\nPressione Enter para voltar.")
-
-# ===== Seção: Meus Treinos =====
-
-def meus_treinos(usuario):
-    while True:
-        console.clear()
-        console.print(Panel("[bold green]📋 Meus Treinos[/bold green]", expand=False))
-        console.print("[yellow]1[/yellow] - Criar treino")
-        console.print("[yellow]2[/yellow] - Mostrar treinos")
-        console.print("[yellow]3[/yellow] - Editar treino")
-        console.print("[yellow]4[/yellow] - Excluir treino")
-        console.print("[yellow]5[/yellow] - Voltar")
-
-        opcao = console.input("\n[bold cyan]Escolha uma opção: [/bold cyan]")
-
-        if opcao == "1":
-            console.print("[green]✨ Criando treino...[/green]")
-            time.sleep(1)
-        elif opcao == "2":
-            console.print("[cyan]📄 Mostrando treinos...[/cyan]")
-            time.sleep(1)
-        elif opcao == "3":
-            console.print("[yellow]✏ Editando treino...[/yellow]")
-            time.sleep(1)
-        elif opcao == "4":
-            console.print("[red]🗑 Excluindo treino...[/red]")
-            time.sleep(1)
-        elif opcao == "5":
-            break
-        else:
-            console.print("[red]⚠ Opção inválida![/red]")
-            time.sleep(1.5)
 
 # ===== Execução =====
 

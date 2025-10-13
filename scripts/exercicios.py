@@ -2,8 +2,8 @@ import time
 from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
-from scripts.Menu import loading
-from scripts.manipulacaoJSON import treinoUsuarioAtualizado
+from Menu import loading
+from manipulacaoJSON import treinoUsuarioAtualizado
 import pandas as pd
 
 console = Console()
@@ -70,17 +70,19 @@ def listarExercicios(treino: dict, existeFiltro: list = None, mostrarIDs: bool =
     console.print(tabela)
     return maiorID, IDs
 
-def adicionarExercicio(dia: str, nomeEscolhido: str):
-    bd = treinoUsuarioAtualizado()
+def adicionarExercicio(dia: str, nomeEscolhido: str, usuario: str):
+    usuarioJson = treinoUsuarioAtualizado()
+    bd = usuarioJson[usuario]
     treino = bd[dia]
 
     while True:
         console.print(Panel(f"[bold green]🗓️  {dia}[/bold green]", expand=False))
         console.print(f"[bold]🏋️  {nomeEscolhido}[/bold]")
 
-def buscarExercicio(dia: str):
+def buscarExercicio(dia: str, usuario):
     while True:
-        bd = treinoUsuarioAtualizado()
+        usuarioJson = treinoUsuarioAtualizado()
+        bd = usuarioJson[usuario]
         treino = bd[dia]
 
         busca = console.input("[bold cyan]Digite o nome do exercício: [/bold cyan]")

@@ -2,27 +2,29 @@ import time
 from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
-from scripts.manipulacaoJSON import atualizarTreino, treinoUsuarioAtualizado
-from scripts.Menu import loading
-from scripts.exercicios import listarExercicios, adicionarExercicio, buscarExercicio
+from manipulacaoJSON import atualizarTreino, treinoUsuarioAtualizado
+from Menu import loading
+from exercicios import listarExercicios, adicionarExercicio, buscarExercicio
 import pandas as pd
 
 console = Console()
 
-def treinos():
+def treinos(usuario):
+    
     while True:
-        bd = treinoUsuarioAtualizado()
+        usuarioJson = treinoUsuarioAtualizado()
+        bd = usuarioJson[usuario]
         console.clear()
         console.print(Panel("[bold green]💪 Treinos[/bold green]", expand= False))
-        qntItens, mapaOpcoes = listarTreinos()
+        qntItens, mapaOpcoes = listarTreinos(usuario)
         
         try:
             opcao = int(console.input("\n[bold cyan]Escolha uma opção: [/bold cyan]"))
 
             if opcao == qntItens + 1:
-                buscarTreino()
+                buscarTreino(usuario)
             elif opcao == qntItens + 2:
-                criarTreino()
+                criarTreino(usuario)
             elif opcao == qntItens + 3:
                 # menuAnterior()
                 break
@@ -31,7 +33,7 @@ def treinos():
                 nomeTreinoEscolhido = bd[diaEscolhido]["nomeTreino"]
 
                 loading(f"Acessando treino {nomeTreinoEscolhido} ({diaEscolhido})")
-                treinoSelecionado(diaEscolhido)
+                treinoSelecionado(diaEscolhido, usuario)
             else:
                 console.print("[red]⚠ Opção inválida, tente novamente.[/red]")
                 time.sleep(2)
@@ -39,20 +41,21 @@ def treinos():
             console.print("[red]⚠ Digite um número válido.[/red]")
             time.sleep(2)
 
-def listarTreinos():
-    bd = treinoUsuarioAtualizado()
+def listarTreinos(usuario: str):
+    usuarioJson = treinoUsuarioAtualizado()
+    bd = usuarioJson[usuario]
     contador = 0
     mapaOpcoes = {}
-
-    for dia, treino in bd.items():
-        if treino["nomeTreino"] != "OFF":
-            contador += 1
-            mapaOpcoes[contador] = dia
-            console.print(f"🗓️  {dia}")
-            console.print(f"[grey19]|[/grey19] [yellow]{contador}[/yellow] - {treino["nomeTreino"]}\n")
-        else: 
-            console.print(f"🗓️  {dia}")
-            console.print(f"[grey19]|[/grey19] [grey19]{treino["nomeTreino"]}[/grey19]\n")
+    for dicionario in bd:
+        for dia, treino in dicionario.items():
+            if treino["nomeTreino"] != "OFF":
+                contador += 1
+                mapaOpcoes[contador] = dia
+                console.print(f"🗓️  {dia}")
+                console.print(f"[grey19]|[/grey19] [yellow]{contador}[/yellow] - {treino["nomeTreino"]}\n")
+            else: 
+                console.print(f"🗓️  {dia}")
+                console.print(f"[grey19]|[/grey19] [grey19]{treino["nomeTreino"]}[/grey19]\n")
 
     console.print("[grey19]---------------------[/grey19]")
     console.print(f"[yellow]{contador + 1}[/yellow] - Buscar treino 🔎")
@@ -61,9 +64,10 @@ def listarTreinos():
 
     return contador, mapaOpcoes
 
-def buscarTreino():
+def buscarTreino(usuario: str) -> None:
     while True:
-        bd = treinoUsuarioAtualizado()
+        usuarioJson = treinoUsuarioAtualizado()
+        bd = usuarioJson[usuario]
         busca = console.input("[bold cyan]Digite o nome do treino: [/bold cyan]")
         loading(f"Procurando treino: {busca}")
         time.sleep(2)
@@ -73,15 +77,16 @@ def buscarTreino():
             console.print(Panel("[bold green]💪 Treinos[/bold green]", expand= False))
             opcoesDisponiveis = []   
             
-            for dia, treino in bd.items():
-                nomeTreino = treino["nomeTreino"]
-                if busca.lower() in nomeTreino.lower() and treino["nomeTreino"] != "OFF":
-                    contador += 1
-                    opcoesDisponiveis.append({
-                        "indice": (contador),
-                        "dia": dia,
-                        "nomeTreino": nomeTreino
-                    })
+            for dicionario in bd:
+                for dia, treino in dicionario.items():
+                        nomeTreino = treino["nomeTreino"]
+                        if busca.lower() in nomeTreino.lower() and treino["nomeTreino"] != "OFF":
+                            contador += 1
+                            opcoesDisponiveis.append({
+                                "indice": (contador),
+                                "dia": dia,
+                                "nomeTreino": nomeTreino
+                            })
 
             if opcoesDisponiveis:
                 for item in opcoesDisponiveis:
@@ -106,7 +111,7 @@ def buscarTreino():
                     nomeTreinoEscolhido = itemEscolhido["nomeTreino"]
 
                     loading(f"Acessando treino {nomeTreinoEscolhido} ({diaEscolhido})")
-                    treinoSelecionado(bd, diaEscolhido)
+                    treinoSelecionado(diaEscolhido, usuario)
                     return
                 else: 
                     console.print("[red]⚠ Opção inválida, tente novamente.[/red]")
@@ -115,9 +120,10 @@ def buscarTreino():
                 console.print("[red]⚠ Digite um número válido.[/red]")
                 time.sleep(2)
     
-def treinoSelecionado(dia: str):
+def treinoSelecionado(dia: str, usuario: str):
     while True:
-        bd = treinoUsuarioAtualizado()
+        usuarioJson = treinoUsuarioAtualizado()
+        bd = usuarioJson[usuario]
         console.clear()
         treino = bd[dia]
         nome = treino["nomeTreino"]
@@ -143,7 +149,7 @@ def treinoSelecionado(dia: str):
                     resposta = console.input("[bold yellow]⚠ Tem certeza que deseja EXCLUIR o treino (S/N)? [/bold yellow]").upper()
                     
                     if resposta == 'S':
-                        excluirTreino(dia)
+                        excluirTreino(dia, usuario)
                         return
                     elif resposta == 'N':
                         break
@@ -158,28 +164,33 @@ def treinoSelecionado(dia: str):
             console.print("[red]⚠ Digite um número válido.[/red]")
             time.sleep(2)
 
-def criarTreino():
+def criarTreino(usuario: str):
     while True:
-        bd = treinoUsuarioAtualizado()
+        usuarioJson = treinoUsuarioAtualizado()
+        bd = usuarioJson[usuario]
         console.clear()
         dicioAux = {}
         contador = 0
 
         console.print(Panel("[bold green]📌  Semana[/bold green]", expand=False))
-        for diaSemana in bd.keys():
-            treino = bd[diaSemana]
-            if treino["nomeTreino"] != "OFF":
-                contador += 1
-                dicioAux[contador] = diaSemana
+        for dicionario in bd:
+            for diaSemana in dicionario.keys():
+                treino = dicionario[diaSemana]
+                if treino["nomeTreino"] == "OFF":
+                    contador += 1
+                    dicioAux[contador] = diaSemana
 
         if dicioAux:
             for key, valor in dicioAux.items():
                 console.print(f"[yellow]{key}[/yellow] - 🗓️  {valor}")
-            numVoltar = max(dicioAux, key=dicioAux.get) + 1
+            numVoltar = len(dicioAux) + 1
             console.print("\n[grey19]---------------------[/grey19]")
             console.print(f"[yellow]{numVoltar}[/yellow] - Voltar 🔙")
         else: 
+            numVoltar = 1
             console.print("[bold red]⚠ Nenhum dia vago.[/bold red]\n")
+            console.print("\n[grey19]---------------------[/grey19]")
+            console.print(f"[yellow]{numVoltar}[/yellow] - Voltar 🔙")
 
         try:
             opcao = int(console.input("\n[bold cyan]Escolha uma opção: [/bold cyan]"))
@@ -190,7 +201,7 @@ def criarTreino():
             elif opcao in dicioAux.keys():
                 nomeTreinoNovo = console.input("\n[bold cyan]Digite o nome do novo treino: [/bold cyan]")
                 loading(f"Criando treino {nomeTreinoNovo}")
-                adicionarExercicio(dicioAux[opcao], nomeTreinoNovo)
+                adicionarExercicio(dicioAux[opcao], nomeTreinoNovo, usuario)
             else:
                 console.print("[red]⚠ Opção inválida, tente novamente.[/red]")
                 time.sleep(2)
@@ -198,9 +209,10 @@ def criarTreino():
             console.print("[red]⚠ Digite um número válido.[/red]")
             time.sleep(2)
 
-def editarTreino(dia: str):
+def editarTreino(dia: str, usuario: str):
     while True:
-        bd = treinoUsuarioAtualizado()
+        usuarioJson = treinoUsuarioAtualizado()
+        bd = usuarioJson[usuario]
         console.clear()
         treino = bd[dia]
         nome = treino["nomeTreino"]
@@ -220,10 +232,10 @@ def editarTreino(dia: str):
             if opcao == (maiorID + 1):
                 nomeNovoTreino = console.input("\n[bold cyan]Digite o novo nome do treino: [/bold cyan]")
                 loading(f"Alterando nome do treino {nome} para {nomeNovoTreino}")
-                editarNomeTreino(dia, nomeNovoTreino)
+                editarNomeTreino(dia, nomeNovoTreino, usuario)
                 return
             elif opcao == (maiorID + 2):
-                buscarExercicio(dia)
+                buscarExercicio(dia, usuario)
             elif opcao == (maiorID + 3):
                 return
             elif opcao :
@@ -235,25 +247,22 @@ def editarTreino(dia: str):
             console.print("[red]⚠ Digite um número válido.[/red]")
             time.sleep(2)
 
-def excluirTreino(dia: str):
-    bd = treinoUsuarioAtualizado()
+def excluirTreino(dia: str, usuario: str) -> None:
+    usuarioJson = treinoUsuarioAtualizado()
+    bd = usuarioJson[usuario]
     treino = bd[dia]
     dicionarioItens = treino["exercicios"][0]
 
     treino["nomeTreino"] = "OFF"
     dicionarioItens.clear()
-    atualizarTreino(bd)
+    atualizarTreino(bd, usuario)
     return
     
-def editarNomeTreino(dia: str, nomeNovo: str):
-    bd = treinoUsuarioAtualizado()
+def editarNomeTreino(dia: str, nomeNovo: str, usuario: str) -> None:
+    usuarioJson = treinoUsuarioAtualizado()
+    bd = usuarioJson[usuario]
     treino = bd[dia]
     treino["nomeTreino"] = nomeNovo.upper()
     
-    atualizarTreino(bd)
+    atualizarTreino(bd, usuario)
     return
-
-#console.print("[yellow]2[/yellow] - Adicionar exercício ➕️")
-      #  console.print("[yellow]3[/yellow] - Excluir exercício ❌")#
-if __name__ == "__main__":
-    treinos()

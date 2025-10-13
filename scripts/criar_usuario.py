@@ -1,5 +1,6 @@
 import json
 import os
+from manipulacaoJSON import atualizarTreino
 from rich.console import Console
 from rich.panel import Panel
 
@@ -72,8 +73,53 @@ def criar_usuario():
         "Lesões": lesoes_usuario
     }
 
-    if os.path.exists("usuario.json"):
-        with open("usuario.json", "r", encoding="utf-8") as arq:
+    treino_usuario = [
+        {
+            "DOMINGO": {
+            "nomeTreino": "OFF",
+            "exercicios": [{}]
+            }
+        },
+        {
+            "SEGUNDA-FEIRA": {
+            "nomeTreino": "OFF",
+            "exercicios": [{}]
+            }
+        },
+        {
+            "TER\u00c7A-FEIRA": {
+            "nomeTreino": "OFF",
+            "exercicios": [{}]
+            }
+        },
+        {
+            "QUARTA-FEIRA": {
+            "nomeTreino": "OFF",
+            "exercicios": [{}]
+            }
+        },
+        {
+            "QUINTA-FEIRA": {
+            "nomeTreino": "OFF",
+            "exercicios": [{}]
+            }
+        },
+        {
+            "SEXTA-FEIRA": {
+            "nomeTreino": "OFF",
+            "exercicios": [{}]
+            }
+        },
+        {
+            "S\u00c1BADO": {
+            "nomeTreino": "OFF",
+            "exercicios": [{}]
+            }
+        }
+    ]
+
+    if os.path.exists("data/usuario.json"):
+        with open("data/usuario.json", "r", encoding="utf-8") as arq:
             try:
                 usuarios = json.load(arq)
                 if isinstance(usuarios, dict): 
@@ -86,7 +132,9 @@ def criar_usuario():
         usuarios = []
 
     usuarios.append(novo_usuario)
-    with open("usuario.json", "w", encoding="utf-8") as arq:
+    with open("data/usuario.json", "w", encoding="utf-8") as arq:
         json.dump(usuarios, arq, ensure_ascii=False, indent=4)
+
+    atualizarTreino(treino_usuario, nome)
 
     console.print("[bold green]✅ Usuário adicionado com sucesso![/bold green]")

@@ -2,11 +2,11 @@ import time
 import sys
 import json
 import os
-from scripts.criar_usuario import criar_usuario
+from criar_usuario import criar_usuario
 from rich.console import Console
 from rich.panel import Panel
 
-usuarios = "usuario.json"
+usuariosJSON = "data/usuario.json"
 
 console = Console()
 
@@ -17,8 +17,8 @@ def loading(text="Carregando"):
     print()
 
 def carregar_usuarios():
-    if os.path.exists("usuario.json"):
-        with open("usuario.json", "r", encoding="utf-8") as f:
+    if os.path.exists(usuariosJSON):
+        with open(usuariosJSON, "r", encoding="utf-8") as f:
             try:
                 usuarios = json.load(f)
                 if isinstance(usuarios, dict):  # caso antigo, transforma em lista
@@ -55,27 +55,39 @@ def menu_principal():
                 time.sleep(2)
                 continue
 
-            console.print("\n[bold blue]👥 Usuários existentes:[/bold blue]")
-            for i, u in enumerate(usuarios, start=1):
-                console.print(f"[yellow]{i}[/yellow] - {u['Nome']} ({u['Idade']} anos)")
+            while True:
+                console.print("\n[bold blue]👥 Usuários existentes:[/bold blue]")
+                for i, u in enumerate(usuarios, start=1):
+                    console.print(f"[yellow]{i}[/yellow] - {u['Nome']} ({u['Idade']} anos)")
+                    ultimo = i
+                console.print(f"[yellow]{ultimo + 1}[/yellow] - Voltar 🔙")
 
-            escolha = console.input("\nDigite o número do usuário que deseja acessar: ").strip()
-            if not escolha.isdigit() or int(escolha) not in range(1, len(usuarios)+1):
-                console.print("[red]⚠ Opção inválida.[/red]")
-                time.sleep(2)
-                continue
+                escolha = console.input("\nDigite o número do usuário que deseja acessar: ").strip()
+                if escolha == f'{ultimo + 1}':
+                    menu_principal()
+                if not escolha.isdigit() or int(escolha) not in range(1, len(usuarios)+1):
+                    console.print("[red]⚠ Opção inválida.[/red]")
+                    time.sleep(2)
+                    continue
 
-            usuario = usuarios[int(escolha) - 1]
-            console.print(f"\n[bold green]👤 Nome: {usuario['Nome']}[/bold green]")
-            console.print(f"[bold green]🎂 Idade: {usuario['Idade']}[/bold green]")
+                usuario = usuarios[int(escolha) - 1]
+                console.print(f"\n[bold green]👤 Nome: {usuario['Nome']}[/bold green]")
+                console.print(f"[bold green]🎂 Idade: {usuario['Idade']}[/bold green]")
 
-            entrar = console.input("\nDeseja entrar no perfil deste usuário? (s/n): ").strip().lower()
-            if entrar == "s":
-                console.print(f"\n[bold green]✅ Bem-vindo, {usuario['Nome']}![/bold green]")
-                time.sleep(2)
-            else:
-                console.print("\nVoltando ao menu principal...")
-                time.sleep(2)
+                try:
+                    entrar = console.input("\nDeseja entrar no perfil deste usuário? (s/n): ").strip().lower()
+                    if entrar == "s":
+                        console.print(f"\n[bold green]✅ Bem-vindo, {usuario['Nome']}![/bold green]")
+                        time.sleep(2)
+                        # menu_principal()
+                    elif entrar == "n":
+                        continue
+                    else:
+                        console.print("[red]⚠ Opção inválida.[/red]")
+                        time.sleep(2)
+                except ValueError:
+                        console.print("\nVoltando ao menu principal...")
+                        time.sleep(2)
         elif opcao == "3":
             loading("Saindo do sistema")
             console.print("[red]👋 Até logo![/red]")

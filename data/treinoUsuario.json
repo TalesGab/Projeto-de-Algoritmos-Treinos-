@@ -1,76 +1,150 @@
 {
-    "DOMINGO": {
-        "nomeTreino": "OFF",
-        "exercicios": [
-            {
-                "idExercicio": 1,
-                "nome": "-",
-                "nomeDivisao": "-",
-                "repeticao": "-",
-                "series": "-",
-                "equipamento": "-",
-                "peso": "-"
+    "fdsfgdg": [
+        {
+            "DOMINGO": {
+                "nomeTreino": "OFF",
+                "exercicios": [
+                    {
+                        "idExercicio": 1,
+                        "nome": "-",
+                        "nomeDivisao": "-",
+                        "repeticao": "-",
+                        "series": "-",
+                        "equipamento": "-",
+                        "peso": "-"
+                    }
+                ]
             }
-        ]
-    },
-    "SEGUNDA-FEIRA": {
-        "nomeTreino": "OFF",
-        "exercicios": [
-            {}
-        ]
-    },
-    "TER\u00c7A-FEIRA": {
-        "nomeTreino": "OFF",
-        "exercicios": [
-            {}
-        ]
-    },
-    "QUARTA-FEIRA": {
-        "nomeTreino": "COSTAS",
-        "exercicios": [
-            {
-                "idExercicio": 1,
-                "nome": "-",
-                "nomeDivisao": "-",
-                "repeticao": "-",
-                "series": "-",
-                "equipamento": "-",
-                "peso": "-"
+        },
+        {
+            "SEGUNDA-FEIRA": {
+                "nomeTreino": "OFF",
+                "exercicios": [
+                    {}
+                ]
             }
-        ]
-    },
-    "QUINTA-FEIRA": {
-        "nomeTreino": "BICEPS",
-        "exercicios": [
-            {
-                "idExercicio": 1,
-                "nomeDivisao": "-",
-                "nome": "-",
-                "repeticao": "-",
-                "series": "-",
-                "equipamento": "-",
-                "peso": "-"
+        },
+        {
+            "TER\u00c7A-FEIRA": {
+                "nomeTreino": "OFF",
+                "exercicios": [
+                    {}
+                ]
             }
-        ]
-    },
-    "SEXTA-FEIRA": {
-        "nomeTreino": "OFF",
-        "exercicios": [
-            {}
-        ]
-    },
-    "S\u00c1BADO": {
-        "nomeTreino": "OFF",
-        "exercicios": [
-            {
-                "idExercicio": 1,
-                "nomeDivisao": "",
-                "nome": "",
-                "repeticao": "",
-                "series": "",
-                "equipamento": "",
-                "peso": ""
+        },
+        {
+            "QUARTA-FEIRA": {
+                "nomeTreino": "COSTAS",
+                "exercicios": [
+                    {
+                        "idExercicio": 1,
+                        "nome": "-",
+                        "nomeDivisao": "-",
+                        "repeticao": "-",
+                        "series": "-",
+                        "equipamento": "-",
+                        "peso": "-"
+                    }
+                ]
             }
-        ]
-    }
+        },
+        {
+            "QUINTA-FEIRA": {
+                "nomeTreino": "BICEPS",
+                "exercicios": [
+                    {
+                        "idExercicio": 1,
+                        "nomeDivisao": "-",
+                        "nome": "-",
+                        "repeticao": "-",
+                        "series": "-",
+                        "equipamento": "-",
+                        "peso": "-"
+                    }
+                ]
+            }
+        },
+        {
+            "SEXTA-FEIRA": {
+                "nomeTreino": "OFF",
+                "exercicios": [
+                    {}
+                ]
+            }
+        },
+        {
+            "S\u00c1BADO": {
+                "nomeTreino": "OFF",
+                "exercicios": [
+                    {
+                        "idExercicio": 1,
+                        "nomeDivisao": "",
+                        "nome": "",
+                        "repeticao": "",
+                        "series": "",
+                        "equipamento": "",
+                        "peso": ""
+                    }
+                ]
+            }
+        }
+    ],
+    "Kevin Camargo": [
+        {
+            "DOMINGO": {
+                "nomeTreino": "OFF",
+                "exercicios": [
+                    {}
+                ]
+            }
+        },
+        {
+            "SEGUNDA-FEIRA": {
+                "nomeTreino": "OFF",
+                "exercicios": [
+                    {}
+                ]
+            }
+        },
+        {
+            "TER\u00c7A-FEIRA": {
+                "nomeTreino": "OFF",
+                "exercicios": [
+                    {}
+                ]
+            }
+        },
+        {
+            "QUARTA-FEIRA": {
+                "nomeTreino": "OFF",
+                "exercicios": [
+                    {}
+                ]
+            }
+        },
+        {
+            "QUINTA-FEIRA": {
+                "nomeTreino": "OFF",
+                "exercicios": [
+                    {}
+                ]
+            }
+        },
+        {
+            "SEXTA-FEIRA": {
+                "nomeTreino": "OFF",
+                "exercicios": [
+                    {}
+                ]
+            }
+        },
+        {
+            "S\u00c1BADO": {
+                "nomeTreino": "OFF",
+                "exercicios": [
+                    {}
+                ]
+            }
+        }
+    ]
 }
