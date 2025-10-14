@@ -77,43 +77,43 @@ def criar_usuario():
         {
             "DOMINGO": {
             "nomeTreino": "OFF",
-            "exercicios": [{}]
+            "exercicios": []
             }
         },
         {
             "SEGUNDA-FEIRA": {
             "nomeTreino": "OFF",
-            "exercicios": [{}]
+            "exercicios": []
             }
         },
         {
             "TER\u00c7A-FEIRA": {
             "nomeTreino": "OFF",
-            "exercicios": [{}]
+            "exercicios": []
             }
         },
         {
             "QUARTA-FEIRA": {
             "nomeTreino": "OFF",
-            "exercicios": [{}]
+            "exercicios": []
             }
         },
         {
             "QUINTA-FEIRA": {
             "nomeTreino": "OFF",
-            "exercicios": [{}]
+            "exercicios": []
             }
         },
         {
             "SEXTA-FEIRA": {
             "nomeTreino": "OFF",
-            "exercicios": [{}]
+            "exercicios": []
             }
         },
         {
             "S\u00c1BADO": {
             "nomeTreino": "OFF",
-            "exercicios": [{}]
+            "exercicios": []
             }
         }
     ]

@@ -1,5 +1,5 @@
 {
-    "fdsfgdg": [
+    "Tales Gabriel": [
         {
             "DOMINGO": {
                 "nomeTreino": "OFF",
@@ -10,7 +10,6 @@
                         "nomeDivisao": "-",
                         "repeticao": "-",
                         "series": "-",
-                        "equipamento": "-",
                         "peso": "-"
                     }
                 ]
@@ -19,17 +18,13 @@
         {
             "SEGUNDA-FEIRA": {
                 "nomeTreino": "OFF",
-                "exercicios": [
-                    {}
-                ]
+                "exercicios": []
             }
         },
         {
             "TER\u00c7A-FEIRA": {
                 "nomeTreino": "OFF",
-                "exercicios": [
-                    {}
-                ]
+                "exercicios": []
             }
         },
         {
@@ -42,7 +37,6 @@
                         "nomeDivisao": "-",
                         "repeticao": "-",
                         "series": "-",
-                        "equipamento": "-",
                         "peso": "-"
                     }
                 ]
@@ -58,7 +52,6 @@
                         "nome": "-",
                         "repeticao": "-",
                         "series": "-",
-                        "equipamento": "-",
                         "peso": "-"
                     }
                 ]
@@ -67,9 +60,7 @@
         {
             "SEXTA-FEIRA": {
                 "nomeTreino": "OFF",
-                "exercicios": [
-                    {}
-                ]
+                "exercicios": []
             }
         },
         {
@@ -82,7 +73,86 @@
                         "nome": "",
                         "repeticao": "",
                         "series": "",
-                        "equipamento": "",
+                        "peso": ""
+                    }
+                ]
+            }
+        }
+    ],
+    "João Paulo": [
+        {
+            "DOMINGO": {
+                "nomeTreino": "OFF",
+                "exercicios": [
+                    {
+                        "idExercicio": 1,
+                        "nome": "-",
+                        "nomeDivisao": "-",
+                        "repeticao": "-",
+                        "series": "-",
+                        "peso": "-"
+                    }
+                ]
+            }
+        },
+        {
+            "SEGUNDA-FEIRA": {
+                "nomeTreino": "OFF",
+                "exercicios": []
+            }
+        },
+        {
+            "TER\u00c7A-FEIRA": {
+                "nomeTreino": "OFF",
+                "exercicios": []
+            }
+        },
+        {
+            "QUARTA-FEIRA": {
+                "nomeTreino": "COSTAS",
+                "exercicios": [
+                    {
+                        "idExercicio": 1,
+                        "nome": "-",
+                        "nomeDivisao": "-",
+                        "repeticao": "-",
+                        "series": "-",
+                        "peso": "-"
+                    }
+                ]
+            }
+        },
+        {
+            "QUINTA-FEIRA": {
+                "nomeTreino": "BICEPS",
+                "exercicios": [
+                    {
+                        "idExercicio": 1,
+                        "nomeDivisao": "-",
+                        "nome": "-",
+                        "repeticao": "-",
+                        "series": "-",
+                        "peso": "-"
+                    }
+                ]
+            }
+        },
+        {
+            "SEXTA-FEIRA": {
+                "nomeTreino": "OFF",
+                "exercicios": []
+            }
+        },
+        {
+            "S\u00c1BADO": {
+                "nomeTreino": "OFF",
+                "exercicios": [
+                    {
+                        "idExercicio": 1,
+                        "nomeDivisao": "",
+                        "nome": "",
+                        "repeticao": "",
+                        "series": "",
                         "peso": ""
                     }
                 ]
@@ -93,58 +163,45 @@
         {
             "DOMINGO": {
                 "nomeTreino": "OFF",
-                "exercicios": [
-                    {}
-                ]
+                "exercicios": []
             }
         },
         {
             "SEGUNDA-FEIRA": {
                 "nomeTreino": "OFF",
-                "exercicios": [
-                    {}
-                ]
+                "exercicios": []
             }
         },
         {
             "TER\u00c7A-FEIRA": {
                 "nomeTreino": "OFF",
-                "exercicios": [
-                    {}
-                ]
+                "exercicios": []
             }
         },
         {
             "QUARTA-FEIRA": {
                 "nomeTreino": "OFF",
-                "exercicios": [
-                    {}
-                ]
+                "exercicios": []
             }
         },
         {
             "QUINTA-FEIRA": {
                 "nomeTreino": "OFF",
-                "exercicios": [
-                    {}
-                ]
+                "exercicios": []
             }
         },
         {
             "SEXTA-FEIRA": {
                 "nomeTreino": "OFF",
-                "exercicios": [
-                    {}
-                ]
+                "exercicios": []
             }
         },
         {
             "S\u00c1BADO": {
                 "nomeTreino": "OFF",
-                "exercicios": [
-                    {}
-                ]
+                "exercicios": []
             }
         }
     ]
+    
 }
