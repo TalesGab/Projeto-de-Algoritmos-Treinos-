@@ -205,8 +205,7 @@ def criarTreino(usuario: str):
                 nomeTreinoNovo = console.input("\n[bold cyan]Digite o nome do novo treino: [/bold cyan]")
                 loading(f"Criando treino {nomeTreinoNovo}")
                 semanaNaLista = dicioAux[opcao]
-                numeroNaLista = [num for num, semana in dicioAux.items() if semana == semanaNaLista]
-                adicionarExercicio(semanaNaLista, numeroNaLista[0],  nomeTreinoNovo, usuario)
+                adicionarExercicio(semanaNaLista,  nomeTreinoNovo, usuario)
             else:
                 console.print("[red]⚠ Opção inválida, tente novamente.[/red]")
                 time.sleep(2)
@@ -245,8 +244,11 @@ def editarTreino(dia: str, usuario: str):
                         buscarExercicio(dia, usuario)
                     elif opcao == (maiorID + 3):
                         return
-                    elif opcao :
+                    elif 1 <= opcao <= maiorID:
                         pass
+                        # editar exercicio especifico
+                        # remove no exercicio e insert no indice antigo
+                        # editarInformacoesExercicio(nomeTreino: str, idExercicio: int, exerciciosTreino
                     else:
                         console.print("[red]⚠ Opção inválida, tente novamente.[/red]")
                         time.sleep(2)
@@ -264,13 +266,18 @@ def excluirTreino(dia: str, usuario: str) -> None:
 
     treino["nomeTreino"] = "OFF"
     dicionarioItens.clear()
+
     atualizarTreino(bd, usuario)
     return
     
 def editarNomeTreino(dia: str, nomeNovo: str, usuario: str) -> None:
     usuarioJson = treinoUsuarioAtualizado()
     bd = usuarioJson[usuario]
-    treino = bd[dia]
+    for dicionario in bd:
+            if dicionario.get(dia):
+                treino = dicionario[dia]
+    dicionarioItens = treino["exercicios"]
+
     treino["nomeTreino"] = nomeNovo.upper()
     
     atualizarTreino(bd, usuario)

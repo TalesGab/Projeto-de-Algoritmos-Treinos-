@@ -123,8 +123,25 @@
         },
         {
             "QUINTA-FEIRA": {
-                "nomeTreino": "OFF",
-                "exercicios": []
+                "nomeTreino": "",
+                "exercicios": [
+                    {
+                        "idExercicio": 1,
+                        "nome": "Rosca martelo",
+                        "nomeDivisao": "B\u00edceps",
+                        "series": 3,
+                        "repeticao": 3,
+                        "peso": 3
+                    },
+                    {
+                        "idExercicio": 2,
+                        "nome": "Puxada tri\u00e2ngulo",
+                        "nomeDivisao": "Costas",
+                        "series": 2,
+                        "repeticao": 2,
+                        "peso": 2
+                    }
+                ]
             }
         },
         {

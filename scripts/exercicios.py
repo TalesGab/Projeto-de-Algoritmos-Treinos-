@@ -27,7 +27,7 @@ def listarExercicios(treino: dict, existeFiltro: list = None, mostrarIDs: bool =
 
         # console.print(f"[bold cyan]Visualizando exercícios filtrados por nome:[/bold cyan]")
 
-    maiorID = int(df_utilizado["idExercicio"].max()) if not df.empty else 0
+    maiorID = 1 + int(df_utilizado["idExercicio"].max()) if not df.empty else 1
 
     df_Arrumado = df_utilizado.rename(columns={
         "nome": "Exercício",
@@ -68,10 +68,21 @@ def listarExercicios(treino: dict, existeFiltro: list = None, mostrarIDs: bool =
     console.print(tabela)
     return maiorID, IDs
 
-def adicionarExercicio(dia: str, numeroNaLista: int, nomeEscolhido: str, usuario: str):
+def adicionarExercicio(dia: str, nomeEscolhido: str, usuario: str):
+    tabelaDias = {0: "DOMINGO",
+                  1: "SEGUNDA-FEIRA",
+                  2: "TERÇA-FEIRA",
+                  3: "QUARTA-FEIRA",
+                  4: "QUINTA-FEIRA",
+                  5: "SEXTA-FEIRA",
+                  6: "SÁBADO"}
+
     usuarioJson = treinoUsuarioAtualizado()
     treinoUsuario = usuarioJson[usuario]
-    semana = treinoUsuario[numeroNaLista]
+
+    for i, valor in tabelaDias.items():
+        if valor == dia:
+            semana = treinoUsuario[i]
     treino = semana[dia]
     exerciciosTreino = treino["exercicios"]
 
@@ -81,9 +92,9 @@ def adicionarExercicio(dia: str, numeroNaLista: int, nomeEscolhido: str, usuario
             while True:
                 console.clear()
                 console.print(Panel(f"[bold green]{nomeEscolhido}[/bold green]", expand=False))
-                escolha = console.input("[yellow]Deseja adicionar mais exercícios (s/n)? [yellow]").lower()
+                escolha = console.input("\n[yellow]Deseja adicionar mais exercícios (s/n)? [yellow]").lower()
                 if escolha == 's':
-                    idExercicio = (len(exerciciosTreino) + 1) if len(exerciciosTreino) == 1 else len(exerciciosTreino)
+                    idExercicio = len(exerciciosTreino) + 1
                     exerciciosTreino = editarInformacoesExercicio(nomeEscolhido, idExercicio, exerciciosTreino, True)
                     continue
                 elif escolha == 'n':
@@ -97,7 +108,7 @@ def adicionarExercicio(dia: str, numeroNaLista: int, nomeEscolhido: str, usuario
             while True:
                 console.clear()
                 console.print(Panel(f"[bold green]{nomeEscolhido}[/bold green]", expand=False))
-                idExercicio = (len(exerciciosTreino) + 1) if len(exerciciosTreino) == 1 else len(exerciciosTreino)
+                idExercicio = 1
                 exerciciosTreino = editarInformacoesExercicio(nomeEscolhido, idExercicio, exerciciosTreino, True)
                 break
 
@@ -112,7 +123,7 @@ def editarInformacoesExercicio(nomeTreino: str, idExercicio: int, exerciciosTrei
             "peso": ""
         }
     else:
-        treino = "pass"
+        treino = exerciciosTreino
 
     for key in treino.keys():
         if key == "idExercicio":
@@ -328,30 +339,43 @@ def buscarExercicioJSON(dicioAuxExercicio: dict, divisao: str) -> bool | str:
                 console.print("[red]⚠ Digite um número válido.[/red]")
                 time.sleep(2)
 
-def buscarExercicio(dia: str, usuario):
+def buscarExercicio(dia: str, usuario: str) -> None:
     while True:
         usuarioJson = treinoUsuarioAtualizado()
-        bd = usuarioJson[usuario]
-        treino = bd[dia]
+        treinoUsuario = usuarioJson[usuario]
+
+        tabelaDias = {0: "DOMINGO",
+                  1: "SEGUNDA-FEIRA",
+                  2: "TERÇA-FEIRA",
+                  3: "QUARTA-FEIRA",
+                  4: "QUINTA-FEIRA",
+                  5: "SEXTA-FEIRA",
+                  6: "SÁBADO"}
+
+        for i, valor in tabelaDias.items():
+            if valor == dia:
+                semana = treinoUsuario[i]
+        treino = semana[dia]
 
         busca = console.input("[bold cyan]Digite o nome do exercício: [/bold cyan]")
         loading(f"Procurando exercício: {busca}")
         time.sleep(2)
         while True:
             console.clear()
-            console.print(Panel(f"[bold green]🏋️  {treino}[/bold green]", expand= False))
+            console.print(Panel(f"[bold green]🏋️  {treino["nomeTreino"]}[/bold green]", expand= False))
             exerciciosEscolhidos = []   
             
             for exercicio in treino["exercicios"]:
                 for chave, valor in exercicio.items():
-                    nomeExercicio = exercicio[chave]
-                    if busca.lower() in nomeExercicio.lower() and treino[chave] != "OFF":
-                        exerciciosEscolhidos.append(nomeExercicio)
+                    if chave == "nome":
+                        nomeExercicio = exercicio[chave]
+                        if busca.lower() in nomeExercicio.lower():
+                            exerciciosEscolhidos.append(nomeExercicio)
 
             if nomeExercicio:
-                opcaoMax, IDs = listarExercicios(treino, exerciciosEscolhidos)
+                opcaoMax, IDs = listarExercicios(treino, exerciciosEscolhidos, True)
             else:
-                console.print("[bold red]⚠ Nenhum treino encontrado com essa busca.[/bold red]\n")
+                console.print("[bold red]⚠ Nenhum exercício encontrado com essa busca.[/bold red]\n")
                 opcaoMax = 1
 
             console.print("\n[grey19]---------------------[/grey19]")
