@@ -199,13 +199,14 @@ def criarTreino(usuario: str):
         try:
             opcao = int(console.input("\n[bold cyan]Escolha uma opção: [/bold cyan]"))
 
-
             if opcao == numVoltar:
                 return
             elif opcao in dicioAux.keys():
                 nomeTreinoNovo = console.input("\n[bold cyan]Digite o nome do novo treino: [/bold cyan]")
                 loading(f"Criando treino {nomeTreinoNovo}")
-                adicionarExercicio(dicioAux[opcao], opcao,  nomeTreinoNovo, usuario)
+                semanaNaLista = dicioAux[opcao]
+                numeroNaLista = [num for num, semana in dicioAux.items() if semana == semanaNaLista]
+                adicionarExercicio(semanaNaLista, numeroNaLista[0],  nomeTreinoNovo, usuario)
             else:
                 console.print("[red]⚠ Opção inválida, tente novamente.[/red]")
                 time.sleep(2)
@@ -256,8 +257,10 @@ def editarTreino(dia: str, usuario: str):
 def excluirTreino(dia: str, usuario: str) -> None:
     usuarioJson = treinoUsuarioAtualizado()
     bd = usuarioJson[usuario]
-    treino = bd[dia]
-    dicionarioItens = treino["exercicios"][0]
+    for dicionario in bd:
+            if dicionario.get(dia):
+                treino = dicionario[dia]
+    dicionarioItens = treino["exercicios"]
 
     treino["nomeTreino"] = "OFF"
     dicionarioItens.clear()

@@ -8,8 +8,8 @@
                         "idExercicio": 1,
                         "nome": "-",
                         "nomeDivisao": "-",
-                        "repeticao": "-",
                         "series": "-",
+                        "repeticao": "-",
                         "peso": "-"
                     }
                 ]
@@ -35,8 +35,8 @@
                         "idExercicio": 1,
                         "nome": "-",
                         "nomeDivisao": "-",
-                        "repeticao": "-",
                         "series": "-",
+                        "repeticao": "-",
                         "peso": "-"
                     }
                 ]
@@ -50,8 +50,8 @@
                         "idExercicio": 1,
                         "nomeDivisao": "-",
                         "nome": "-",
-                        "repeticao": "-",
                         "series": "-",
+                        "repeticao": "-",
                         "peso": "-"
                     }
                 ]
@@ -79,26 +79,34 @@
             }
         }
     ],
-    "João Paulo": [
+    "Jo\u00e3o Paulo": [
         {
             "DOMINGO": {
                 "nomeTreino": "OFF",
-                "exercicios": [
-                    {
-                        "idExercicio": 1,
-                        "nome": "-",
-                        "nomeDivisao": "-",
-                        "repeticao": "-",
-                        "series": "-",
-                        "peso": "-"
-                    }
-                ]
+                "exercicios": []
             }
         },
         {
             "SEGUNDA-FEIRA": {
-                "nomeTreino": "OFF",
-                "exercicios": []
+                "nomeTreino": "Popo gracianne",
+                "exercicios": [
+                    {
+                        "idExercicio": 1,
+                        "nome": "Avan\u00e7o (lunge)",
+                        "nomeDivisao": "Gl\u00fateos",
+                        "series": 4,
+                        "repeticao": 10,
+                        "peso": 12
+                    },
+                    {
+                        "idExercicio": 2,
+                        "nome": "",
+                        "nomeDivisao": "Costas",
+                        "series": 23,
+                        "repeticao": 34,
+                        "peso": 5
+                    }
+                ]
             }
         },
         {
@@ -109,32 +117,14 @@
         },
         {
             "QUARTA-FEIRA": {
-                "nomeTreino": "COSTAS",
-                "exercicios": [
-                    {
-                        "idExercicio": 1,
-                        "nome": "-",
-                        "nomeDivisao": "-",
-                        "repeticao": "-",
-                        "series": "-",
-                        "peso": "-"
-                    }
-                ]
+                "nomeTreino": "OFF",
+                "exercicios": []
             }
         },
         {
             "QUINTA-FEIRA": {
-                "nomeTreino": "BICEPS",
-                "exercicios": [
-                    {
-                        "idExercicio": 1,
-                        "nomeDivisao": "-",
-                        "nome": "-",
-                        "repeticao": "-",
-                        "series": "-",
-                        "peso": "-"
-                    }
-                ]
+                "nomeTreino": "OFF",
+                "exercicios": []
             }
         },
         {
@@ -203,5 +193,4 @@
             }
         }
     ]
-    
 }
