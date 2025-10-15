@@ -4,7 +4,7 @@ from rich.panel import Panel
 from rich.table import Table
 from manipulacaoJSON import atualizarTreino, treinoUsuarioAtualizado
 from Menu import loading
-from exercicios import listarExercicios, adicionarExercicio, buscarExercicio, edicaoDoExercicioSelecionado, editarInformacoesExercicio
+from exercicios import listarExercicios, ordenarExercicios, adicionarExercicio, buscarExercicio, edicaoDoExercicioSelecionado, editarInformacoesExercicio
 import pandas as pd
 
 console = Console()
@@ -26,7 +26,6 @@ def treinos(usuario):
             elif opcao == qntItens + 2:
                 criarTreino(usuario)
             elif opcao == qntItens + 3:
-                # menuAnterior()
                 break
             elif opcao in mapaOpcoes:
                 diaEscolhido = mapaOpcoes[opcao]
@@ -124,6 +123,7 @@ def buscarTreino(usuario: str) -> None:
     
 def treinoSelecionado(dia: str, usuario: str):
     while True:
+        ordenarExercicios(usuario, dia)
         usuarioJson = treinoUsuarioAtualizado()
         bd = usuarioJson[usuario]
         console.clear()
@@ -220,6 +220,7 @@ def criarTreino(usuario: str):
 
 def editarTreino(dia: str, usuario: str):
     while True:
+        ordenarExercicios(usuario, dia)
         usuarioJson = treinoUsuarioAtualizado()
         bd = usuarioJson[usuario]
         console.clear()
@@ -231,7 +232,7 @@ def editarTreino(dia: str, usuario: str):
                 console.print(Panel(f"[bold green]🗓️  {dia}[/bold green]", expand=False))
                 console.print(f"[bold]🏋️  {nome} (editando...)[/bold]")
 
-                maiorID, IDs = listarExercicios(treino, None, True)
+                maiorID, IDs = listarExercicios(treino, None, None, True)
                 console.print("[grey19]--------------------------------[/grey19]")
                 console.print(f"[yellow]{maiorID}[/yellow] - Editar nome do treino ✏️")
                 console.print(f"[yellow]{maiorID + 1}[/yellow] - Buscar exercício 🔎")
@@ -250,7 +251,7 @@ def editarTreino(dia: str, usuario: str):
                         break
                     elif opcao == (maiorID + 1):
                         buscarExercicio(dia, usuario)
-                        return
+                        break
                     elif opcao == (maiorID + 2):
                         loading("Adicionando novo exercício")
 

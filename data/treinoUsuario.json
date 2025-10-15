@@ -125,22 +125,46 @@
         {
             "QUINTA-FEIRA": {
                 "nomeTreino": "ALEATORIO",
-                "exercicios": [
-                    {
-                        "idExercicio": 3,
-                        "nome": "Flex\u00e3o de bra\u00e7o",
-                        "nomeDivisao": "Peito",
-                        "series": 6,
-                        "repeticao": 6,
-                        "peso": 6
-                    }
-                ]
+                "exercicios": []
             }
         },
         {
             "SEXTA-FEIRA": {
-                "nomeTreino": "OFF",
-                "exercicios": []
+                "nomeTreino": "sextou bb",
+                "exercicios": [
+                    {
+                        "idExercicio": 1,
+                        "nomeDivisao": "Tr\u00edceps",
+                        "nome": "Tr\u00edceps corda",
+                        "repeticao": 2,
+                        "series": 2,
+                        "peso": 2
+                    },
+                    {
+                        "idExercicio": 2,
+                        "nome": "Leg Press",
+                        "nomeDivisao": "Pernas",
+                        "series": 3,
+                        "repeticao": 12,
+                        "peso": 35
+                    },
+                    {
+                        "idExercicio": 3,
+                        "nome": "Rosca alternada",
+                        "nomeDivisao": "B\u00edceps",
+                        "series": 2,
+                        "repeticao": 2,
+                        "peso": 2
+                    },
+                    {
+                        "idExercicio": 4,
+                        "nome": "Puxada frente (aberta)",
+                        "nomeDivisao": "Costas",
+                        "series": 3,
+                        "repeticao": 15,
+                        "peso": 35
+                    }
+                ]
             }
         },
         {
