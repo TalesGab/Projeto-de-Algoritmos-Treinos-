@@ -16,7 +16,6 @@ def atualizarTreino(treino: dict, usuario: str) -> None:
     usuarioJson[usuario] = treino
     with open(caminhoTreinosPersonalizados, 'w', encoding="UTF-8") as arquivo:
         json.dump(usuarioJson, arquivo, indent=4)
-    console.print("[bold green]Treino Salvo ✅[/bold green]")
     return
 
 def divisoesExerciciosPadroes() -> dict:

@@ -83,30 +83,22 @@
         {
             "DOMINGO": {
                 "nomeTreino": "OFF",
-                "exercicios": []
+                "exercicios": [
+                    {
+                        "idExercicio": 1,
+                        "nome": "-",
+                        "nomeDivisao": "-",
+                        "series": "-",
+                        "repeticao": "-",
+                        "peso": "-"
+                    }
+                ]
             }
         },
         {
             "SEGUNDA-FEIRA": {
-                "nomeTreino": "Popo gracianne",
-                "exercicios": [
-                    {
-                        "idExercicio": 1,
-                        "nome": "Avan\u00e7o (lunge)",
-                        "nomeDivisao": "Gl\u00fateos",
-                        "series": 4,
-                        "repeticao": 10,
-                        "peso": 12
-                    },
-                    {
-                        "idExercicio": 2,
-                        "nome": "",
-                        "nomeDivisao": "Costas",
-                        "series": 23,
-                        "repeticao": 34,
-                        "peso": 5
-                    }
-                ]
+                "nomeTreino": "OFF",
+                "exercicios": []
             }
         },
         {
@@ -117,29 +109,30 @@
         },
         {
             "QUARTA-FEIRA": {
-                "nomeTreino": "OFF",
-                "exercicios": []
+                "nomeTreino": "COSTAS",
+                "exercicios": [
+                    {
+                        "idExercicio": 1,
+                        "nome": "-",
+                        "nomeDivisao": "-",
+                        "series": "-",
+                        "repeticao": "-",
+                        "peso": "-"
+                    }
+                ]
             }
         },
         {
             "QUINTA-FEIRA": {
-                "nomeTreino": "",
+                "nomeTreino": "ALEATORIO",
                 "exercicios": [
                     {
-                        "idExercicio": 1,
-                        "nome": "Rosca martelo",
-                        "nomeDivisao": "B\u00edceps",
-                        "series": 3,
-                        "repeticao": 3,
-                        "peso": 3
-                    },
-                    {
-                        "idExercicio": 2,
-                        "nome": "Puxada tri\u00e2ngulo",
-                        "nomeDivisao": "Costas",
-                        "series": 2,
-                        "repeticao": 2,
-                        "peso": 2
+                        "idExercicio": 3,
+                        "nome": "Flex\u00e3o de bra\u00e7o",
+                        "nomeDivisao": "Peito",
+                        "series": 6,
+                        "repeticao": 6,
+                        "peso": 6
                     }
                 ]
             }

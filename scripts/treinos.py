@@ -4,7 +4,7 @@ from rich.panel import Panel
 from rich.table import Table
 from manipulacaoJSON import atualizarTreino, treinoUsuarioAtualizado
 from Menu import loading
-from exercicios import listarExercicios, adicionarExercicio, buscarExercicio
+from exercicios import listarExercicios, adicionarExercicio, buscarExercicio, edicaoDoExercicioSelecionado, editarInformacoesExercicio
 import pandas as pd
 
 console = Console()
@@ -148,17 +148,22 @@ def treinoSelecionado(dia: str, usuario: str):
                     if opcao == 1:
                         loading(f"Editando treino {nome}")
                         editarTreino(dia, usuario)
+                        break
                     elif opcao == 2:
                         while True:    
                             resposta = console.input("[bold yellow]⚠ Tem certeza que deseja EXCLUIR o treino (S/N)? [/bold yellow]").upper()
                             
                             if resposta == 'S':
+                                loading("Excluindo treino")
                                 excluirTreino(dia, usuario)
+                                console.print("[bold green]Treino excluído com sucesso![/bold green]")
+                                time.sleep(2)
                                 return
                             elif resposta == 'N':
                                 break
                             else:
                                 console.print("[red]⚠ Digite uma opção válida.[/red]")
+                                time.sleep(2)
                     elif opcao == 3:
                         return
                     else:
@@ -228,27 +233,40 @@ def editarTreino(dia: str, usuario: str):
 
                 maiorID, IDs = listarExercicios(treino, None, True)
                 console.print("[grey19]--------------------------------[/grey19]")
-                console.print(f"[yellow]{maiorID + 1}[/yellow] - Editar nome do treino ✏️")
-                console.print(f"[yellow]{maiorID + 2}[/yellow] - Buscar exercício 🔎")
+                console.print(f"[yellow]{maiorID}[/yellow] - Editar nome do treino ✏️")
+                console.print(f"[yellow]{maiorID + 1}[/yellow] - Buscar exercício 🔎")
+                console.print(f"[yellow]{maiorID + 2}[/yellow] - Adicionar exercício ➕")
                 console.print(f"[yellow]{maiorID + 3}[/yellow] - Voltar 🔙")
                 
                 try:
                     opcao = int(console.input("\n[bold cyan]Escolha uma opção: [/bold cyan]"))
                 
-                    if opcao == (maiorID + 1):
+                    if opcao == maiorID:
                         nomeNovoTreino = console.input("\n[bold cyan]Digite o novo nome do treino: [/bold cyan]")
                         loading(f"Alterando nome do treino {nome} para {nomeNovoTreino}")
                         editarNomeTreino(dia, nomeNovoTreino, usuario)
+                        console.print("[bold green]Nome do treino alterado com sucesso![/bold green]")
+                        time.sleep(2)
+                        break
+                    elif opcao == (maiorID + 1):
+                        buscarExercicio(dia, usuario)
                         return
                     elif opcao == (maiorID + 2):
-                        buscarExercicio(dia, usuario)
+                        loading("Adicionando novo exercício")
+
+                        exerciciosTreino = editarInformacoesExercicio(nome, maiorID, treino["exercicios"], True)
+
+                        treino["exercicios"] = exerciciosTreino
+                        atualizarTreino(bd, usuario)
+                        console.print("[bold green]Treino Salvo![/bold green]")
+                        time.sleep(2)
+                        break
                     elif opcao == (maiorID + 3):
                         return
                     elif 1 <= opcao <= maiorID:
-                        pass
-                        # editar exercicio especifico
-                        # remove no exercicio e insert no indice antigo
-                        # editarInformacoesExercicio(nomeTreino: str, idExercicio: int, exerciciosTreino
+                        nomeExercicio = treino["exercicios"][opcao - 1]
+                        edicaoDoExercicioSelecionado(opcao, dia, usuario, nomeExercicio["nome"])
+                        return
                     else:
                         console.print("[red]⚠ Opção inválida, tente novamente.[/red]")
                         time.sleep(2)
@@ -281,4 +299,6 @@ def editarNomeTreino(dia: str, nomeNovo: str, usuario: str) -> None:
     treino["nomeTreino"] = nomeNovo.upper()
     
     atualizarTreino(bd, usuario)
+    console.print("[bold green]Treino Salvo![/bold green]")
+    time.sleep(2)
     return
