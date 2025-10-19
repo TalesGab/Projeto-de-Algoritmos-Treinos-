@@ -359,7 +359,7 @@ def buscarDivisaoJSON(dicioAuxDivisao: dict) -> bool | str:
                 IDs = 0
                 for i, divisao in enumerate(divisaoEscolhida):
                     console.print(f"[yellow]{i}[/yellow] - {divisao}")
-                    IDs += 1
+                    IDs += 1 #opçao maxima +=ID(arrumar)
             else:
                 console.print("[bold red]⚠ Nenhuma divisão encontrada com essa busca.[/bold red]\n")
                 opcaoMax = 1

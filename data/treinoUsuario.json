@@ -33,11 +33,19 @@
                 "exercicios": [
                     {
                         "idExercicio": 1,
-                        "nome": "-",
-                        "nomeDivisao": "-",
-                        "series": "-",
-                        "repeticao": "-",
-                        "peso": "-"
+                        "nome": "Rosca direta",
+                        "nomeDivisao": "B\u00edceps",
+                        "series": 5,
+                        "repeticao": 12,
+                        "peso": 75
+                    },
+                    {
+                        "idExercicio": 2,
+                        "nome": "Barra fixa",
+                        "nomeDivisao": "Costas",
+                        "series": 8,
+                        "repeticao": 75,
+                        "peso": 24
                     }
                 ]
             }
@@ -45,16 +53,7 @@
         {
             "QUINTA-FEIRA": {
                 "nomeTreino": "BICEPS",
-                "exercicios": [
-                    {
-                        "idExercicio": 1,
-                        "nomeDivisao": "-",
-                        "nome": "-",
-                        "series": "-",
-                        "repeticao": "-",
-                        "peso": "-"
-                    }
-                ]
+                "exercicios": []
             }
         },
         {
@@ -82,15 +81,15 @@
     "Jo\u00e3o Paulo": [
         {
             "DOMINGO": {
-                "nomeTreino": "OFF",
+                "nomeTreino": "\u00c9 ISSO AI",
                 "exercicios": [
                     {
                         "idExercicio": 1,
-                        "nome": "-",
-                        "nomeDivisao": "-",
-                        "series": "-",
-                        "repeticao": "-",
-                        "peso": "-"
+                        "nome": "Tr\u00edceps testa",
+                        "nomeDivisao": "Tr\u00edceps",
+                        "series": 3,
+                        "repeticao": 8,
+                        "peso": 40
                     }
                 ]
             }
@@ -184,6 +183,59 @@
         }
     ],
     "Kevin Camargo": [
+        {
+            "DOMINGO": {
+                "nomeTreino": "OFF",
+                "exercicios": []
+            }
+        },
+        {
+            "SEGUNDA-FEIRA": {
+                "nomeTreino": "perna",
+                "exercicios": [
+                    {
+                        "idExercicio": 1,
+                        "nome": "Cadeira extensora",
+                        "nomeDivisao": "Pernas",
+                        "series": 3,
+                        "repeticao": 3,
+                        "peso": 10
+                    }
+                ]
+            }
+        },
+        {
+            "TER\u00c7A-FEIRA": {
+                "nomeTreino": "Costa dos Deuses",
+                "exercicios": []
+            }
+        },
+        {
+            "QUARTA-FEIRA": {
+                "nomeTreino": "OFF",
+                "exercicios": []
+            }
+        },
+        {
+            "QUINTA-FEIRA": {
+                "nomeTreino": "OFF",
+                "exercicios": []
+            }
+        },
+        {
+            "SEXTA-FEIRA": {
+                "nomeTreino": "OFF",
+                "exercicios": []
+            }
+        },
+        {
+            "S\u00c1BADO": {
+                "nomeTreino": "OFF",
+                "exercicios": []
+            }
+        }
+    ],
+    "1": [
         {
             "DOMINGO": {
                 "nomeTreino": "OFF",
