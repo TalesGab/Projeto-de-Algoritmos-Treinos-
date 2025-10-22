@@ -3,9 +3,10 @@ import sys
 import json
 import os
 from criar_usuario import criar_usuario
-from treinos import treinos
 from rich.console import Console
 from rich.panel import Panel
+from utils import loading
+from treinos import treinos
 
 console = Console()
 
@@ -40,12 +41,6 @@ except FileNotFoundError:
     exercicios = {}
 
 # ===== Funções base =====
-
-def loading(text="Carregando"):
-    for i in range(3):
-        console.print(f"[cyan]{text}{'.' * (i+1)}[/cyan]", end="\r")
-        time.sleep(0.5)
-    print()
 
 def carregar_usuarios():
     if os.path.exists(USUARIO_FILE_PATH):

@@ -3,7 +3,7 @@ from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
 from manipulacaoJSON import atualizarTreino, treinoUsuarioAtualizado
-from Menu import loading
+from utils import loading
 from exercicios import listarExercicios, ordenarExercicios, adicionarExercicio, buscarExercicio, edicaoDoExercicioSelecionado, editarInformacoesExercicio
 import pandas as pd
 

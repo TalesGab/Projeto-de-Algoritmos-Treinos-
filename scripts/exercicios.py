@@ -2,7 +2,7 @@ import time
 from rich.console import Console
 from rich.panel import Panel
 from rich.table import Table
-from Menu import loading
+from utils import loading
 from manipulacaoJSON import treinoUsuarioAtualizado, atualizarTreino, divisoesExerciciosPadroes
 import pandas as pd
 
