@@ -1,4 +1,5 @@
 import json
+import time
 import os
 from manipulacaoJSON import atualizarTreino
 from rich.console import Console
@@ -6,41 +7,138 @@ from rich.panel import Panel
 
 console = Console()
 
-def criar_usuario():
-    nome = input("Digite seu Nome e Sobrenome: ")
-    idade = int(console.input("[bold cyan]Digite sua Idade:[/bold cyan] "))
-    sexualidade = ""
-    console.print("[yellow]1[/yellow] - Masculino")
-    console.print("[yellow]2[/yellow] - Feminino")
-    console.print("[yellow]3[/yellow] - Indefinido")
-    opc_SX = int(input("Digite o Número da Opção Escolhida: "))
-    if opc_SX == 1:
-        sexualidade = "Masculino"
-    elif opc_SX == 2:
-        sexualidade = "Feminino"
-    elif opc_SX == 3:
-        sexualidade = "Indefinido"
+def clear_screen():
+    if os.name == "nt":
+        os.system("cls")
     else:
-        console.print("[bold red]⚠ Número inválido! Tente novamente.[/bold red]")
+        os.system("clear")
+    try:
+        console.clear()
+    except Exception:
+        pass
 
-    peso = console.input("[bold cyan]Digite seu peso (em kg): [/bold cyan]").strip()
+def criar_usuario():   
+    clear_screen()
 
-    obj = ""
-    console.print(Panel("[bold magenta]Qual das opções abaixo você tem como objetivo principal:[/bold magenta]", expand=False))
-    console.print("[yellow]1[/yellow] - Ganhar Massa Muscular (Hipertrofia)")
-    console.print("[yellow]2[/yellow] - Perder Peso / Reduzir Gordura Corporal")
-    console.print("[yellow]3[/yellow] - Melhorar Saúde e Bem-estar Geral")
-    console.print("[yellow]4[/yellow] - Treinos para Performance Esportiva Específica")
+    while True:
+        nome = console.input("[bold cyan]Digite seu Nome e Sobrenome: [/bold cyan]")
 
-    opc_obj = int(console.input("[bold cyan]Digite o Número da Opção Escolhida: [/bold cyan]"))
-    if opc_obj == 1:
-        obj = "Ganhar Massa Muscular(Hipertrofia)"
-    elif opc_obj == 2:
-        obj = "Perder Peso / Reduzir Gordura Corporal"
-    elif opc_obj == 3:
-        obj = "3. Melhorar Saúde e Bem-estar Geral"
-    elif opc_obj == 4:
-        obj = "Treinos para Performance Esportiva Específica"
+        if len(nome) < 3:
+            console.print("[bold red]⚠ O nome deve conter pelo menos 3 caracteres! Tente Novamente!!![/bold red]")
+            time.sleep(2)
+            clear_screen()
+        elif len(nome.split()) < 2:
+            console.print("[bold red]⚠ O nome deve conter NOME e SOBRENOME! Tente Novamente!!![/bold red]")
+            time.sleep(2)
+            clear_screen()
+        elif any(char.isdigit() for char in nome):
+            console.print("[bold red]⚠ O nome NÃO deve conter números! Tente Novamente!!![/bold red]")
+            time.sleep(2)
+            clear_screen()
+        else:
+            nome = nome.title()
+            break
+
+    clear_screen()
+
+    while True:
+        try:
+            idade = int(console.input("[bold cyan]Digite sua Idade: [/bold cyan] "))
+
+            if idade < 18:
+                console.print("[bold red]⚠ Desculpe, a idade permitida para se matricular é acima de 18 anos! Digite Novamente!!![/bold red]")
+                time.sleep(2)  
+                clear_screen() 
+            elif idade > 150:
+                console.print("[bold red]⚠ Idade Inválida! Digite uma idade realista!!![/bold red]")
+                time.sleep(2)
+                clear_screen()
+            else:
+                break
+        except ValueError:
+            console.print("[bold red]⚠ Digite apenas números!!![/bold red]")
+            time.sleep(2) 
+
+    clear_screen()
+
+    while True:
+        try:
+            sexo = ""
+            console.print("[yellow]1[/yellow] - Masculino")
+            console.print("[yellow]2[/yellow] - Feminino")
+            console.print("[yellow]3[/yellow] - Indefinido")
+            opc_SX = int(console.input("[bold cyan]Digite o número da opção Escolhida a partir do seu sexo: [/bold cyan]"))
+            if opc_SX == 1:
+                sexo = "Masculino"
+                break
+            elif opc_SX == 2:
+                sexo = "Feminino"
+                break
+            elif opc_SX == 3:
+                sexo = "Indefinido"
+                break
+            else:
+                console.print("[bold red]⚠ Número inválido ! Tente novamente.[/bold red]")
+            time.sleep(2)
+            clear_screen()
+        except ValueError:
+            console.print("[bold red]⚠ Dígito inválido! Tente novamente.[/bold red]")
+            time.sleep(2)
+            clear_screen()
+
+    clear_screen()
+    while True:
+        peso = int(console.input("[bold cyan]Digite seu peso(em kg): [/bold cyan]").strip())
+        
+        try:
+            if peso <= 0:
+                console.print("[bold red]⚠ Peso Inválido! Informe um peso acima de 0!!![/bold red]")
+                time.sleep(2)
+                clear_screen()
+            elif peso > 500:
+                console.print("[bold red]⚠ Peso Muito Alto! Informe um valor realista!!![/bold red]")
+                time.sleep(2)
+                clear_screen()
+            else:
+                break
+        except ValueError:
+            console.print("[bold red]⚠ Digite Apenas Números!!![/bold red]")
+            time.sleep(2)
+            clear_screen()
+
+    clear_screen()
+    while True:
+        try:
+            obj = ""
+            console.print(Panel("[bold magenta]Qual das opções abaixo você tem como objetivo principal:[/bold magenta]", expand=False))
+            console.print("[yellow]1[/yellow] - Ganhar Massa Muscular (Hipertrofia)")
+            console.print("[yellow]2[/yellow] - Perder Peso / Reduzir Gordura Corporal")
+            console.print("[yellow]3[/yellow] - Melhorar Saúde e Bem-estar Geral")
+            console.print("[yellow]4[/yellow] - Treinos para Performance Esportiva Específica")
+
+            opc_obj = int(console.input("[bold cyan]Digite o Número da Opção Escolhida: [/bold cyan]"))
+            if opc_obj == 1:
+                obj = "Ganhar Massa Muscular(Hipertrofia)"
+                break
+            elif opc_obj == 2:
+                obj = "Perder Peso / Reduzir Gordura Corporal"
+                break
+            elif opc_obj == 3:
+                obj = "3. Melhorar Saúde e Bem-estar Geral"
+                break
+            elif opc_obj == 4:
+                obj = "Treinos para Performance Esportiva Específica"
+                break
+            else:
+                console.print("[bold red]⚠ Número Inválido! Tente Novamente!!![bold red]")
+                time.sleep(2)
+                clear_screen()
+        except ValueError:
+            console.print("[bold red]⚠ Dígito inválido! Tente novamente.[/bold red]")
+            time.sleep(2)
+            clear_screen()
+
+    clear_screen()
 
     console.print(Panel("[bold magenta]Agora informe se possui alguma lesão que possa impedir alguma atividade:[/bold magenta]", expand=False))
     lesoes_comuns = [
@@ -57,17 +155,32 @@ def criar_usuario():
 
     lesoes_usuario = []
     for lesao in lesoes_comuns:
-        resposta = console.input(f"[bold yellow]Você tem ou já teve {lesao}? (s/n): [/bold yellow]").strip().lower()
-        if resposta == "s":
-            lesoes_usuario.append(lesao)
+        while True:
+            resposta = console.input(f"[bold yellow]Você tem ou já teve {lesao}? (s/n): [/bold yellow]").strip().lower()
+            if resposta == "s":
+                lesoes_usuario.append(lesao)
+                clear_screen()
+                console.print(Panel("[bold magenta]Agora informe se possui alguma lesão que possa impedir alguma atividade:[/bold magenta]", expand=False))
+                break
+            elif resposta == "n":
+                pass
+                clear_screen()
+                console.print(Panel("[bold magenta]Agora informe se possui alguma lesão que possa impedir alguma atividade:[/bold magenta]", expand=False))
+                break
+            else:
+                console.print("[bold red]⚠ Dígito Inválido! Digite SOMENTE (s) ou (n)!!![/bold red]")
+                time.sleep(2)
+                clear_screen()
+                console.print(Panel("[bold magenta]Agora informe se possui alguma lesão que possa impedir alguma atividade:[/bold magenta]", expand=False))
 
     if not lesoes_usuario:
         lesoes_usuario.append("Nenhuma lesão relatada")
+    clear_screen()
 
     novo_usuario = {
         "Nome": nome,
         "Idade": idade,
-        "Sexualidade": sexualidade,
+        "Sexualidade": sexo,
         "Peso": peso,
         "Objetivo": obj,
         "Lesões": lesoes_usuario
