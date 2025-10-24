@@ -5,6 +5,7 @@ from rich.table import Table
 from utils import loading
 from manipulacaoJSON import treinoUsuarioAtualizado, atualizarTreino, divisoesExerciciosPadroes
 import pandas as pd
+from limpeza import clear_screen
 
 console = Console()
 
@@ -90,7 +91,7 @@ def adicionarExercicio(dia: str, nomeEscolhido: str, usuario: str):
     while True: 
         if len(exerciciosTreino) > 0:
             while True:
-                console.clear()
+                clear_screen()
                 console.print(Panel(f"[bold green]{nomeEscolhido}[/bold green]", expand=False))
                 escolha = console.input("\n[yellow]Deseja adicionar mais exercícios (s/n)? [yellow]").lower()
                 if escolha == 's':
@@ -108,18 +109,21 @@ def adicionarExercicio(dia: str, nomeEscolhido: str, usuario: str):
                     time.sleep(2)
         else:
             while True:
-                console.clear()
-                console.print(Panel(f"[bold green]{nomeEscolhido}[/bold green]", expand=False))
+                clear_screen()
+                loading("Adicionando novo exercício")
                 idExercicio = 1
                 exerciciosTreino = editarInformacoesExercicio(nomeEscolhido, idExercicio, exerciciosTreino, True)
                 break
+            if len(exerciciosTreino) == 0:
+                console.print("[bold red]É necessário adicionar um exercício ao treino![/bold red]")
+                time.sleep(2)
 
 def edicaoDoExercicioSelecionado(idExercicio: int, dia: str, usuario: str, nomeExercicio: str) -> None:
     while True:
         ordenarExercicios(usuario, dia)
         usuarioJson = treinoUsuarioAtualizado()
         bd = usuarioJson[usuario]
-        console.clear()
+        clear_screen()
         for dicionario in bd:
             if dicionario.get(dia):
                 treino = dicionario[dia]
@@ -152,13 +156,35 @@ def edicaoDoExercicioSelecionado(idExercicio: int, dia: str, usuario: str, nomeE
                                 resposta = console.input("[bold yellow]⚠ Tem certeza que deseja EXCLUIR o exercício (S/N)? [/bold yellow]").upper()
                                 
                                 if resposta == 'S':
+                                    if len(treino["exercicios"]) == 1:
+                                        addExercicioObrigatorio = True
+
                                     loading("Excluindo exercício")
                                     treino["exercicios"].pop(idExercicio - 1)
                                     
                                     atualizarTreino(bd, usuario)
                                     console.print("[bold green]Exercício excluído com sucesso![/bold green]")
                                     time.sleep(2)
-                                    return
+
+                                    if addExercicioObrigatorio:
+                                        while True:
+                                            console.print("[cyan]Atenção: Treino sem exercícios.[/cyan]")
+                                            time.sleep(2)
+                                            loading("Redirecionando para criação de novo exercício")
+                                            exerciciosTreino = editarInformacoesExercicio(nome, 1, treino["exercicios"], True)
+                                            if len(exerciciosTreino) != 0:
+                                                break
+                                            else:
+                                                clear_screen()
+                                                continue
+
+                                        treino["exercicios"] = exerciciosTreino
+                                        atualizarTreino(bd, usuario)
+                                        console.print("[bold green]Treino Salvo![/bold green]")
+                                        time.sleep(2)
+                                        return
+                                    else:
+                                        return
                                 elif resposta == 'N':
                                     break
                                 else:
@@ -195,85 +221,95 @@ def editarInformacoesExercicio(nomeTreino: str, idExercicio: int, exerciciosTrei
             treino[key] = idExercicio
         elif key == "nome": 
             bd = divisoesExerciciosPadroes()
+            escolhasPrimarias = True
 
-            while True:
-                console.clear()
-                console.print(Panel(f"[bold green]Divisões[/bold green]", expand=False))
-                if not eNovo:
-                    console.print(f"[bold]Divisão atual: {treino['nomeDivisao']}[/bold]\n")
+            while escolhasPrimarias:
+                while True:
+                    clear_screen()
+                    console.print(Panel(f"[bold green]Divisões[/bold green]", expand=False))
+                    if not eNovo:
+                        console.print(f"[bold]Divisão atual: {treino['nomeDivisao']}[/bold]\n")
 
-                dicioAuxDivisao = {}
+                    dicioAuxDivisao = {}
 
-                for k, divisao in enumerate(bd.keys(), start= 1):
-                    console.print(f"[yellow]{k}[/yellow] - {divisao}")
-                    dicioAuxDivisao[k] = divisao
+                    for k, divisao in enumerate(bd.keys(), start= 1):
+                        console.print(f"[yellow]{k}[/yellow] - {divisao}")
+                        dicioAuxDivisao[k] = divisao
 
-                buscar = len(dicioAuxDivisao) + 1
+                    buscar = len(dicioAuxDivisao) + 1
 
-                console.print("\n[grey19]--------------------------------[/grey19]")
-                console.print(f"[yellow]{buscar}[/yellow] - Buscar divisão 🔎")
-                
-                try:
-                    opcao = int(console.input("\n[bold cyan]Escolha uma opção: [/bold cyan]"))
+                    console.print("\n[grey19]--------------------------------[/grey19]")
+                    console.print(f"[yellow]{buscar}[/yellow] - Buscar divisão 🔎")
+                    console.print(f"[yellow]{buscar + 1}[/yellow] - Voltar 🔙")
+                    
+                    try:
+                        opcao = int(console.input("\n[bold cyan]Escolha uma opção: [/bold cyan]"))
 
-                    if opcao == buscar:
-                        voltou, item = buscarDivisaoJSON(dicioAuxDivisao)
-                        if voltou:
-                            continue
-                        else:
-                            treino["nome"] = dicioAuxExercicio[item]
+                        if opcao == buscar:
+                            voltou, item = buscarDivisaoJSON(dicioAuxDivisao)
+                            if voltou:
+                                continue
+                            else:
+                                treino["nome"] = dicioAuxExercicio[item]
+                                break
+                        elif opcao == (buscar + 1):
+                            return exerciciosTreino
+                        elif 1 <= opcao < buscar:
+                            treino["nomeDivisao"] = dicioAuxDivisao[opcao]
                             break
-                    elif 1 <= opcao < buscar:
-                        treino["nomeDivisao"] = dicioAuxDivisao[opcao]
-                        break
-                    else: 
-                        console.print("[red]⚠ Opção inválida, tente novamente.[/red]")
-                        time.sleep(2)     
-                except ValueError:
-                    console.print("[red]⚠ Digite um número válido.[/red]")
-                    time.sleep(2)
+                        else: 
+                            console.print("[red]⚠ Opção inválida, tente novamente.[/red]")
+                            time.sleep(2)     
+                    except ValueError:
+                        console.print("[red]⚠ Digite um número válido.[/red]")
+                        time.sleep(2)
 
-            while True:
-                console.clear()
-                console.print(Panel(f"[bold green]{treino["nomeDivisao"]}[/bold green]", expand=False))
-                if not eNovo:
-                    console.print(f"[bold]Exercício atual: {treino['nome']}[/bold]\n")
+                while True:
+                    clear_screen()
+                    console.print(Panel(f"[bold green]{treino["nomeDivisao"]}[/bold green]", expand=False))
+                    if not eNovo:
+                        console.print(f"[bold]Exercício atual: {treino['nome']}[/bold]\n")
 
-                dicioAuxExercicio = {}
+                    dicioAuxExercicio = {}
 
-                for l, exercicio in enumerate(bd[treino["nomeDivisao"]], start= 1):
-                    console.print(f"[yellow]{l}[/yellow] - {exercicio}")
-                    dicioAuxExercicio[l] = exercicio
+                    for l, exercicio in enumerate(bd[treino["nomeDivisao"]], start= 1):
+                        console.print(f"[yellow]{l}[/yellow] - {exercicio}")
+                        dicioAuxExercicio[l] = exercicio
 
-                buscarEx = len(dicioAuxExercicio) + 1
+                    buscarEx = len(dicioAuxExercicio) + 1
 
-                console.print("\n[grey19]--------------------------------[/grey19]")
-                console.print(f"[yellow]{buscarEx}[/yellow] - Buscar exercício 🔎")
-                
-                try:
-                    opcaoEx = int(console.input("\n[bold cyan]Escolha uma opção: [/bold cyan]"))
+                    console.print("\n[grey19]--------------------------------[/grey19]")
+                    console.print(f"[yellow]{buscarEx}[/yellow] - Buscar exercício 🔎")
+                    console.print(f"[yellow]{buscarEx + 1}[/yellow] - Voltar 🔙")
+                    
+                    try:
+                        opcaoEx = int(console.input("\n[bold cyan]Escolha uma opção: [/bold cyan]"))
 
-                    if opcaoEx == buscarEx:
-                        voltou, item = buscarExercicioJSON(dicioAuxExercicio, treino["nomeDivisao"])
-                        if voltou:
-                            continue
-                        else:
-                            treino["nome"] = dicioAuxExercicio[item]
+                        if opcaoEx == buscarEx:
+                            voltou, item = buscarExercicioJSON(dicioAuxExercicio, treino["nomeDivisao"])
+                            if voltou:
+                                continue
+                            else:
+                                treino["nome"] = dicioAuxExercicio[item]
+                                escolhasPrimarias = False
+                                break
+                        elif opcaoEx == (buscarEx + 1):
                             break
-                    elif 1 <= opcaoEx < buscarEx:
-                        treino["nome"] = dicioAuxExercicio[opcaoEx]
-                        break
-                    else: 
-                        console.print("[red]⚠ Opção inválida, tente novamente.[/red]")
-                        time.sleep(2)     
-                except ValueError:
-                    console.print("[red]⚠ Digite um número válido.[/red]")
-                    time.sleep(2)
+                        elif 1 <= opcaoEx < buscarEx:
+                            treino["nome"] = dicioAuxExercicio[opcaoEx]
+                            escolhasPrimarias =  False
+                            break
+                        else: 
+                            console.print("[red]⚠ Opção inválida, tente novamente.[/red]")
+                            time.sleep(2)     
+                    except ValueError:
+                        console.print("[red]⚠ Digite um número válido.[/red]")
+                        time.sleep(2)
 
 
         elif key == "series":
             while True:
-                console.clear()
+                clear_screen()
                 console.print(Panel(f"[bold green]{nomeTreino}[/bold green]", expand=False))
                 if not eNovo:
                     console.print(f"[bold]Repetição atual: {treino['series']}[/bold]\n")
@@ -288,7 +324,7 @@ def editarInformacoesExercicio(nomeTreino: str, idExercicio: int, exerciciosTrei
 
         elif key == "repeticao":
             while True:
-                console.clear()
+                clear_screen()
                 console.print(Panel(f"[bold green]{nomeTreino}[/bold green]", expand=False))
                 if not eNovo:
                     console.print(f"[bold]Repetição atual: {treino['repeticao']}[/bold]\n")
@@ -303,7 +339,7 @@ def editarInformacoesExercicio(nomeTreino: str, idExercicio: int, exerciciosTrei
 
         elif key == "peso":
             while True:
-                console.clear()
+                clear_screen()
                 console.print(Panel(f"[bold green]{nomeTreino}[/bold green]", expand=False))
                 if not eNovo:
                     console.print(f"[bold]Repetição atual: {treino['peso']}[/bold]\n")
@@ -339,14 +375,13 @@ def ordenarExercicios(usuario: str, dia: str) -> None:
     atualizarTreino(bd, usuario)
     return
 
-ordenarExercicios("João Paulo", "SEXTA-FEIRA")
 def buscarDivisaoJSON(dicioAuxDivisao: dict) -> bool | str:
     while True:
         busca = console.input("[bold cyan]Digite o nome da divisão: [/bold cyan]")
         loading(f"Procurando divisão: {busca}")
         time.sleep(2)
         while True:
-            console.clear()
+            clear_screen()
             console.print(Panel(f"[bold green]Divisões[/bold green]", expand= False))
             divisaoEscolhida = []   
             
@@ -388,7 +423,7 @@ def buscarExercicioJSON(dicioAuxExercicio: dict, divisao: str) -> bool | str:
         loading(f"Procurando exercício: {busca}")
         time.sleep(2)
         while True:
-            console.clear()
+            clear_screen()
             console.print(Panel(f"[bold green]{divisao}[/bold green]", expand= False))
             exercicioEscolhido = []   
             
@@ -413,7 +448,7 @@ def buscarExercicioJSON(dicioAuxExercicio: dict, divisao: str) -> bool | str:
                 opcao = int(console.input("\n[bold cyan]Escolha uma opção: [/bold cyan]"))
 
                 if opcao == opcaoMax:
-                    return True
+                    return True, None
                 elif 1 <= opcao <= IDs:
                     itemEscolhido = exercicioEscolhido[opcao - 1]
                     return False, itemEscolhido
@@ -446,7 +481,7 @@ def buscarExercicio(dia: str, usuario: str) -> None:
         loading(f"Procurando exercício: {busca}")
         time.sleep(2)
         while True:
-            console.clear()
+            clear_screen()
             console.print(Panel(f"[bold green]🏋️  {treino["nomeTreino"]}[/bold green]", expand= False))
             exerciciosEscolhidos = []   
             

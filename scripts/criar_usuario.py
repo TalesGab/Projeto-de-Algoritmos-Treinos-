@@ -4,18 +4,9 @@ import os
 from manipulacaoJSON import atualizarTreino
 from rich.console import Console
 from rich.panel import Panel
+from limpeza import clear_screen
 
 console = Console()
-
-def clear_screen():
-    if os.name == "nt":
-        os.system("cls")
-    else:
-        os.system("clear")
-    try:
-        console.clear()
-    except Exception:
-        pass
 
 def criar_usuario():   
     clear_screen()

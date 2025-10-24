@@ -63,5 +63,23 @@
             "Tendinite patelar (joelho de saltador)",
             "Hérnia de disco"
         ]
+    },
+    {
+        "Nome": "Loollooll Oll",
+        "Idade": 18,
+        "Sexualidade": "Indefinido",
+        "Peso": 3,
+        "Objetivo": "Treinos para Performance Esportiva Específica",
+        "Lesões": [
+            "Tendinite patelar (joelho de saltador)",
+            "Condromalácia patelar",
+            "Lombalgia (dor lombar)",
+            "Hérnia de disco",
+            "Tendinite do manguito rotador",
+            "Bursite no ombro",
+            "Entorse de tornozelo",
+            "Epicondilite (cotovelo de tenista)",
+            "Distensão muscular"
+        ]
     }
 ]

@@ -7,6 +7,7 @@ from rich.console import Console
 from rich.panel import Panel
 from utils import loading
 from treinos import treinos
+from limpeza import clear_screen
 
 console = Console()
 
@@ -16,21 +17,6 @@ DATA_DIR = os.path.join(PROJECT_ROOT, "..", "data")
 
 USUARIO_FILE_PATH = os.path.join(DATA_DIR, "usuario.json")
 EXERCICIOS_FILE_PATH = os.path.join(DATA_DIR, "exercicios.json")
-
-# ===== Função universal de limpeza =====
-def clear_screen():
-    """
-    Limpa o terminal completamente (compatível com Windows, Linux e VS Code).
-    """
-    if os.name == "nt":
-        os.system("cls")
-    else:
-        os.system("clear")
-    try:
-        console.clear()
-    except Exception:
-        pass
-
 
 # ===== Carregamento de arquivos =====
 try:
@@ -167,7 +153,6 @@ def mostrar_perfil(usuario):
     console.print(f"Idade: [bold]{usuario['Idade']}[/bold]")
     console.print(f"Sexo: [bold]{usuario.get('Sexo', 'Não informado')}[/bold]")
     input("\nPressione Enter para voltar.")
-
 
 # ===== Execução =====
 

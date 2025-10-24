@@ -5,7 +5,7 @@ from rich.table import Table
 from manipulacaoJSON import atualizarTreino, treinoUsuarioAtualizado
 from utils import loading
 from exercicios import listarExercicios, ordenarExercicios, adicionarExercicio, buscarExercicio, edicaoDoExercicioSelecionado, editarInformacoesExercicio
-import pandas as pd
+from limpeza import clear_screen
 
 console = Console()
 
@@ -14,7 +14,7 @@ def treinos(usuario):
     while True:
         usuarioJson = treinoUsuarioAtualizado()
         bd = usuarioJson[usuario]
-        console.clear()
+        clear_screen()
         console.print(Panel("[bold green]💪 Treinos[/bold green]", expand= False))
         qntItens, mapaOpcoes = listarTreinos(usuario)
         
@@ -74,7 +74,7 @@ def buscarTreino(usuario: str) -> None:
         time.sleep(2)
         while True:
             contador = 0
-            console.clear()
+            clear_screen()
             console.print(Panel("[bold green]💪 Treinos[/bold green]", expand= False))
             opcoesDisponiveis = []   
             
@@ -126,7 +126,7 @@ def treinoSelecionado(dia: str, usuario: str):
         ordenarExercicios(usuario, dia)
         usuarioJson = treinoUsuarioAtualizado()
         bd = usuarioJson[usuario]
-        console.clear()
+        clear_screen()
         for dicionario in bd:
             if dicionario.get(dia):
                 treino = dicionario[dia]
@@ -177,7 +177,7 @@ def criarTreino(usuario: str):
     while True:
         usuarioJson = treinoUsuarioAtualizado()
         bd = usuarioJson[usuario]
-        console.clear()
+        clear_screen()
         dicioAux = {}
         contador = 0
 
@@ -223,7 +223,7 @@ def editarTreino(dia: str, usuario: str):
         ordenarExercicios(usuario, dia)
         usuarioJson = treinoUsuarioAtualizado()
         bd = usuarioJson[usuario]
-        console.clear()
+        clear_screen()
         for dicionario in bd:
             if dicionario.get(dia):
                 treino = dicionario[dia]
@@ -244,11 +244,15 @@ def editarTreino(dia: str, usuario: str):
                 
                     if opcao == maiorID:
                         nomeNovoTreino = console.input("\n[bold cyan]Digite o novo nome do treino: [/bold cyan]")
-                        loading(f"Alterando nome do treino {nome} para {nomeNovoTreino}")
-                        editarNomeTreino(dia, nomeNovoTreino, usuario)
-                        console.print("[bold green]Nome do treino alterado com sucesso![/bold green]")
-                        time.sleep(2)
-                        break
+                        if nomeNovoTreino == "OFF":
+                            console.print("[bold red]Nome indisponível![/bold red]")
+                            break
+                        else:
+                            loading(f"Alterando nome do treino {nome} para {nomeNovoTreino}")
+                            editarNomeTreino(dia, nomeNovoTreino, usuario)
+                            console.print("[bold green]Nome do treino alterado com sucesso![/bold green]")
+                            time.sleep(2)
+                            break
                     elif opcao == (maiorID + 1):
                         buscarExercicio(dia, usuario)
                         break

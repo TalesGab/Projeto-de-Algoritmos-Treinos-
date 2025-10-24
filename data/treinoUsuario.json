@@ -3,16 +3,7 @@
         {
             "DOMINGO": {
                 "nomeTreino": "OFF",
-                "exercicios": [
-                    {
-                        "idExercicio": 1,
-                        "nome": "-",
-                        "nomeDivisao": "-",
-                        "series": "-",
-                        "repeticao": "-",
-                        "peso": "-"
-                    }
-                ]
+                "exercicios": []
             }
         },
         {
@@ -52,7 +43,7 @@
         },
         {
             "QUINTA-FEIRA": {
-                "nomeTreino": "BICEPS",
+                "nomeTreino": "OFF",
                 "exercicios": []
             }
         },
@@ -65,33 +56,15 @@
         {
             "S\u00c1BADO": {
                 "nomeTreino": "OFF",
-                "exercicios": [
-                    {
-                        "idExercicio": 1,
-                        "nomeDivisao": "",
-                        "nome": "",
-                        "repeticao": "",
-                        "series": "",
-                        "peso": ""
-                    }
-                ]
+                "exercicios": []
             }
         }
     ],
     "Jo\u00e3o Paulo": [
         {
             "DOMINGO": {
-                "nomeTreino": "\u00c9 ISSO AI",
-                "exercicios": [
-                    {
-                        "idExercicio": 1,
-                        "nome": "Tr\u00edceps testa",
-                        "nomeDivisao": "Tr\u00edceps",
-                        "series": 3,
-                        "repeticao": 8,
-                        "peso": 40
-                    }
-                ]
+                "nomeTreino": "OFF",
+                "exercicios": []
             }
         },
         {
@@ -108,22 +81,13 @@
         },
         {
             "QUARTA-FEIRA": {
-                "nomeTreino": "COSTAS",
-                "exercicios": [
-                    {
-                        "idExercicio": 1,
-                        "nome": "-",
-                        "nomeDivisao": "-",
-                        "series": "-",
-                        "repeticao": "-",
-                        "peso": "-"
-                    }
-                ]
+                "nomeTreino": "OFF",
+                "exercicios": []
             }
         },
         {
             "QUINTA-FEIRA": {
-                "nomeTreino": "ALEATORIO",
+                "nomeTreino": "OFF",
                 "exercicios": []
             }
         },
@@ -169,16 +133,7 @@
         {
             "S\u00c1BADO": {
                 "nomeTreino": "OFF",
-                "exercicios": [
-                    {
-                        "idExercicio": 1,
-                        "nomeDivisao": "",
-                        "nome": "",
-                        "repeticao": "",
-                        "series": "",
-                        "peso": ""
-                    }
-                ]
+                "exercicios": []
             }
         }
     ],
@@ -191,22 +146,13 @@
         },
         {
             "SEGUNDA-FEIRA": {
-                "nomeTreino": "perna",
-                "exercicios": [
-                    {
-                        "idExercicio": 1,
-                        "nome": "Cadeira extensora",
-                        "nomeDivisao": "Pernas",
-                        "series": 3,
-                        "repeticao": 3,
-                        "peso": 10
-                    }
-                ]
+                "nomeTreino": "OFF",
+                "exercicios": []
             }
         },
         {
             "TER\u00c7A-FEIRA": {
-                "nomeTreino": "Costa dos Deuses",
+                "nomeTreino": "OFF",
                 "exercicios": []
             }
         },
@@ -333,6 +279,50 @@
         {
             "SEGUNDA-FEIRA": {
                 "nomeTreino": "OFF",
+                "exercicios": []
+            }
+        },
+        {
+            "TER\u00c7A-FEIRA": {
+                "nomeTreino": "OFF",
+                "exercicios": []
+            }
+        },
+        {
+            "QUARTA-FEIRA": {
+                "nomeTreino": "OFF",
+                "exercicios": []
+            }
+        },
+        {
+            "QUINTA-FEIRA": {
+                "nomeTreino": "OFF",
+                "exercicios": []
+            }
+        },
+        {
+            "SEXTA-FEIRA": {
+                "nomeTreino": "OFF",
+                "exercicios": []
+            }
+        },
+        {
+            "S\u00c1BADO": {
+                "nomeTreino": "OFF",
+                "exercicios": []
+            }
+        }
+    ],
+    "Loollooll Oll": [
+        {
+            "DOMINGO": {
+                "nomeTreino": "OFF",
+                "exercicios": []
+            }
+        },
+        {
+            "SEGUNDA-FEIRA": {
+                "nomeTreino": "go",
                 "exercicios": []
             }
         },

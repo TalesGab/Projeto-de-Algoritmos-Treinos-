@@ -1,10 +1,7 @@
 import json
-from rich.console import Console
 caminhoTreinosPersonalizados = "data/treinoUsuario.json"
 caminhoUsuarios = "data/usuario.json"
 caminhoTreinosPadroes = "data/exercicios.json"
-
-console = Console()
 
 def treinoUsuarioAtualizado() -> dict:
     with open(caminhoTreinosPersonalizados, 'r', encoding= "UTF-8") as arquivo:
