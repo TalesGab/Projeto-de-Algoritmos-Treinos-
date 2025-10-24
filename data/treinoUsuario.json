@@ -322,8 +322,33 @@
         },
         {
             "SEGUNDA-FEIRA": {
-                "nomeTreino": "go",
-                "exercicios": []
+                "nomeTreino": "2",
+                "exercicios": [
+                    {
+                        "idExercicio": 1,
+                        "nome": "Rosca alternada",
+                        "nomeDivisao": "B\u00edceps",
+                        "series": 2,
+                        "repeticao": 2,
+                        "peso": 2
+                    },
+                    {
+                        "idExercicio": 2,
+                        "nome": "Supino declinado",
+                        "nomeDivisao": "Peito",
+                        "series": 2,
+                        "repeticao": 2,
+                        "peso": 2
+                    },
+                    {
+                        "idExercicio": 3,
+                        "nome": "Rosca concentrada",
+                        "nomeDivisao": "B\u00edceps",
+                        "series": 2,
+                        "repeticao": 2,
+                        "peso": 2
+                    }
+                ]
             }
         },
         {

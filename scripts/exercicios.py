@@ -250,7 +250,7 @@ def editarInformacoesExercicio(nomeTreino: str, idExercicio: int, exerciciosTrei
                             if voltou:
                                 continue
                             else:
-                                treino["nome"] = dicioAuxExercicio[item]
+                                treino["nomeDivisao"] = ''.join(dicioAuxDivisao[num]  for num, nome in dicioAuxDivisao.items() if nome == item)
                                 break
                         elif opcao == (buscar + 1):
                             return exerciciosTreino
@@ -290,7 +290,7 @@ def editarInformacoesExercicio(nomeTreino: str, idExercicio: int, exerciciosTrei
                             if voltou:
                                 continue
                             else:
-                                treino["nome"] = dicioAuxExercicio[item]
+                                treino["nome"] = ''.join(dicioAuxExercicio[numEx]  for numEx, nomeEx in dicioAuxExercicio.items() if nomeEx == item)
                                 escolhasPrimarias = False
                                 break
                         elif opcaoEx == (buscarEx + 1):
@@ -364,6 +364,9 @@ def ordenarExercicios(usuario: str, dia: str) -> None:
         if dicionario.get(dia):
             treino = dicionario[dia]
             break
+
+    if treino["exercicios"] == []:
+        return
     
     listaExercicios = treino["exercicios"].copy()
     treino["exercicios"].clear()
@@ -388,13 +391,13 @@ def buscarDivisaoJSON(dicioAuxDivisao: dict) -> bool | str:
             for key in dicioAuxDivisao.keys():
                 nomeDivisao = dicioAuxDivisao[key]
                 if busca.lower() in nomeDivisao.lower():
-                    divisaoEscolhida.append(divisaoEscolhida) 
+                    divisaoEscolhida.append(nomeDivisao) 
             
             if divisaoEscolhida:
-                IDs = 0
+                opcaoMax = 1
                 for i, divisao in enumerate(divisaoEscolhida):
-                    console.print(f"[yellow]{i}[/yellow] - {divisao}")
-                    IDs += 1 #opçao maxima +=ID(arrumar)
+                    console.print(f"[yellow]{i + 1}[/yellow] - {divisao}")
+                    opcaoMax += 1 #opçao maxima +=ID(arrumar)
             else:
                 console.print("[bold red]⚠ Nenhuma divisão encontrada com essa busca.[/bold red]\n")
                 opcaoMax = 1
@@ -406,8 +409,8 @@ def buscarDivisaoJSON(dicioAuxDivisao: dict) -> bool | str:
                 opcao = int(console.input("\n[bold cyan]Escolha uma opção: [/bold cyan]"))
 
                 if opcao == opcaoMax:
-                    return True
-                elif 1 <= opcao <= IDs:
+                    return True, None
+                elif 1 <= opcao <= opcaoMax:
                     itemEscolhido = divisaoEscolhida[opcao - 1]
                     return False, itemEscolhido
                 else: 
@@ -430,13 +433,13 @@ def buscarExercicioJSON(dicioAuxExercicio: dict, divisao: str) -> bool | str:
             for key in dicioAuxExercicio.keys():
                 nomeExercicio = dicioAuxExercicio[key]
                 if busca.lower() in nomeExercicio.lower():
-                    exercicioEscolhido.append(exercicioEscolhido) 
+                    exercicioEscolhido.append(nomeExercicio) 
             
             if exercicioEscolhido:
-                IDs = 0
+                opcaoMax = 1
                 for i, exercicio in enumerate(exercicioEscolhido):
-                    console.print(f"[yellow]{i}[/yellow] - {exercicio}")
-                    IDs += 1
+                    console.print(f"[yellow]{i + 1}[/yellow] - {exercicio}")
+                    opcaoMax += 1
             else:
                 console.print("[bold red]⚠ Nenhum exercício encontrado com essa busca.[/bold red]\n")
                 opcaoMax = 1
@@ -449,7 +452,7 @@ def buscarExercicioJSON(dicioAuxExercicio: dict, divisao: str) -> bool | str:
 
                 if opcao == opcaoMax:
                     return True, None
-                elif 1 <= opcao <= IDs:
+                elif 1 <= opcao <= opcaoMax:
                     itemEscolhido = exercicioEscolhido[opcao - 1]
                     return False, itemEscolhido
                 else: 
