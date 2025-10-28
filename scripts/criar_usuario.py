@@ -1,6 +1,7 @@
 import json
 import time
 import os
+import re
 from manipulacaoJSON import atualizarTreino
 from rich.console import Console
 from rich.panel import Panel
@@ -26,6 +27,10 @@ def criar_usuario():
             console.print("[bold red]⚠ O nome NÃO deve conter números! Tente Novamente!!![/bold red]")
             time.sleep(2)
             clear_screen()
+        elif not re.match(r'^[A-Za-zÀ-ÿ\s]+$', nome):
+            console.print("[bold red]⚠ O nome NÃO deve conter caracteres especiais! Tente Novamente!!![/bold red]")
+            time.sleep(2)
+            clear_screen()
         else:
             nome = nome.title()
             break
@@ -49,6 +54,7 @@ def criar_usuario():
         except ValueError:
             console.print("[bold red]⚠ Digite apenas números!!![/bold red]")
             time.sleep(2) 
+            clear_screen()
 
     clear_screen()
 
@@ -79,9 +85,11 @@ def criar_usuario():
 
     clear_screen()
     while True:
-        peso = int(console.input("[bold cyan]Digite seu peso(em kg): [/bold cyan]").strip())
         
         try:
+            peso_str = console.input("[bold cyan]Digite seu peso(em kg): [/bold cyan]").strip()
+            peso = int(peso_str)
+
             if peso <= 0:
                 console.print("[bold red]⚠ Peso Inválido! Informe um peso acima de 0!!![/bold red]")
                 time.sleep(2)
