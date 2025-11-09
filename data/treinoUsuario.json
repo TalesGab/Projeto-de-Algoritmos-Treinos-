@@ -2,8 +2,33 @@
     "Tales Gabriel": [
         {
             "DOMINGO": {
-                "nomeTreino": "OFF",
-                "exercicios": []
+                "nomeTreino": "VEM TRANQUILO",
+                "exercicios": [
+                    {
+                        "idExercicio": 1,
+                        "nome": "Agachamento livre",
+                        "nomeDivisao": "Pernas",
+                        "series": 4,
+                        "repeticao": 12,
+                        "peso": 70
+                    },
+                    {
+                        "idExercicio": 2,
+                        "nome": "Leg Press",
+                        "nomeDivisao": "Pernas",
+                        "series": 4,
+                        "repeticao": 10,
+                        "peso": 80
+                    },
+                    {
+                        "idExercicio": 3,
+                        "nome": "Mesa flexora",
+                        "nomeDivisao": "Pernas",
+                        "series": 4,
+                        "repeticao": 10,
+                        "peso": 50
+                    }
+                ]
             }
         },
         {
@@ -140,38 +165,292 @@
     "Kevin Camargo": [
         {
             "DOMINGO": {
-                "nomeTreino": "OFF",
-                "exercicios": []
+                "nomeTreino": "Pernas",
+                "exercicios": [
+                    {
+                        "idExercicio": 1,
+                        "nome": "Agachamento livre",
+                        "nomeDivisao": "Pernas",
+                        "series": 4,
+                        "repeticao": 10,
+                        "peso": 50
+                    },
+                    {
+                        "idExercicio": 2,
+                        "nome": "Leg Press",
+                        "nomeDivisao": "Pernas",
+                        "series": 4,
+                        "repeticao": 12,
+                        "peso": 80
+                    },
+                    {
+                        "idExercicio": 3,
+                        "nome": "Mesa flexora",
+                        "nomeDivisao": "Pernas",
+                        "series": 4,
+                        "repeticao": 10,
+                        "peso": 40
+                    },
+                    {
+                        "idExercicio": 4,
+                        "nome": "Cadeira extensora",
+                        "nomeDivisao": "Pernas",
+                        "series": 4,
+                        "repeticao": 15,
+                        "peso": 40
+                    },
+                    {
+                        "idExercicio": 5,
+                        "nome": "Avan\u00e7o (passada)",
+                        "nomeDivisao": "Pernas",
+                        "series": 3,
+                        "repeticao": 10,
+                        "peso": 10
+                    },
+                    {
+                        "idExercicio": 6,
+                        "nome": "Stiff",
+                        "nomeDivisao": "Pernas",
+                        "series": 3,
+                        "repeticao": 10,
+                        "peso": 40
+                    }
+                ]
             }
         },
         {
             "SEGUNDA-FEIRA": {
-                "nomeTreino": "OFF",
-                "exercicios": []
+                "nomeTreino": "Peito e Triceps",
+                "exercicios": [
+                    {
+                        "idExercicio": 1,
+                        "nome": "Supino reto",
+                        "nomeDivisao": "Peito",
+                        "series": 4,
+                        "repeticao": 10,
+                        "peso": 60
+                    },
+                    {
+                        "idExercicio": 2,
+                        "nome": "Supino inclinado",
+                        "nomeDivisao": "Peito",
+                        "series": 3,
+                        "repeticao": 12,
+                        "peso": 24
+                    },
+                    {
+                        "idExercicio": 3,
+                        "nome": "Crucifixo reto",
+                        "nomeDivisao": "Peito",
+                        "series": 3,
+                        "repeticao": 12,
+                        "peso": 18
+                    },
+                    {
+                        "idExercicio": 4,
+                        "nome": "Tr\u00edceps testa",
+                        "nomeDivisao": "Tr\u00edceps",
+                        "series": 3,
+                        "repeticao": 10,
+                        "peso": 25
+                    },
+                    {
+                        "idExercicio": 5,
+                        "nome": "Mergulho entre bancos",
+                        "nomeDivisao": "Tr\u00edceps",
+                        "series": 3,
+                        "repeticao": 12,
+                        "peso": 0
+                    },
+                    {
+                        "idExercicio": 6,
+                        "nome": "Tr\u00edceps corda",
+                        "nomeDivisao": "Tr\u00edceps",
+                        "series": 3,
+                        "repeticao": 12,
+                        "peso": 30
+                    }
+                ]
             }
         },
         {
             "TER\u00c7A-FEIRA": {
-                "nomeTreino": "OFF",
-                "exercicios": []
+                "nomeTreino": "Costas e Biceps",
+                "exercicios": [
+                    {
+                        "idExercicio": 1,
+                        "nome": "Puxada frente (aberta)",
+                        "nomeDivisao": "Costas",
+                        "series": 4,
+                        "repeticao": 10,
+                        "peso": 55
+                    },
+                    {
+                        "idExercicio": 2,
+                        "nome": "Remada curvada",
+                        "nomeDivisao": "Costas",
+                        "series": 4,
+                        "repeticao": 10,
+                        "peso": 50
+                    },
+                    {
+                        "idExercicio": 3,
+                        "nome": "Remada baixa",
+                        "nomeDivisao": "Costas",
+                        "series": 3,
+                        "repeticao": 12,
+                        "peso": 45
+                    },
+                    {
+                        "idExercicio": 4,
+                        "nome": "Rosca direta",
+                        "nomeDivisao": "B\u00edceps",
+                        "series": 3,
+                        "repeticao": 12,
+                        "peso": 20
+                    },
+                    {
+                        "idExercicio": 5,
+                        "nome": "Rosca alternada",
+                        "nomeDivisao": "B\u00edceps",
+                        "series": 3,
+                        "repeticao": 12,
+                        "peso": 10
+                    },
+                    {
+                        "idExercicio": 6,
+                        "nome": "Rosca concentrada",
+                        "nomeDivisao": "B\u00edceps",
+                        "series": 3,
+                        "repeticao": 10,
+                        "peso": 15
+                    }
+                ]
             }
         },
         {
             "QUARTA-FEIRA": {
-                "nomeTreino": "OFF",
-                "exercicios": []
+                "nomeTreino": "Ombros e Trapezio",
+                "exercicios": [
+                    {
+                        "idExercicio": 1,
+                        "nome": "Desenvolvimento com halteres",
+                        "nomeDivisao": "Ombros",
+                        "series": 4,
+                        "repeticao": 10,
+                        "peso": 20
+                    },
+                    {
+                        "idExercicio": 2,
+                        "nome": "Eleva\u00e7\u00e3o lateral",
+                        "nomeDivisao": "Ombros",
+                        "series": 3,
+                        "repeticao": 12,
+                        "peso": 10
+                    },
+                    {
+                        "idExercicio": 3,
+                        "nome": "Eleva\u00e7\u00e3o frontal",
+                        "nomeDivisao": "Ombros",
+                        "series": 3,
+                        "repeticao": 12,
+                        "peso": 10
+                    },
+                    {
+                        "idExercicio": 4,
+                        "nome": "Encolhimento de ombros",
+                        "nomeDivisao": "Ombros",
+                        "series": 4,
+                        "repeticao": 15,
+                        "peso": 25
+                    }
+                ]
             }
         },
         {
             "QUINTA-FEIRA": {
-                "nomeTreino": "OFF",
-                "exercicios": []
+                "nomeTreino": "Peito e Biceps",
+                "exercicios": [
+                    {
+                        "idExercicio": 1,
+                        "nome": "Supino declinado",
+                        "nomeDivisao": "Peito",
+                        "series": 4,
+                        "repeticao": 12,
+                        "peso": 50
+                    },
+                    {
+                        "idExercicio": 2,
+                        "nome": "Crucifixo reto",
+                        "nomeDivisao": "Peito",
+                        "series": 3,
+                        "repeticao": 12,
+                        "peso": 18
+                    },
+                    {
+                        "idExercicio": 3,
+                        "nome": "Crossover",
+                        "nomeDivisao": "Peito",
+                        "series": 3,
+                        "repeticao": 15,
+                        "peso": 25
+                    },
+                    {
+                        "idExercicio": 4,
+                        "nome": "Rosca direta",
+                        "nomeDivisao": "B\u00edceps",
+                        "series": 4,
+                        "repeticao": 10,
+                        "peso": 22
+                    },
+                    {
+                        "idExercicio": 5,
+                        "nome": "Rosca martelo",
+                        "nomeDivisao": "B\u00edceps",
+                        "series": 4,
+                        "repeticao": 10,
+                        "peso": 22
+                    },
+                    {
+                        "idExercicio": 6,
+                        "nome": "Rosca scott",
+                        "nomeDivisao": "B\u00edceps",
+                        "series": 3,
+                        "repeticao": 10,
+                        "peso": 25
+                    }
+                ]
             }
         },
         {
             "SEXTA-FEIRA": {
-                "nomeTreino": "OFF",
-                "exercicios": []
+                "nomeTreino": "Pernas e Gluteos",
+                "exercicios": [
+                    {
+                        "idExercicio": 1,
+                        "nome": "Cadeira extensora",
+                        "nomeDivisao": "Pernas",
+                        "series": 4,
+                        "repeticao": 12,
+                        "peso": 45
+                    },
+                    {
+                        "idExercicio": 2,
+                        "nome": "Mesa flexora",
+                        "nomeDivisao": "Pernas",
+                        "series": 4,
+                        "repeticao": 12,
+                        "peso": 35
+                    },
+                    {
+                        "idExercicio": 3,
+                        "nome": "Stiff com halteres",
+                        "nomeDivisao": "Gl\u00fateos",
+                        "series": 3,
+                        "repeticao": 10,
+                        "peso": 40
+                    }
+                ]
             }
         },
         {
