@@ -1,10 +1,13 @@
+import pandas as pd
 import time
+import datetime
 import sys
 import json
 import os
 from criar_usuario import criar_usuario
 from rich.console import Console
 from rich.panel import Panel
+from rich.table import Table
 from utils import loading
 from treinos import treinos
 from limpeza import clear_screen
@@ -17,6 +20,7 @@ DATA_DIR = os.path.join(PROJECT_ROOT, "..", "data")
 
 USUARIO_FILE_PATH = os.path.join(DATA_DIR, "usuario.json")
 EXERCICIOS_FILE_PATH = os.path.join(DATA_DIR, "exercicios.json")
+DADOS = "data/treinoUsuario.json"
 
 # ===== Carregamento de arquivos =====
 try:
@@ -138,13 +142,105 @@ def menu_usuario(usuario):
 
 
 # ===== Opções internas =====
+def data_hoje():
+    hoje = datetime.date.today()
+    nmr_dia = hoje.weekday()
+
+    dias = ["Segunda-Feira", "Terça-Feira", "Quarta-Feira", "Quinta-Feira", "Sexta-Feira", "Sábado", "Domingo"]
+
+    return dias[nmr_dia]
+
+def treino_usuario(usuario):
+    if os.path.exists(DADOS):
+        with open(DADOS, "r", encoding="utf-8") as f:
+            dados = json.load(f)
+            return dados.get(usuario["Nome"], [])
+    return []
+
+def mostrar_detalhes_exercicio(ex):
+    clear_screen()
+    df = pd.DataFrame([{
+        "Divisão": ex.get("nomeDivisao", "N/A"),
+        "Séries": ex.get("series", "N/A"),
+        "Repetições": ex.get("repeticao", "N/A"),
+        "Peso (kg)": ex.get("peso", "N/A"),
+    }])
+
+    console.print(Panel(f"🏋️ [bold green]{ex['nome']}[/bold green]", expand=False))
+
+    from rich.table import Table
+    table = Table(show_header=True, header_style="bold cyan")
+    for col in df.columns:
+        table.add_column(col, justify="center")
+
+    for _, row in df.iterrows():
+        table.add_row(
+            str(row["Divisão"]),
+            str(row["Séries"]),
+            str(row["Repetições"]),
+            str(row["Peso (kg)"]),
+        )
+
+    console.print(table)
+    console.input("\nPressione [ENTER] para voltar.")
 
 def treinar(usuario):
-    clear_screen()
-    console.print(Panel("[bold green]🏋️ Iniciando treino...[/bold green]"))
-    time.sleep(2)
-    console.print("[cyan]Função em desenvolvimento...[/cyan]")
-    input("\nPressione Enter para voltar.")
+    DADOS = os.path.join("data", "treinoUsuario.json")
+
+    if not os.path.exists(DADOS):
+        console.print("[bold red]⚠ Nenhum treino encontrado![/bold red]")
+        time.sleep(2)
+        return
+
+    with open(DADOS, "r", encoding="utf-8") as f:
+        todos_treinos = json.load(f)
+
+    nome_usuario = usuario["Nome"]
+
+    if nome_usuario not in todos_treinos:
+        console.print("[bold red]⚠ Nenhum treino cadastrado para este usuário![/bold red]")
+        time.sleep(2)
+        return
+
+    dia = data_hoje()
+    treinos_usuario = todos_treinos[nome_usuario]
+
+    treino_do_dia = None
+    for bloco in treinos_usuario:
+        for dia_json in bloco.keys():
+            if dia_json.strip().lower() == dia.strip().lower():
+                treino_do_dia = bloco[dia_json]
+            break
+        if treino_do_dia:
+            break
+
+
+    if not treino_do_dia:
+        console.print(f"[yellow]⚠ Nenhum treino cadastrado para {dia}![/yellow]")
+        time.sleep(2)
+        return
+
+    while True:
+        clear_screen()
+        console.print(Panel(f"[bold green]{dia}[/bold green]", expand=False))
+        console.print(f"\n[bold cyan]Treino de hoje:[/bold cyan] [bold yellow]{treino_do_dia['nomeTreino']}[/bold yellow]\n")
+
+        exercicios = treino_do_dia["exercicios"]
+
+        for i, ex in enumerate(exercicios, start=1):
+            console.print(f"[cyan]{i}[/cyan] - {ex['nome']}")
+
+        escolha = console.input("\n[bold cyan]Escolha um exercício para ver detalhes[/bold cyan]([bold red]0[/bold red] para voltar): ").strip()
+
+        if escolha == "0":
+            break
+        if not escolha.isdigit() or int(escolha) not in range(1, len(exercicios) + 1):
+            console.print("[red]⚠ Escolha inválida![/red]")
+            time.sleep(1.5)
+            continue
+
+        exercicio_escolhido = exercicios[int(escolha) - 1]
+        mostrar_detalhes_exercicio(exercicio_escolhido)
 
 def mostrar_perfil(usuario):
     clear_screen()
