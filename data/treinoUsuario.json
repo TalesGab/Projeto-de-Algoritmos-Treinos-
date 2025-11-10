@@ -463,8 +463,49 @@
     "1": [
         {
             "DOMINGO": {
-                "nomeTreino": "OFF",
-                "exercicios": []
+                "nomeTreino": "1212",
+                "exercicios": [
+                    {
+                        "idExercicio": 1,
+                        "nome": "Rosca direta",
+                        "nomeDivisao": "B\u00edceps",
+                        "series": 1,
+                        "repeticao": 1,
+                        "peso": 1
+                    },
+                    {
+                        "idExercicio": 2,
+                        "nome": "Rosca alternada",
+                        "nomeDivisao": "B\u00edceps",
+                        "series": 1,
+                        "repeticao": 1,
+                        "peso": 1
+                    },
+                    {
+                        "idExercicio": 3,
+                        "nome": "Rosca martelo",
+                        "nomeDivisao": "B\u00edceps",
+                        "series": 1,
+                        "repeticao": 1,
+                        "peso": 1
+                    },
+                    {
+                        "idExercicio": 4,
+                        "nome": "Rosca concentrada",
+                        "nomeDivisao": "B\u00edceps",
+                        "series": 2,
+                        "repeticao": 2,
+                        "peso": 2
+                    },
+                    {
+                        "idExercicio": 5,
+                        "nome": "Rosca scott",
+                        "nomeDivisao": "B\u00edceps",
+                        "series": 2,
+                        "repeticao": 2,
+                        "peso": 2
+                    }
+                ]
             }
         },
         {

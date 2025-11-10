@@ -219,6 +219,69 @@ def edicaoDoExercicioSelecionado(idExercicio: int, dia: str, usuario: str, nomeE
                         console.print("[red]⚠ Digite um número válido.[/red]")
                         time.sleep(2)
 
+
+def verificarDivisoes(exerciciosTreino: list) -> list:
+    divisoesEscolhidas = []
+
+    pernas = []
+    biceps = []
+    triceps = []
+    gluteos = []
+    costas = []
+    peito = []
+    ombros = []
+    abdomen = []
+    cardio = []
+
+    for i in exerciciosTreino:
+        if i["nomeDivisao"] == "Pernas":
+            pernas.append(i["nome"])
+        if i["nomeDivisao"] == "Bíceps":
+            biceps.append(i["nome"])
+        if i["nomeDivisao"] == "Tríceps":
+            triceps.append(i["nome"])
+        if i["nomeDivisao"] == "Glúteos":
+            gluteos.append(i["nome"])
+        if i["nomeDivisao"] == "Peito":
+            peito.append(i["nome"])
+        if i["nomeDivisao"] == "Costas":
+            costas.append(i["nome"])
+        if i["nomeDivisao"] == "Ombros":
+            ombros.append(i["nome"])
+        if i["nomeDivisao"] == "Abdômen":
+            abdomen.append(i["nome"])
+        if i["nomeDivisao"] == "Cardio":
+                cardio.append(i["nome"])
+    
+    if len(pernas) == 8:
+        divisoesEscolhidas.append("Pernas")
+    if len(biceps) == 5:
+        divisoesEscolhidas.append("Bíceps")
+    if len(triceps) == 5:
+        divisoesEscolhidas.append("Tríceps")
+    if len(gluteos) == 5:
+        divisoesEscolhidas.append("Glúteos")
+    if len(peito) == 6:
+        divisoesEscolhidas.append("Peito")
+    if len(costas) == 6:
+        divisoesEscolhidas.append("Costas")
+    if len(ombros) == 5:
+        divisoesEscolhidas.append("Ombros")
+    if len(abdomen) == 6:
+        divisoesEscolhidas.append("Abdômen")
+    if len(cardio) == 6:
+        divisoesEscolhidas.append("Cardio")
+
+    return divisoesEscolhidas
+
+def verificarExercicios(exerciciosTreino: list) -> list:
+    exercicios = []
+
+    for i in exerciciosTreino:
+        exercicios.append(i["nome"])
+
+    return exercicios
+
 def editarInformacoesExercicio(nomeTreino: str, idExercicio: int, exerciciosTreino: list, eNovo: bool = False, eEdicao: bool = False) -> list:
     
     if eNovo:
@@ -231,10 +294,13 @@ def editarInformacoesExercicio(nomeTreino: str, idExercicio: int, exerciciosTrei
             "peso": ""
         }
     else:
+        exerciciosExistentes = []
         for i in exerciciosTreino:
             for j, valor in i.items():
                 if j == "idExercicio" and valor == idExercicio:
                     treino = i
+                if j == "nome" and i["idExercicio"] != idExercicio:
+                    exerciciosExistentes.append(valor)
 
     FoiProcessadoCardio = False
 
@@ -253,10 +319,14 @@ def editarInformacoesExercicio(nomeTreino: str, idExercicio: int, exerciciosTrei
                         console.print(f"[bold]Divisão atual: {treino['nomeDivisao']}[/bold]\n")
 
                     dicioAuxDivisao = {}
+                    contador = 0
+                    divisoesEscolhidas = verificarDivisoes(exerciciosTreino)
 
-                    for k, divisao in enumerate(bd.keys(), start= 1):
-                        console.print(f"[yellow]{k}[/yellow] - {divisao}")
-                        dicioAuxDivisao[k] = divisao
+                    for divisao in bd.keys():
+                        if not divisao in divisoesEscolhidas:
+                            contador += 1
+                            console.print(f"[yellow]{contador}[/yellow] - {divisao}")
+                            dicioAuxDivisao[contador] = divisao
 
                     buscar = len(dicioAuxDivisao) + 1
 
@@ -293,10 +363,14 @@ def editarInformacoesExercicio(nomeTreino: str, idExercicio: int, exerciciosTrei
                         console.print(f"[bold]Exercício atual: {treino['nome']}[/bold]\n")
 
                     dicioAuxExercicio = {}
+                    contador = 0
+                    exerciciosEscolhidos = verificarExercicios(exerciciosTreino)
 
-                    for l, exercicio in enumerate(bd[treino["nomeDivisao"]], start= 1):
-                        console.print(f"[yellow]{l}[/yellow] - {exercicio}")
-                        dicioAuxExercicio[l] = exercicio
+                    for exercicio in bd[treino["nomeDivisao"]]:
+                        if not exercicio in exerciciosEscolhidos:
+                            contador += 1
+                            console.print(f"[yellow]{contador}[/yellow] - {exercicio}")
+                            dicioAuxExercicio[contador] = exercicio
 
                     buscarEx = len(dicioAuxExercicio) + 1
 
@@ -490,7 +564,7 @@ def buscarDivisaoJSON(dicioAuxDivisao: dict) -> bool | str:
             divisaoEscolhida = []   
             
             for key in dicioAuxDivisao.keys():
-                nomeDivisao = dicioAuxDivisao[key]
+                nomeDivisao = dicioAuxDivisao[key][1]
                 if busca.lower() in nomeDivisao.lower():
                     divisaoEscolhida.append(nomeDivisao) 
             
@@ -498,7 +572,7 @@ def buscarDivisaoJSON(dicioAuxDivisao: dict) -> bool | str:
                 opcaoMax = 1
                 for i, divisao in enumerate(divisaoEscolhida):
                     console.print(f"[yellow]{i + 1}[/yellow] - {divisao}")
-                    opcaoMax += 1 #opçao maxima +=ID(arrumar)
+                    opcaoMax += 1 
             else:
                 console.print("[bold red]⚠ Nenhuma divisão encontrada com essa busca.[/bold red]\n")
                 opcaoMax = 1
@@ -512,7 +586,7 @@ def buscarDivisaoJSON(dicioAuxDivisao: dict) -> bool | str:
                 if opcao == opcaoMax:
                     return True, None
                 elif 1 <= opcao <= opcaoMax:
-                    itemEscolhido = divisaoEscolhida[opcao - 1]
+                    itemEscolhido = divisaoEscolhida[opcao - 1][1]
                     return False, itemEscolhido
                 else: 
                     console.print("[red]⚠ Opção inválida, tente novamente.[/red]")
