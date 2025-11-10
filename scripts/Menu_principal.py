@@ -20,6 +20,7 @@ DATA_DIR = os.path.join(PROJECT_ROOT, "..", "data")
 
 USUARIO_FILE_PATH = os.path.join(DATA_DIR, "usuario.json")
 EXERCICIOS_FILE_PATH = os.path.join(DATA_DIR, "exercicios.json")
+EXERCICIOS_USER_FILE_PATH = os.path.join(DATA_DIR, "treinoUsuario.json")
 DADOS = "data/treinoUsuario.json"
 
 # ===== Carregamento de arquivos =====
@@ -46,6 +47,37 @@ def carregar_usuarios():
                 return []
     return []
 
+# ===== Verificação de Erros =====
+
+def verificarTodosTreinosVazios() -> None:
+    """
+    Verifica silenciosamente todos os usuários e corrige treinos com exercicios vazios
+    """
+    if not os.path.exists(EXERCICIOS_USER_FILE_PATH):
+        return
+
+    with open(EXERCICIOS_USER_FILE_PATH, "r", encoding="utf-8") as f:
+        try:
+            usuarioJson = json.load(f)
+        except json.JSONDecodeError:
+            return
+    
+    correcoes = 0
+
+    for usuarioNome in usuarioJson.keys():
+        lista_treinos = usuarioJson[usuarioNome]
+    
+        for treinoDict in lista_treinos:
+            for dia, treinoInfo in treinoDict.items():
+                exercicios = treinoInfo.get("exercicios", [])
+
+                if isinstance(exercicios, list) and len(exercicios) == 0:
+                    treinoInfo["nomeTreino"] = "OFF"
+                    correcoes += 1
+
+    if correcoes > 0:
+        with open(EXERCICIOS_USER_FILE_PATH, 'w', encoding="UTF-8") as arquivo:
+            json.dump(usuarioJson, arquivo, indent=4, ensure_ascii=False)
 
 # ===== Menus =====
 
