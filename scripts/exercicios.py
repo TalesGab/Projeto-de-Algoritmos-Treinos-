@@ -30,15 +30,34 @@ def listarExercicios(treino: dict, existeFiltro: list = None, eEscolha: int = No
 
     maiorID = 1 + int(df_utilizado["idExercicio"].max()) if not df.empty else 1
 
+    def formatarDetalhes(row):
+        if row["nomeDivisao"].upper() == "CARDIO" and row["nome"].upper() != "POLICHINELO":
+            # Para cardio, prioriza tempo, depois distância
+            if "tempo" in row and pd.notna(row["tempo"]) and row["tempo"] != "":
+                return f"⏱️  {row['tempo']} min"
+            elif "distancia" in row and pd.notna(row["distancia"]) and row["distancia"] != "":
+                return f"↔️  {row['distancia']} km"
+            else:
+                return "Cardio"
+        else:
+            # Para outros exercícios, mostra séries, repetições e peso
+            detalhes = []
+            if "series" in row and pd.notna(row["series"]) and row["series"] != "":
+                detalhes.append(f"📊  {row['series']} séries")
+            if "repeticao" in row and pd.notna(row["repeticao"]) and row["repeticao"] != "":
+                detalhes.append(f"🔄  {row['repeticao']} reps")
+            if "peso" in row and pd.notna(row["peso"]) and row["peso"] != "" and row["nome"].upper() != "POLICHINELO":
+                detalhes.append(f"🏋️  {row['peso']} kg")
+            return " | ".join(detalhes) if detalhes else ""
+    
+    df_utilizado["Detalhes"] = df_utilizado.apply(formatarDetalhes, axis=1)
+
     df_Arrumado = df_utilizado.rename(columns={
         "nome": "Exercício",
         "nomeDivisao": "Divisão",
-        "series": "Séries",
-        "repeticao": "Repetições",
-        "peso": "Peso"
     })
     
-    colunas = ["Exercício", "Divisão", "Séries", "Repetições", "Peso"]
+    colunas = ["Exercício", "Divisão", "Detalhes"]
 
     # Rich Table
     tabela = Table(show_header=True, header_style="bold")
@@ -47,16 +66,17 @@ def listarExercicios(treino: dict, existeFiltro: list = None, eEscolha: int = No
         tabela.add_column("ID", justify="center")
 
     for coluna in colunas:
-        tabela.add_column(coluna, justify="center")
+        if coluna == "Detalhes":
+            tabela.add_column("Detalhes", justify="center", style="cyan")
+        else:
+            tabela.add_column(coluna, justify="center")
 
     for indice, linha in df_Arrumado.iterrows():
         ID = int(linha["idExercicio"])
         linhasUtilizadas = [
             str(linha["Exercício"]),
             str(linha["Divisão"]),
-            str(linha["Séries"]),
-            str(linha["Repetições"]),
-            str(linha["Peso"])
+            str(linha["Detalhes"])
         ]
 
         if mostrarIDs:
@@ -216,7 +236,9 @@ def editarInformacoesExercicio(nomeTreino: str, idExercicio: int, exerciciosTrei
                 if j == "idExercicio" and valor == idExercicio:
                     treino = i
 
-    for key in treino.keys():
+    FoiProcessadoCardio = False
+
+    for key in ["idExercicio", "nome", "nomeDivisao", "series", "repeticao", "peso"]:
         if key == "idExercicio":
             treino[key] = idExercicio
         elif key == "nome": 
@@ -306,52 +328,131 @@ def editarInformacoesExercicio(nomeTreino: str, idExercicio: int, exerciciosTrei
                         console.print("[red]⚠ Digite um número válido.[/red]")
                         time.sleep(2)
 
+        elif key in ["series", "repeticao", "peso"]:
+            if treino["nomeDivisao"] == "Cardio" and treino["nome"] != "Polichinelo" and not FoiProcessadoCardio:
+                
+                FoiProcessadoCardio = True
+                
+                if "series" in treino:
+                    treino.pop("series")
+                if "repeticao" in treino:
+                    treino.pop("repeticao")
+                if "peso" in treino:
+                    treino.pop("peso")
 
-        elif key == "series":
-            while True:
-                clear_screen()
-                console.print(Panel(f"[bold green]{nomeTreino}[/bold green]", expand=False))
-                if not eNovo:
-                    console.print(f"[bold]Repetição atual: {treino['series']}[/bold]\n")
-                try:
-                    opcaoSeries = int(console.input("\n[bold cyan]Digite a quantidade de séries: [/bold cyan]"))   
+                if "tempo" in treino:
+                    treino.pop("tempo")
+                if "distancia" in treino:
+                    treino.pop("distancia")
+
+                if treino["nome"] in ["Escada", "Corda"]:
+                    while True:
+                        clear_screen()
+                        console.print(Panel(f"[bold green]{nomeTreino}[/bold green]", expand=False))
+                        try:
+                            opcaoTempo = int(console.input("\n[bold cyan]Digite o tempo (min): [/bold cyan]"))   
+                            
+                            treino["tempo"] = opcaoTempo
+                            break
+                        except ValueError:
+                            console.print("[red]⚠ Digite um número válido.[/red]")
+                            time.sleep(2)
+                else:
+                    while True:
+                        clear_screen()
+                        console.print(Panel(f"[bold green]{nomeTreino}[/bold green]", expand=False))
+                        console.print(f"[yellow]1[/yellow] - Tempo ⏱️")
+                        console.print(f"[yellow]2[/yellow] - Distância ↔️")
+                        try:
+                            opcaoTempoOuDistancia = int(console.input("\n[bold cyan]Deseja definir um tempo ou uma distância? [/bold cyan]")) 
+
+                            if opcaoTempoOuDistancia == 1:  
+                                try:
+                                    opcaoTempo = int(console.input("\n[bold cyan]Digite o tempo (min): [/bold cyan]"))   
+                                    
+                                    if "distancia" in treino:
+                                        treino.pop("distancia")
+                                    treino["tempo"] = opcaoTempo
+                                    break
+                                except ValueError:
+                                    console.print("[red]⚠ Digite um número válido.[/red]")
+                                    time.sleep(2)
+                            elif opcaoTempoOuDistancia == 2:
+                                try:
+                                    opcaoDistancia = int(console.input("\n[bold cyan]Digite a distância (Km): [/bold cyan]"))   
+                                    
+                                    if "tempo" in treino:
+                                        treino.pop("tempo")
+                                    treino["distancia"] = opcaoDistancia
+                                    break
+                                except ValueError:
+                                    console.print("[red]⚠ Digite um número válido.[/red]")
+                                    time.sleep(2)
+                            else:
+                                console.print("[red]⚠ Opção inválida, tente novamente.[/red]")
+                                time.sleep(2)
+                        except ValueError:
+                            console.print("[red]⚠ Digite um número válido.[/red]")
+                            time.sleep(2)
+                continue
+            elif FoiProcessadoCardio:
+                continue
+            else:
+                if treino.get("series") == None:
+                    treino["series"] = ""
+                if treino.get("repeticao") == None:
+                    treino["repeticao"] = ""
+                if treino.get("peso") == None:
+                    treino["peso"] = ""
+                
+                if key == "series":
+                    while True:
+                        clear_screen()
+                        console.print(Panel(f"[bold green]{nomeTreino}[/bold green]", expand=False))
+                        if not eNovo and treino['series'] != None:
+                            console.print(f"[bold]Séries atuais: {treino['series']}[/bold]\n")
+                        try:
+                            opcaoSeries = int(console.input("\n[bold cyan]Digite a quantidade de séries: [/bold cyan]"))   
+                            
+                            treino["series"] = opcaoSeries
+                            break
+                        except ValueError:
+                            console.print("[red]⚠ Digite um número válido.[/red]")
+                            time.sleep(2)
+
+                elif key == "repeticao":
+                    while True:
+                        clear_screen()
+                        console.print(Panel(f"[bold green]{nomeTreino}[/bold green]", expand=False))
+                        if not eNovo and treino['repeticao'] != None:
+                            console.print(f"[bold]Repetições atuais: {treino['repeticao']}[/bold]\n")
+                        try:
+                            opcaoRept = int(console.input("\n[bold cyan]Digite a quantidade de repetições: [/bold cyan]"))   
+
+                            treino["repeticao"] = opcaoRept
+                            break
+                        except ValueError:
+                            console.print("[red]⚠ Digite um número válido.[/red]")
+                            time.sleep(2)
+
+                elif key == "peso":
+                    if treino["nome"] == "Polichinelo":
+                        treino.pop("peso")
+                    else:
+                        while True:
+                            clear_screen()
+                            console.print(Panel(f"[bold green]{nomeTreino}[/bold green]", expand=False))
+                            if not eNovo and treino['peso'] != None:
+                                console.print(f"[bold]Peso atual: {treino['peso']}[/bold]\n")
+                            try:
+                                opcaoPeso = int(console.input("\n[bold cyan]Digite o peso (Kg): [/bold cyan]"))   
+                                
+                                treino["peso"] = opcaoPeso
+                                break
+                            except ValueError:
+                                console.print("[red]⚠ Digite um número válido.[/red]")
+                                time.sleep(2)
                     
-                    treino["series"] = opcaoSeries
-                    break
-                except ValueError:
-                    console.print("[red]⚠ Digite um número válido.[/red]")
-                    time.sleep(2)
-
-        elif key == "repeticao":
-            while True:
-                clear_screen()
-                console.print(Panel(f"[bold green]{nomeTreino}[/bold green]", expand=False))
-                if not eNovo:
-                    console.print(f"[bold]Repetição atual: {treino['repeticao']}[/bold]\n")
-                try:
-                    opcaoRept = int(console.input("\n[bold cyan]Digite a quantidade de repetições: [/bold cyan]"))   
-
-                    treino["repeticao"] = opcaoRept
-                    break
-                except ValueError:
-                    console.print("[red]⚠ Digite um número válido.[/red]")
-                    time.sleep(2)
-
-        elif key == "peso":
-            while True:
-                clear_screen()
-                console.print(Panel(f"[bold green]{nomeTreino}[/bold green]", expand=False))
-                if not eNovo:
-                    console.print(f"[bold]Repetição atual: {treino['peso']}[/bold]\n")
-                try:
-                    opcaoPeso = int(console.input("\n[bold cyan]Digite o peso (Kg): [/bold cyan]"))   
-                    
-                    treino["peso"] = opcaoPeso
-                    break
-                except ValueError:
-                    console.print("[red]⚠ Digite um número válido.[/red]")
-                    time.sleep(2)
-
     if not eEdicao:
         exerciciosTreino.append(treino)
     return exerciciosTreino
