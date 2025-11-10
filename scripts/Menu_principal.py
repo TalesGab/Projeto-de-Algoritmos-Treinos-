@@ -114,30 +114,40 @@ def menu_principal():
 # ===== Acesso ao usuário =====
 
 def carregar_usuario():
-    clear_screen()  # 🔹 limpa antes de mostrar usuários
-    usuarios = carregar_usuarios()
-
-    if not usuarios:
-        console.print("[red]⚠ Nenhum usuário cadastrado ainda.[/red]")
-        time.sleep(2)
-        return
-
-    console.print("\n[bold blue]👥 Usuários existentes:[/bold blue]")
-    for i, u in enumerate(usuarios, start=1):
-        console.print(f"[yellow]{i}[/yellow] - {u['Nome']} ({u['Idade']} anos)")
-
-    escolha = console.input("\nDigite o número do usuário que deseja acessar: ").strip()
-    if not escolha.isdigit() or int(escolha) not in range(1, len(usuarios)+1):
+    while True:
         clear_screen()
-        console.print("[red]⚠ Opção inválida.[/red]")
-        time.sleep(2)
-        return
+        usuarios = carregar_usuarios()
 
-    usuario = usuarios[int(escolha) - 1]
-    clear_screen()
-    console.print(f"\n[bold green]✅ Bem-vindo, {usuario['Nome']}![/bold green]")
-    time.sleep(1)
-    menu_usuario(usuario)
+        if not usuarios:
+            console.print("[red]⚠ Nenhum usuário cadastrado ainda.[/red]")
+            time.sleep(2)
+            return  # volta pro menu principal
+
+        console.print("\n[bold blue]👥 Usuários existentes:[/bold blue]")
+        for i, u in enumerate(usuarios, start=1):
+            console.print(f"[yellow]{i}[/yellow] - {u['Nome']} ([bold blue]{u['Idade']} anos[/bold blue])")
+
+        console.print("\n[yellow]0[/yellow] - Voltar")
+
+        escolha = console.input("\n[bold cyan]Digite o número do usuário que deseja acessar: [/bold cyan]").strip()
+
+        if escolha == "0":
+            clear_screen()
+            return  # 🔹 volta pro menu principal
+
+        if not escolha.isdigit() or int(escolha) not in range(1, len(usuarios) + 1):
+            clear_screen()
+            console.print("[red]⚠ Opção inválida.[/red]")
+            time.sleep(2)
+            continue
+
+        usuario = usuarios[int(escolha) - 1]
+        clear_screen()
+        console.print(f"\n[bold green]✅ Bem-vindo, {usuario['Nome']}![/bold green]")
+        time.sleep(1)
+        menu_usuario(usuario)
+        break  # sai do loop depois de entrar em um usuário
+
 
 
 # ===== Menu principal do usuário =====
@@ -274,13 +284,44 @@ def treinar(usuario):
         exercicio_escolhido = exercicios[int(escolha) - 1]
         mostrar_detalhes_exercicio(exercicio_escolhido)
 
+#Perfil
+
 def mostrar_perfil(usuario):
     clear_screen()
     console.print(Panel("[bold green]👤 Perfil do Usuário[/bold green]", expand=False))
     console.print(f"Nome: [bold]{usuario['Nome']}[/bold]")
     console.print(f"Idade: [bold]{usuario['Idade']}[/bold]")
     console.print(f"Sexo: [bold]{usuario.get('Sexo', 'Não informado')}[/bold]")
-    input("\nPressione Enter para voltar.")
+
+    console.print("\n[yellow]1[/yellow] - Voltar")
+    console.print("[red]2[/red] - Deletar perfil")
+
+    opcao = console.input("\n[bold cyan]Escolha uma opção: [/bold cyan]").strip()
+
+    if opcao == "1":
+        return  # apenas volta
+    elif opcao == "2":
+        confirmar = console.input("[red]Tem certeza que deseja deletar este perfil? (s/n): [/red]").lower()
+        if confirmar == "s":
+            deletar_usuario(usuario)
+            console.print(f"[green]✅ Usuário {usuario['Nome']} deletado com sucesso![/green]")
+            time.sleep(2)
+            menu_principal()  # volta direto para o menu inicial
+            sys.exit()  # encerra o loop atual
+        else:
+            console.print("[yellow]Operação cancelada.[/yellow]")
+            time.sleep(1.5)
+    else:
+        console.print("[red]⚠ Opção inválida![/red]")
+        time.sleep(1.5)
+
+def deletar_usuario(usuario):
+    usuarios = carregar_usuarios()
+    usuarios = [u for u in usuarios if u['Nome'] != usuario['Nome']]
+
+    with open(USUARIO_FILE_PATH, "w", encoding="utf-8") as f:
+        json.dump(usuarios, f, indent=4, ensure_ascii=False)
+
 
 # ===== Execução =====
 

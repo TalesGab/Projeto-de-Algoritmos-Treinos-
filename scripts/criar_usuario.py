@@ -179,7 +179,7 @@ def criar_usuario():
     novo_usuario = {
         "Nome": nome,
         "Idade": idade,
-        "Sexualidade": sexo,
+        "Sexo": sexo,
         "Peso": peso,
         "Objetivo": obj,
         "Lesões": lesoes_usuario

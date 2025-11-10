@@ -2,7 +2,7 @@
     {
         "Nome": "Kevin Camargo",
         "Idade": 21,
-        "Sexualidade": "Masculino",
+        "Sexo": "Masculino",
         "Peso": "69",
         "Objetivo": "Ganhar Massa Muscular(Hipertrofia)",
         "Lesões": [
@@ -12,7 +12,7 @@
     {
         "Nome": "Tales Gabriel",
         "Idade": 20,
-        "Sexualidade": "Masculino",
+        "Sexo": "Masculino",
         "Peso": "69",
         "Objetivo": "Perder Peso / Reduzir Gordura Corporal",
         "Lesões": [
@@ -22,7 +22,7 @@
     {
         "Nome": "João Paulo",
         "Idade": 30,
-        "Sexualidade": "Masculino",
+        "Sexo": "Masculino",
         "Peso": "66",
         "Objetivo": "Treinos para Performance Esportiva Específica",
         "Lesões": [
@@ -30,19 +30,9 @@
         ]
     },
     {
-        "Nome": "1",
-        "Idade": 1,
-        "Sexualidade": "Indefinido",
-        "Peso": "o",
-        "Objetivo": "Ganhar Massa Muscular(Hipertrofia)",
-        "Lesões": [
-            "Nenhuma lesão relatada"
-        ]
-    },
-    {
         "Nome": "Kevin Loko",
         "Idade": 18,
-        "Sexualidade": "Masculino",
+        "Sexo": "Masculino",
         "Peso": "59",
         "Objetivo": "Perder Peso / Reduzir Gordura Corporal",
         "Lesões": [
@@ -56,30 +46,12 @@
     {
         "Nome": "Daniel Pinheiro",
         "Idade": 60,
-        "Sexualidade": "Masculino",
+        "Sexo": "Masculino",
         "Peso": 69,
         "Objetivo": "Ganhar Massa Muscular(Hipertrofia)",
         "Lesões": [
             "Tendinite patelar (joelho de saltador)",
             "Hérnia de disco"
-        ]
-    },
-    {
-        "Nome": "Loollooll Oll",
-        "Idade": 18,
-        "Sexualidade": "Indefinido",
-        "Peso": 3,
-        "Objetivo": "Treinos para Performance Esportiva Específica",
-        "Lesões": [
-            "Tendinite patelar (joelho de saltador)",
-            "Condromalácia patelar",
-            "Lombalgia (dor lombar)",
-            "Hérnia de disco",
-            "Tendinite do manguito rotador",
-            "Bursite no ombro",
-            "Entorse de tornozelo",
-            "Epicondilite (cotovelo de tenista)",
-            "Distensão muscular"
         ]
     }
 ]
