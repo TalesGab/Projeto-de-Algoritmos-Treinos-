@@ -4,6 +4,7 @@ import datetime
 import sys
 import json
 import os
+import numpy as np
 from criar_usuario import criar_usuario
 from rich.console import Console
 from rich.panel import Panel
@@ -34,18 +35,63 @@ except FileNotFoundError:
 # ===== Funções base =====
 
 def carregar_usuarios():
-    if os.path.exists(USUARIO_FILE_PATH):
-        with open(USUARIO_FILE_PATH, "r", encoding="utf-8") as f:
-            try:
-                usuarios = json.load(f)
-                if isinstance(usuarios, dict):
-                    usuarios = [usuarios]
-                elif not isinstance(usuarios, list):
-                    usuarios = []
-                return usuarios
-            except json.JSONDecodeError:
-                return []
-    return []
+    clear_screen()
+    caminho = "data/usuario.json"
+
+    if not os.path.exists(caminho):
+        console.print("[bold red]⚠ Nenhum usuário cadastrado![/bold red]")
+        time.sleep(2)
+        return
+
+    with open(caminho, "r", encoding="utf-8") as arq:
+        usuarios = json.load(arq)
+
+    if not usuarios:
+        console.print("[bold red]⚠ Nenhum usuário encontrado![/bold red]")
+        time.sleep(2)
+        return
+
+    console.print(Panel("[bold magenta]Escolha um usuário para entrar:[/bold magenta]", expand=False))
+    for i, user in enumerate(usuarios, start=1):
+        console.print(f"[yellow]{i}[/yellow] - {user['Nome']} [blue]({user['Idade']} anos)[/blue]")
+
+    console.print("\n[cyan]0 - Voltar[/cyan]")
+
+    while True:
+        try:
+            opc = int(console.input("[bold cyan]Digite o número do usuário: [/bold cyan]"))
+            if opc == 0:
+                return  # Volta para o menu anterior
+            elif 1 <= opc <= len(usuarios):
+                usuario = usuarios[opc - 1]
+                break
+            else:
+                console.print("[red]⚠ Opção inválida![/red]")
+        except ValueError:
+            console.print("[red]⚠ Digite apenas números![/red]")
+
+    clear_screen()
+    console.print(Panel(f"[bold magenta]Bem-vindo, {usuario['Nome']}![/bold magenta]\nDigite sua senha para continuar:", expand=False))
+
+    # === VERIFICAÇÃO DA SENHA ===
+    tentativas = 3
+    while tentativas > 0:
+        senha_digitada = console.input("[bold cyan]Senha: [/bold cyan]").strip()
+        senha_salva = usuario.get("Senha", "")
+
+        if senha_digitada == senha_salva:
+            console.print("[bold green]✅ Acesso permitido![/bold green]")
+            time.sleep(1)
+            menu_usuario(usuario)  # Vai direto para o menu do usuário
+            return
+        else:
+            tentativas -= 1
+            console.print(f"[red]❌ Senha incorreta! Tentativas restantes: {tentativas}[/red]")
+
+    console.print("[bold red]🚫 Acesso negado![/bold red]")
+    time.sleep(2)
+    return
+
 
 # ===== Verificação de Erros =====
 
