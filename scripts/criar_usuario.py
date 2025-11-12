@@ -11,71 +11,16 @@ console = Console()
 
 def criar_usuario():   
     clear_screen()
+    etapas = ["nome", "idade", "sexo", "peso", "objetivo", "lesoes", "senha"]
+    i = 0
 
-    while True:
-        nome = console.input("[bold cyan]Digite seu Nome e Sobrenome: [/bold cyan]")
-        if len(nome) < 3 or len(nome.split()) < 2 or any(char.isdigit() for char in nome) or not re.match(r'^[A-Za-zÀ-ÿ\s]+$', nome):
-            console.print("[bold red]⚠ Nome inválido! Tente novamente.[/bold red]")
-            time.sleep(2)
-            clear_screen()
-        else:
-            nome = nome.title()
-            break
-
-    clear_screen()
-
-    while True:
-        try:
-            idade = int(console.input("[bold cyan]Digite sua Idade: [/bold cyan] "))
-            if idade < 18:
-                console.print("[bold red]⚠ Idade mínima é 18 anos![/bold red]")
-            elif idade > 150:
-                console.print("[bold red]⚠ Idade inválida![/bold red]")
-            else:
-                break
-        except ValueError:
-            console.print("[bold red]⚠ Digite apenas números![/bold red]")
-        time.sleep(2)
-        clear_screen()
-
-    clear_screen()
-
-    while True:
-        console.print("[yellow]1[/yellow] - Masculino")
-        console.print("[yellow]2[/yellow] - Feminino")
-        console.print("[yellow]3[/yellow] - Indefinido")
-        try:
-            opc = int(console.input("[bold cyan]Escolha o número do seu sexo: [/bold cyan]"))
-            if opc == 1:
-                sexo = "Masculino"
-                break
-            elif opc == 2:
-                sexo = "Feminino"
-                break
-            elif opc == 3:
-                sexo = "Indefinido"
-                break
-            else:
-                raise ValueError
-        except ValueError:
-            console.print("[bold red]⚠ Opção inválida![/bold red]")
-        time.sleep(2)
-        clear_screen()
-
-    clear_screen()
-
-    while True:
-        try:
-            peso = int(console.input("[bold cyan]Digite seu peso (kg): [/bold cyan]").strip())
-            if peso <= 0 or peso > 500:
-                raise ValueError
-            break
-        except ValueError:
-            console.print("[bold red]⚠ Peso inválido![/bold red]")
-            time.sleep(2)
-            clear_screen()
-
-    clear_screen()
+    nome = ""
+    idade = 0
+    sexo = ""
+    peso = 0
+    obj = ""
+    lesoes_usuario = []
+    senha = ""
 
     objetivos = [
         "Ganhar Massa Muscular (Hipertrofia)",
@@ -83,54 +28,156 @@ def criar_usuario():
         "Melhorar Saúde e Bem-estar Geral",
         "Treinos para Performance Esportiva Específica"
     ]
-    while True:
-        console.print(Panel("[bold magenta]Escolha seu objetivo:[/bold magenta]", expand=False))
-        for i, obj_txt in enumerate(objetivos, 1):
-            console.print(f"[yellow]{i}[/yellow] - {obj_txt}")
-        try:
-            opc = int(console.input("[bold cyan]Número da opção: [/bold cyan]"))
-            obj = objetivos[opc - 1]
-            break
-        except (ValueError, IndexError):
-            console.print("[bold red]⚠ Opção inválida![/bold red]")
-            time.sleep(2)
-            clear_screen()
 
-    clear_screen()
+    while i < len(etapas):
+        etapa = etapas[i]
 
-    console.print(Panel("[bold magenta]Você possui alguma lesão?[/bold magenta]", expand=False))
-    lesoes_comuns = [
-        "Tendinite patelar", "Lombalgia", "Hérnia de disco", "Bursite no ombro",
-        "Entorse de tornozelo", "Epicondilite", "Distensão muscular"
-    ]
-    lesoes_usuario = []
-    for lesao in lesoes_comuns:
-        resp = console.input(f"[yellow]{lesao}? (s/n): [/yellow]").strip().lower()
-        if resp == "s":
-            lesoes_usuario.append(lesao)
-    if not lesoes_usuario:
-        lesoes_usuario.append("Nenhuma lesão relatada")
+        # --- Nome ---
+        if etapa == "nome":
+            nome = console.input("[bold cyan]Digite seu Nome e Sobrenome: [/bold cyan]").strip()
+            if nome.lower() == "voltar":
+                console.print("[red]⚠ Já está na primeira etapa![/red]")
+                time.sleep(1)
+                continue
+            if len(nome) < 3 or len(nome.split()) < 2 or any(char.isdigit() for char in nome) or not re.match(r'^[A-Za-zÀ-ÿ\s]+$', nome):
+                console.print("[bold red]⚠ Nome inválido! Tente novamente.[/bold red]")
+                time.sleep(2)
+                clear_screen()
+            else:
+                nome = nome.title()
+                i += 1
+                clear_screen()
 
-    clear_screen()
+        # --- Idade ---
+        elif etapa == "idade":
+            idade_input = console.input("[bold cyan]Digite sua Idade ('voltar' para corrigir): [/bold cyan]").strip()
+            if idade_input.lower() == "voltar":
+                i -= 1
+                clear_screen()
+                continue
+            try:
+                idade = int(idade_input)
+                if idade < 18:
+                    console.print("[bold red]⚠ Idade mínima é 18 anos![/bold red]")
+                elif idade > 150:
+                    console.print("[bold red]⚠ Idade inválida![/bold red]")
+                else:
+                    i += 1
+                    clear_screen()
+            except ValueError:
+                console.print("[bold red]⚠ Digite apenas números![/bold red]")
+            time.sleep(1)
 
-    # Criar senha simples
-    while True:
-        senha = console.input("[bold cyan]Crie uma senha (mínimo 4 caracteres): [/bold cyan]").strip()
-        if len(senha) < 4:
-            console.print("[red]⚠ Senha muito curta![/red]")
-            time.sleep(2)
-            clear_screen()
-            continue
-        confirmar = console.input("[bold cyan]Confirme sua senha: [/bold cyan]").strip()
-        if senha != confirmar:
-            console.print("[red]⚠ As senhas não coincidem![/red]")
-            time.sleep(2)
-            clear_screen()
-        else:
-            break
+        # --- Sexo ---
+        elif etapa == "sexo":
+            console.print("[yellow]1[/yellow] - Masculino")
+            console.print("[yellow]2[/yellow] - Feminino")
+            console.print("[yellow]3[/yellow] - Indefinido")
+            opc = console.input("[bold cyan]Escolha o número do seu sexo ('voltar' para corrigir): [/bold cyan]").strip()
+            if opc.lower() == "voltar":
+                i -= 1
+                clear_screen()
+                continue
+            try:
+                opc = int(opc)
+                if opc == 1:
+                    sexo = "Masculino"
+                elif opc == 2:
+                    sexo = "Feminino"
+                elif opc == 3:
+                    sexo = "Indefinido"
+                else:
+                    raise ValueError
+                i += 1
+                clear_screen()
+            except ValueError:
+                console.print("[bold red]⚠ Opção inválida![/bold red]")
+                time.sleep(1)
+                clear_screen()
 
-    clear_screen()
+        # --- Peso ---
+        elif etapa == "peso":
+            peso_input = console.input("[bold cyan]Digite seu peso (kg) ('voltar' para corrigir): [/bold cyan]").strip()
+            if peso_input.lower() == "voltar":
+                i -= 1
+                clear_screen()
+                continue
+            try:
+                peso = float(peso_input)
+                if peso <= 0 or peso > 500:
+                    raise ValueError
+                i += 1
+                clear_screen()
+            except ValueError:
+                console.print("[bold red]⚠ Peso inválido![/bold red]")
+                time.sleep(1)
+                clear_screen()
 
+        # --- Objetivo ---
+        elif etapa == "objetivo":
+            console.print(Panel("[bold magenta]Escolha seu objetivo:[/bold magenta]", expand=False))
+            for idx, o in enumerate(objetivos, 1):
+                console.print(f"[yellow]{idx}[/yellow] - {o}")
+            opc = console.input("[bold cyan]Número da opção ('voltar' para corrigir): [/bold cyan]").strip()
+            if opc.lower() == "voltar":
+                i -= 1
+                clear_screen()
+                continue
+            try:
+                obj = objetivos[int(opc) - 1]
+                i += 1
+                clear_screen()
+            except (ValueError, IndexError):
+                console.print("[bold red]⚠ Opção inválida![/bold red]")
+                time.sleep(1)
+                clear_screen()
+
+        # --- Lesões ---
+        elif etapa == "lesoes":
+            console.print(Panel("[bold magenta]Você possui alguma lesão?[/bold magenta]\n[cyan]Digite 'voltar' para corrigir o objetivo.[/cyan]", expand=False))
+            lesoes_comuns = [
+                "Tendinite patelar", "Lombalgia", "Hérnia de disco", "Bursite no ombro",
+                "Entorse de tornozelo", "Epicondilite", "Distensão muscular"
+            ]
+            lesoes_usuario = []
+            for lesao in lesoes_comuns:
+                resp = console.input(f"[yellow]{lesao}? (s/n): [/yellow]").strip().lower()
+                if resp == "voltar":
+                    i -= 1
+                    clear_screen()
+                    break
+                if resp == "s":
+                    lesoes_usuario.append(lesao)
+            else:
+                if not lesoes_usuario:
+                    lesoes_usuario.append("Nenhuma lesão relatada")
+                i += 1
+                clear_screen()
+                continue
+
+        # --- Senha ---
+        elif etapa == "senha":
+            senha = console.input("[bold cyan]Crie uma senha (mínimo 4 caracteres, 'voltar' para corrigir): [/bold cyan]").strip()
+            if senha.lower() == "voltar":
+                i -= 1
+                clear_screen()
+                continue
+            if len(senha) < 4:
+                console.print("[red]⚠ Senha muito curta![/red]")
+                time.sleep(1)
+                clear_screen()
+                continue
+
+            confirmar = console.input("[bold cyan]Confirme sua senha: [/bold cyan]").strip()
+            if confirmar != senha:
+                console.print("[red]⚠ As senhas não coincidem![/red]")
+                time.sleep(1)
+                clear_screen()
+            else:
+                i += 1
+                clear_screen()
+
+    # --- Finalização ---
     novo_usuario = {
         "Nome": nome,
         "Idade": idade,
@@ -138,7 +185,7 @@ def criar_usuario():
         "Peso": peso,
         "Objetivo": obj,
         "Lesões": lesoes_usuario,
-        "Senha": senha  # 👈 agora salva a senha simples
+        "Senha": senha
     }
 
     treino_usuario = [
@@ -168,3 +215,4 @@ def criar_usuario():
 
     atualizarTreino(treino_usuario, nome)
     console.print("[bold green]✅ Usuário criado com sucesso![/bold green]")
+    time.sleep(2)

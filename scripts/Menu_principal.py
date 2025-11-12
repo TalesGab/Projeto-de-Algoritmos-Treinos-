@@ -70,8 +70,27 @@ def carregar_usuarios():
         except ValueError:
             console.print("[red]⚠ Digite apenas números![/red]")
 
-    clear_screen()
-    console.print(Panel(f"[bold magenta]Bem-vindo, {usuario['Nome']}![/bold magenta]\nDigite sua senha para continuar:", expand=False))
+    # ===== LOGIN COM OPÇÃO DE VOLTAR =====
+    while True:
+        clear_screen()
+        console.print(Panel(f"[bold magenta]Bem-vindo, {usuario['Nome']}![/bold magenta]\nDigite sua senha para continuar:", expand=False))
+        console.print("[yellow]Digite 0 para voltar[/yellow]\n")
+
+        senha_digitada = console.input("[bold cyan]Senha: [/bold cyan]").strip()
+        if senha_digitada == "0":
+            clear_screen()
+            return  # 🔹 Volta para a escolha de usuário
+
+        senha_salva = usuario.get("Senha", "")
+
+        if senha_digitada == senha_salva:
+            console.print("[bold green]✅ Acesso permitido![/bold green]")
+            time.sleep(1)
+            menu_usuario(usuario)
+            return
+        else:
+            console.print("[red]❌ Senha incorreta! Tente novamente.[/red]")
+            time.sleep(1.5)
 
     # === VERIFICAÇÃO DA SENHA ===
     tentativas = 3
