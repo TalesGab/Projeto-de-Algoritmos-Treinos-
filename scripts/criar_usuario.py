@@ -9,6 +9,16 @@ from limpeza import clear_screen
 
 console = Console()
 
+# Função de carregamento limpa e centralizada
+def carregando():
+    clear_screen()
+    console.print("\n[bold cyan]Carregando[/bold cyan]", end="", justify="center")
+    for _ in range(3):
+        time.sleep(0.5)
+        console.print(".", end="", style="bold cyan", justify="center")
+    time.sleep(0.4)
+    clear_screen()
+
 def criar_usuario():   
     clear_screen()
     etapas = ["nome", "idade", "sexo", "peso", "objetivo", "lesoes", "senha"]
@@ -31,52 +41,61 @@ def criar_usuario():
 
     while i < len(etapas):
         etapa = etapas[i]
+        clear_screen()
 
         # --- Nome ---
         if etapa == "nome":
-            nome = console.input("[bold cyan]Digite seu Nome e Sobrenome: [/bold cyan]").strip()
+            console.print(Panel("[bold magenta]Etapa 1 de 7[/bold magenta]\nDigite seu [cyan]Nome e Sobrenome[/cyan].\n[grey58](Digite 'voltar' para cancelar)[/grey58]", expand=False))
+            nome = console.input("[bold cyan]→ [/bold cyan]").strip()
             if nome.lower() == "voltar":
                 console.print("[red]⚠ Já está na primeira etapa![/red]")
                 time.sleep(1)
                 continue
             if len(nome) < 3 or len(nome.split()) < 2 or any(char.isdigit() for char in nome) or not re.match(r'^[A-Za-zÀ-ÿ\s]+$', nome):
-                console.print("[bold red]⚠ Nome inválido! Tente novamente.[/bold red]")
-                time.sleep(2)
                 clear_screen()
+                console.print("[bold red]⚠ Nome inválido! Tente novamente.[/bold red]")
+                time.sleep(1.5)
             else:
                 nome = nome.title()
+                carregando()
                 i += 1
-                clear_screen()
 
         # --- Idade ---
         elif etapa == "idade":
-            idade_input = console.input("[bold cyan]Digite sua Idade ('voltar' para corrigir): [/bold cyan]").strip()
+            console.print(Panel("[bold magenta]Etapa 2 de 7[/bold magenta]\nDigite sua [cyan]Idade[/cyan].\n[grey58](Digite 'voltar' para voltar à etapa anterior)[/grey58]", expand=False))
+            idade_input = console.input("[bold cyan]→ [/bold cyan]").strip()
             if idade_input.lower() == "voltar":
                 i -= 1
-                clear_screen()
+                carregando()
                 continue
             try:
                 idade = int(idade_input)
                 if idade < 18:
-                    console.print("[bold red]⚠ Idade mínima é 18 anos![/bold red]")
-                elif idade > 150:
-                    console.print("[bold red]⚠ Idade inválida![/bold red]")
-                else:
-                    i += 1
                     clear_screen()
+                    console.print("[bold red]⚠ Idade mínima é 18 anos![/bold red]")
+                    time.sleep(1.5)
+                elif idade > 150:
+                    clear_screen()
+                    console.print("[bold red]⚠ Idade inválida![/bold red]")
+                    time.sleep(1.5)
+                else:
+                    carregando()
+                    i += 1
             except ValueError:
+                clear_screen()
                 console.print("[bold red]⚠ Digite apenas números![/bold red]")
-            time.sleep(1)
+                time.sleep(1.5)
 
         # --- Sexo ---
         elif etapa == "sexo":
+            console.print(Panel("[bold magenta]Etapa 3 de 7[/bold magenta]\nEscolha seu [cyan]sexo[/cyan]:\n[grey58](Digite 'voltar' para voltar à etapa anterior)[/grey58]", expand=False))
             console.print("[yellow]1[/yellow] - Masculino")
             console.print("[yellow]2[/yellow] - Feminino")
             console.print("[yellow]3[/yellow] - Indefinido")
-            opc = console.input("[bold cyan]Escolha o número do seu sexo ('voltar' para corrigir): [/bold cyan]").strip()
+            opc = console.input("[bold cyan]→ [/bold cyan]").strip()
             if opc.lower() == "voltar":
                 i -= 1
-                clear_screen()
+                carregando()
                 continue
             try:
                 opc = int(opc)
@@ -88,94 +107,105 @@ def criar_usuario():
                     sexo = "Indefinido"
                 else:
                     raise ValueError
+                carregando()
                 i += 1
-                clear_screen()
             except ValueError:
-                console.print("[bold red]⚠ Opção inválida![/bold red]")
-                time.sleep(1)
                 clear_screen()
+                console.print("[bold red]⚠ Opção inválida![/bold red]")
+                time.sleep(1.5)
 
         # --- Peso ---
         elif etapa == "peso":
-            peso_input = console.input("[bold cyan]Digite seu peso (kg) ('voltar' para corrigir): [/bold cyan]").strip()
+            console.print(Panel("[bold magenta]Etapa 4 de 7[/bold magenta]\nDigite seu [cyan]peso (kg)[/cyan].\n[grey58](Digite 'voltar' para voltar à etapa anterior)[/grey58]", expand=False))
+            peso_input = console.input("[bold cyan]→ [/bold cyan]").strip()
             if peso_input.lower() == "voltar":
                 i -= 1
-                clear_screen()
+                carregando()
                 continue
             try:
                 peso = float(peso_input)
                 if peso <= 0 or peso > 500:
                     raise ValueError
+                carregando()
                 i += 1
-                clear_screen()
             except ValueError:
-                console.print("[bold red]⚠ Peso inválido![/bold red]")
-                time.sleep(1)
                 clear_screen()
+                console.print("[bold red]⚠ Peso inválido![/bold red]")
+                time.sleep(1.5)
 
         # --- Objetivo ---
         elif etapa == "objetivo":
-            console.print(Panel("[bold magenta]Escolha seu objetivo:[/bold magenta]", expand=False))
+            console.print(Panel("[bold magenta]Etapa 5 de 7[/bold magenta]\nEscolha seu [cyan]objetivo[/cyan]:\n[grey58](Digite 'voltar' para voltar à etapa anterior)[/grey58]", expand=False))
             for idx, o in enumerate(objetivos, 1):
                 console.print(f"[yellow]{idx}[/yellow] - {o}")
-            opc = console.input("[bold cyan]Número da opção ('voltar' para corrigir): [/bold cyan]").strip()
+            opc = console.input("[bold cyan]→ [/bold cyan]").strip()
             if opc.lower() == "voltar":
                 i -= 1
-                clear_screen()
+                carregando()
                 continue
             try:
                 obj = objetivos[int(opc) - 1]
+                carregando()
                 i += 1
-                clear_screen()
             except (ValueError, IndexError):
-                console.print("[bold red]⚠ Opção inválida![/bold red]")
-                time.sleep(1)
                 clear_screen()
+                console.print("[bold red]⚠ Opção inválida![/bold red]")
+                time.sleep(1.5)
 
         # --- Lesões ---
         elif etapa == "lesoes":
-            console.print(Panel("[bold magenta]Você possui alguma lesão?[/bold magenta]\n[cyan]Digite 'voltar' para corrigir o objetivo.[/cyan]", expand=False))
+            console.print(Panel("[bold magenta]Etapa 6 de 7[/bold magenta]\nVocê possui alguma [cyan]lesão[/cyan]?\nDigite 'voltar' para voltar ao objetivo.", expand=False))
             lesoes_comuns = [
-                "Tendinite patelar", "Lombalgia", "Hérnia de disco", "Bursite no ombro",
-                "Entorse de tornozelo", "Epicondilite", "Distensão muscular"
+                "Tendinite patelar (joelho de saltador)",
+                "Lombalgia (dor lombar crônica)",
+                "Hérnia de disco (coluna vertebral)",
+                "Bursite (ombro)",
+                "Entorse (tornozelo)",
+                "Epicondilite (cotovelo de tenista)",
+                "Distensão muscular (alongamento excessivo)"
             ]
             lesoes_usuario = []
             for lesao in lesoes_comuns:
-                resp = console.input(f"[yellow]{lesao}? (s/n): [/yellow]").strip().lower()
+                resp = console.input(f"[yellow]{lesao}[/yellow]? (s/n): ").strip().lower()
                 if resp == "voltar":
                     i -= 1
-                    clear_screen()
+                    carregando()
                     break
                 if resp == "s":
-                    lesoes_usuario.append(lesao)
+                    lesao_limpa = re.sub(r"\s*\(.*?\)", "", lesao).strip()
+                    lesoes_usuario.append(lesao_limpa)
             else:
                 if not lesoes_usuario:
                     lesoes_usuario.append("Nenhuma lesão relatada")
+                carregando()
                 i += 1
-                clear_screen()
                 continue
 
         # --- Senha ---
         elif etapa == "senha":
-            senha = console.input("[bold cyan]Crie uma senha (mínimo 4 caracteres, 'voltar' para corrigir): [/bold cyan]").strip()
+            console.print(Panel("[bold magenta]Etapa 7 de 7[/bold magenta]\nCrie uma [cyan]senha[/cyan] para sua conta.\n[grey58](Digite 'voltar' para voltar à etapa anterior)[/grey58]", expand=False))
+            senha = console.input("[bold cyan]→ [/bold cyan]").strip()
             if senha.lower() == "voltar":
                 i -= 1
-                clear_screen()
+                carregando()
                 continue
             if len(senha) < 4:
+                clear_screen()
                 console.print("[red]⚠ Senha muito curta![/red]")
-                time.sleep(1)
-                clear_screen()
+                time.sleep(1.5)
                 continue
-
             confirmar = console.input("[bold cyan]Confirme sua senha: [/bold cyan]").strip()
+            if confirmar.lower() == "voltar":
+                i -= 1
+                carregando()
+                continue
             if confirmar != senha:
+                clear_screen()
                 console.print("[red]⚠ As senhas não coincidem![/red]")
-                time.sleep(1)
-                clear_screen()
-            else:
-                i += 1
-                clear_screen()
+                time.sleep(1.5)
+                continue
+            carregando()
+            i += 1
 
     # --- Finalização ---
     novo_usuario = {
@@ -198,8 +228,9 @@ def criar_usuario():
         {"SÁBADO": {"nomeTreino": "OFF", "exercicios": []}}
     ]
 
-    if os.path.exists("data/usuario.json"):
-        with open("data/usuario.json", "r", encoding="utf-8") as arq:
+    caminho = "data/usuario.json"
+    if os.path.exists(caminho):
+        with open(caminho, "r", encoding="utf-8") as arq:
             try:
                 usuarios = json.load(arq)
                 if not isinstance(usuarios, list):
@@ -210,9 +241,10 @@ def criar_usuario():
         usuarios = []
 
     usuarios.append(novo_usuario)
-    with open("data/usuario.json", "w", encoding="utf-8") as arq:
+    with open(caminho, "w", encoding="utf-8") as arq:
         json.dump(usuarios, arq, ensure_ascii=False, indent=4)
 
     atualizarTreino(treino_usuario, nome)
+    carregando()
     console.print("[bold green]✅ Usuário criado com sucesso![/bold green]")
     time.sleep(2)

@@ -39,7 +39,7 @@ def carregar_usuarios():
     caminho = "data/usuario.json"
 
     if not os.path.exists(caminho):
-        console.print("[bold red]⚠ Nenhum usuário cadastrado![/bold red]")
+        console.print("[bold red]⚠ Erro![/bold red]")
         time.sleep(2)
         return
 
@@ -47,7 +47,7 @@ def carregar_usuarios():
         usuarios = json.load(arq)
 
     if not usuarios:
-        console.print("[bold red]⚠ Nenhum usuário encontrado![/bold red]")
+        console.print("[bold red]⚠ Voltando![/bold red]")
         time.sleep(2)
         return
 
@@ -184,7 +184,7 @@ def carregar_usuario():
         usuarios = carregar_usuarios()
 
         if not usuarios:
-            console.print("[red]⚠ Nenhum usuário cadastrado ainda.[/red]")
+            console.print("[red]⚠Voltando.[/red]")
             time.sleep(2)
             return  # volta pro menu principal
 
@@ -295,7 +295,7 @@ def treinar(usuario):
     DADOS = os.path.join("data", "treinoUsuario.json")
 
     if not os.path.exists(DADOS):
-        console.print("[bold red]⚠ Nenhum treino encontrado![/bold red]")
+        console.print("[bold red]⚠ Voltando![/bold red]")
         time.sleep(2)
         return
 
@@ -305,7 +305,7 @@ def treinar(usuario):
     nome_usuario = usuario["Nome"]
 
     if nome_usuario not in todos_treinos:
-        console.print("[bold red]⚠ Nenhum treino cadastrado para este usuário![/bold red]")
+        console.print("[bold red]⚠  Voltando![/bold red]")
         time.sleep(2)
         return
 
