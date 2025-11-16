@@ -140,6 +140,7 @@ def adicionarExercicio(dia: str, nomeEscolhido: str, usuario: str):
 
 def edicaoDoExercicioSelecionado(idExercicio: int, dia: str, usuario: str, nomeExercicio: str) -> None:
     while True:
+        addExercicioObrigatorio = False
         ordenarExercicios(usuario, dia)
         usuarioJson = treinoUsuarioAtualizado()
         bd = usuarioJson[usuario]
@@ -426,6 +427,10 @@ def editarInformacoesExercicio(nomeTreino: str, idExercicio: int, exerciciosTrei
                         try:
                             opcaoTempo = int(console.input("\n[bold cyan]Digite o tempo (min): [/bold cyan]"))   
                             
+                            if opcaoTempo <= 0:
+                                console.print("[red]⚠ Digite um número válido.[/red]")
+                                time.sleep(2)
+                                continue
                             treino["tempo"] = opcaoTempo
                             break
                         except ValueError:
@@ -488,6 +493,10 @@ def editarInformacoesExercicio(nomeTreino: str, idExercicio: int, exerciciosTrei
                         try:
                             opcaoSeries = int(console.input("\n[bold cyan]Digite a quantidade de séries: [/bold cyan]"))   
                             
+                            if opcaoSeries <= 0:
+                                console.print("[red]⚠ Digite um número válido.[/red]")
+                                time.sleep(2)
+                                continue
                             treino["series"] = opcaoSeries
                             break
                         except ValueError:
@@ -503,6 +512,10 @@ def editarInformacoesExercicio(nomeTreino: str, idExercicio: int, exerciciosTrei
                         try:
                             opcaoRept = int(console.input("\n[bold cyan]Digite a quantidade de repetições: [/bold cyan]"))   
 
+                            if opcaoRept <= 0:
+                                console.print("[red]⚠ Digite um número válido.[/red]")
+                                time.sleep(2)
+                                continue
                             treino["repeticao"] = opcaoRept
                             break
                         except ValueError:
@@ -520,7 +533,11 @@ def editarInformacoesExercicio(nomeTreino: str, idExercicio: int, exerciciosTrei
                                 console.print(f"[bold]Peso atual: {treino['peso']}[/bold]\n")
                             try:
                                 opcaoPeso = int(console.input("\n[bold cyan]Digite o peso (Kg): [/bold cyan]"))   
-                                
+
+                                if opcaoPeso <= 0:
+                                    console.print("[red]⚠ Digite um número válido.[/red]")
+                                    time.sleep(2)
+                                    continue
                                 treino["peso"] = opcaoPeso
                                 break
                             except ValueError:
