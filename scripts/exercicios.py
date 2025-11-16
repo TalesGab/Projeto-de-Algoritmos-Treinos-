@@ -532,7 +532,7 @@ def editarInformacoesExercicio(nomeTreino: str, idExercicio: int, exerciciosTrei
                             if not eNovo and treino['peso'] != None:
                                 console.print(f"[bold]Peso atual: {treino['peso']}[/bold]\n")
                             try:
-                                opcaoPeso = int(console.input("\n[bold cyan]Digite o peso (Kg): [/bold cyan]"))   
+                                opcaoPeso = float(console.input("\n[bold cyan]Digite o peso (Kg): [/bold cyan]"))   
 
                                 if opcaoPeso <= 0:
                                     console.print("[red]⚠ Digite um número válido.[/red]")
