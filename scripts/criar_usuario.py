@@ -121,7 +121,7 @@ def criar_usuario():
                 clear_screen()
                 console.print("[bold red]⚠ Opção inválida![/bold red]")
                 time.sleep(1.5)
-
+                
         # --- Peso ---
         elif etapa == "peso":
             console.print(Panel("[bold magenta]Etapa 4 de 7[/bold magenta]\nDigite seu [cyan]peso (kg)[/cyan].\n[grey58](Digite 'voltar' para voltar à etapa anterior)[/grey58]", expand=False))
@@ -224,7 +224,7 @@ def criar_usuario():
         "Peso": peso,
         "Objetivo": obj,
         "Lesões": lesoes_usuario,
-        "Senha": senha,          # 🔥 Senha corretamente salva
+        "Senha": senha,          
         "Responsável": responsavel
     }
 
