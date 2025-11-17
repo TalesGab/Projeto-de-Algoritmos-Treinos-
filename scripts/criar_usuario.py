@@ -32,6 +32,9 @@ def criar_usuario():
     lesoes_usuario = []
     senha = ""
 
+    # 🔥 CORREÇÃO 1 — Impede erro quando idade >= 18
+    responsavel = "Nenhum"
+
     objetivos = [
         "Ganhar Massa Muscular (Hipertrofia)",
         "Perder Peso / Reduzir Gordura Corporal",
@@ -221,7 +224,7 @@ def criar_usuario():
         "Peso": peso,
         "Objetivo": obj,
         "Lesões": lesoes_usuario,
-        "Senha": senha,
+        "Senha": senha,          # 🔥 Senha corretamente salva
         "Responsável": responsavel
     }
 

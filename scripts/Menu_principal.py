@@ -4,6 +4,7 @@ import datetime
 import sys
 import json
 import os
+import re
 import numpy as np
 from criar_usuario import criar_usuario
 from rich.console import Console
@@ -163,10 +164,11 @@ def carregar_usuario():
         clear_screen()
         usuarios = carregar_usuarios()
 
+        # Se não existir nenhum usuário
         if not usuarios:
-            console.print("[red]⚠Voltando.[/red]")
+            console.print("[red]⚠ Nenhum usuário encontrado. Voltando.[/red]")
             time.sleep(2)
-            return  # volta pro menu principal
+            return  
 
         console.print("\n[bold blue]👥 Usuários existentes:[/bold blue]")
         for i, u in enumerate(usuarios, start=1):
@@ -176,10 +178,12 @@ def carregar_usuario():
 
         escolha = console.input("\n[bold cyan]Digite o número do usuário que deseja acessar: [/bold cyan]").strip()
 
+        # Voltar
         if escolha == "0":
             clear_screen()
-            return  # 🔹 volta pro menu principal
+            return  
 
+        # Validação
         if not escolha.isdigit() or int(escolha) not in range(1, len(usuarios) + 1):
             clear_screen()
             console.print("[red]⚠ Opção inválida.[/red]")
@@ -187,11 +191,33 @@ def carregar_usuario():
             continue
 
         usuario = usuarios[int(escolha) - 1]
+
+        # --- PEDIR SENHA AQUI ---
         clear_screen()
-        console.print(f"\n[bold green]✅ Bem-vindo, {usuario['Nome']}![/bold green]")
+        console.print(Panel(
+    # Mude [/yellow][/bold] para [/bold yellow]
+    f"[bold yellow]🔐 Entre no usuário: [green]{usuario['Nome']}[/green][/bold yellow]", 
+    expand=False
+))
+        senha_digitada = console.input("[cyan]Digite a senha (ou 'voltar'): [/cyan]").strip()
+
+        if senha_digitada.lower() == "voltar":
+            clear_screen()
+            continue  # volta para lista de usuários
+
+        if senha_digitada != usuario.get("Senha"):
+            clear_screen()
+            console.print("[bold red]❌ Senha incorreta![/bold red]")
+            time.sleep(2)
+            continue  # volta para lista de usuários
+
+        # --- Senha correta ---
+        clear_screen()
+        console.print(f"\n✅ Bem-vindo, {usuario['Nome']}!", style="bold green", justify="center", markup=True)
         time.sleep(1)
         menu_usuario(usuario)
-        break  # sai do loop depois de entrar em um usuário
+        return  # usuário logado → volta ao menu apenas depois que sair
+
 
 
 
@@ -330,45 +356,386 @@ def treinar(usuario):
         mostrar_detalhes_exercicio(exercicio_escolhido)
 
 #Perfil
-
-def mostrar_perfil(usuario):
+# ===== Carregar usuários (para menu) =====
+def carregar_usuarios():
+    """Carrega usuários APENAS para escolher e logar."""
     clear_screen()
-    console.print(Panel("[bold green]👤 Perfil do Usuário[/bold green]", expand=False))
-    
-    console.print(f"Nome: [bold]{usuario['Nome']}[/bold]")
-    console.print(f"Idade: [bold]{usuario['Idade']}[/bold]")
-    console.print(f"Sexo: [bold]{usuario.get('Sexo', 'Não informado')}[/bold]")
-    if usuario.get("Responsável"):
-        console.print(f"Responsável: [bold]{usuario['Responsável']}[/bold]")
-    console.print("\n[yellow]1[/yellow] - Voltar")
-    console.print("[red]2[/red] - Deletar perfil")
+    caminho = "data/usuario.json"
 
-    opcao = console.input("\n[bold cyan]Escolha uma opção: [/bold cyan]").strip()
+    if not os.path.exists(caminho):
+        console.print("[bold red]⚠ Erro! Arquivo usuario.json não encontrado.[/bold red]")
+        time.sleep(2)
+        return []
 
-    if opcao == "1":
-        return
-    elif opcao == "2":
-        confirmar = console.input("[red]Tem certeza que deseja deletar este perfil? (s/n): [/red]").lower()
-        if confirmar == "s":
-            deletar_usuario(usuario)
-            console.print(f"[green]✅ Usuário {usuario['Nome']} deletado com sucesso![/green]")
-            time.sleep(2)
-            menu_principal()
-            sys.exit()
-        else:
-            console.print("[yellow]Operação cancelada.[/yellow]")
-            time.sleep(1.5)
-    else:
-        console.print("[red]⚠ Opção inválida![/red]")
-        time.sleep(1.5)
+    with open(caminho, "r", encoding="utf-8") as arq:
+        usuarios = json.load(arq)
 
+    if not usuarios:
+        console.print("[bold red]⚠ Nenhum usuário cadastrado.[/bold red]")
+        time.sleep(2)
+        return []
+
+    return usuarios
+
+
+# ===== Carregamento puro (sem menus) =====
+def carregar_usuarios_perfil():
+    """Carrega a lista de usuários sem exibir menus (uso interno)."""
+    if not os.path.exists(USUARIO_FILE_PATH):
+        return []
+
+    with open(USUARIO_FILE_PATH, "r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+# ===== Deletar usuário =====
 def deletar_usuario(usuario):
-    usuarios = carregar_usuarios()
-    usuarios = [u for u in usuarios if u['Nome'] != usuario['Nome']]
+    usuarios = _puros()
+
+    # Remove o usuário da lista
+    usuarios = [u for u in usuarios if u["Nome"] != usuario["Nome"]]
 
     with open(USUARIO_FILE_PATH, "w", encoding="utf-8") as f:
         json.dump(usuarios, f, indent=4, ensure_ascii=False)
 
+
+# ===== Menu do usuário =====
+def menu_usuario(usuario):
+    while True:
+        clear_screen()
+        console.print(Panel(f"[bold green]💪 Menu Principal - {usuario['Nome']}[/bold green]", expand=False))
+        console.print("[yellow]1[/yellow] - Treinar")
+        console.print("[yellow]2[/yellow] - Perfil")
+        console.print("[yellow]3[/yellow] - Meus Treinos")
+        console.print("[yellow]4[/yellow] - Sair para o menu inicial")
+
+        opcao = console.input("\n[bold cyan]Escolha uma opção: [/bold cyan]")
+
+        if opcao == "1":
+            clear_screen()
+            treinar(usuario)
+
+        elif opcao == "2":
+            clear_screen()
+            resultado = mostrar_perfil(usuario)  # <<< RECEBE RESULTADO
+
+            if resultado == "menu":
+                return  # volta para o menu principal
+
+        elif opcao == "3":
+            clear_screen()
+            treinos(usuario['Nome'])
+
+        elif opcao == "4":
+            clear_screen()
+            console.print("[red]⬅ Voltando ao menu inicial...[/red]")
+            time.sleep(1.5)
+            return
+
+        else:
+            clear_screen()
+            console.print("[red]⚠ Opção inválida.[/red]")
+            time.sleep(2)
+
+
+# ===== Perfil =====
+def carregar_usuarios_puros():
+    try:
+        with open(USUARIO_FILE_PATH, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except FileNotFoundError:
+        return []
+
+
+def salvar_usuarios(usuarios):
+    with open(USUARIO_FILE_PATH, "w", encoding="utf-8") as f:
+        json.dump(usuarios, f, indent=4, ensure_ascii=False)
+
+
+# ==========================
+#     MOSTRAR PERFIL
+# ==========================
+def mostrar_perfil(usuario):
+    while True:
+        console.clear()
+        console.print(Panel("[bold green]👤 PERFIL DO USUÁRIO[/bold green]", expand=False))
+
+        table = Table(title="Informações do Usuário", show_header=False, box=None)
+        table.add_row("Nome:", f"[bold]{usuario.get('Nome', '---')}[/bold]")
+        table.add_row("Idade:", f"[bold]{usuario.get('Idade', '---')}[/bold]")
+        table.add_row("Sexo:", f"[bold]{usuario.get('Sexo', '---')}[/bold]")
+        table.add_row("Peso:", f"[bold]{usuario.get('Peso', '---')} kg[/bold]")
+        table.add_row("Objetivo:", f"[bold]{usuario.get('Objetivo', '---')}[/bold]")
+
+        console.print(table)
+
+        # Lesões em tabela separada
+        console.print("\n[bold yellow]Lesões:[/bold yellow]")
+        if usuario.get("Lesões"):
+            t2 = Table(show_header=True, header_style="bold cyan")
+            t2.add_column("Nº")
+            t2.add_column("Descrição")
+
+            for i, lesao in enumerate(usuario["Lesões"], start=1):
+                t2.add_row(str(i), lesao)
+
+            console.print(t2)
+        else:
+            console.print("[dim]Nenhuma lesão registrada.[/dim]")
+
+        console.print("\n[yellow]1[/yellow] - Editar perfil")
+        console.print("[red]2[/red] - Deletar perfil")
+        console.print("[cyan]3[/cyan] - Voltar")
+
+        opc = console.input("\n[bold cyan]Escolha: [/bold cyan]").strip()
+
+        if opc == "1":
+            editar_perfil(usuario)
+        elif opc == "2":
+            deletar_usuario(usuario)
+            return
+        elif opc == "3":
+            return
+        else:
+            console.print("[red]⚠ Opção inválida![/red]")
+            time.sleep(1.2)
+
+
+# ==========================
+#     EDITAR PERFIL
+# ==========================
+def editar_perfil(usuario):
+    while True:
+        clear_screen()
+        console.print(Panel(f"[bold blue]✏ EDITAR PERFIL – {usuario['Nome']}[/bold blue]", expand=False))
+
+        console.print("""
+[cyan]O que deseja editar?[/cyan]
+
+[yellow]1[/yellow] - Nome
+[yellow]2[/yellow] - Idade
+[yellow]3[/yellow] - Sexo
+[yellow]4[/yellow] - Peso
+[yellow]5[/yellow] - Objetivo
+[yellow]6[/yellow] - Lesões
+[red]7[/red] - Voltar
+""")
+
+        opc = console.input("[bold cyan]→ [/bold cyan]").strip()
+
+        # ======================================================
+        #   EDITAR NOME
+        # ======================================================
+        if opc == "1":
+            while True:
+                clear_screen()
+                console.print(Panel("[bold magenta]Editar Nome[/bold magenta]\nDigite o novo nome.", expand=False))
+                novo_nome = console.input("[cyan]Nome: [/cyan]").strip()
+
+                if novo_nome == "":
+                    break
+
+                if len(novo_nome) < 3 or len(novo_nome.split()) < 2:
+                    console.print("[red]⚠ Digite nome e sobrenome![/red]")
+                    time.sleep(1.3)
+                    continue
+
+                if any(n.isdigit() for n in novo_nome):
+                    console.print("[red]⚠ Nome não pode conter números![/red]")
+                    time.sleep(1.3)
+                    continue
+
+                if not re.match(r'^[A-Za-zÀ-ÿ\s]+$', novo_nome):
+                    console.print("[red]⚠ Nome contém caracteres inválidos![/red]")
+                    time.sleep(1.3)
+                    continue
+
+                usuario["Nome"] = novo_nome.title()
+                break
+
+        # ======================================================
+        #   EDITAR IDADE
+        # ======================================================
+        elif opc == "2":
+            while True:
+                clear_screen()
+                console.print(Panel(
+                    "[bold magenta]Editar Idade[/bold magenta]\n"
+                    "Digite sua [cyan]idade[/cyan].\n"
+                    "[grey58](Deixe vazio para cancelar)[/grey58]",
+                    expand=False
+                ))
+
+                idade_input = console.input("[bold cyan]→ [/bold cyan]").strip()
+
+                # Cancelar edição
+                if idade_input == "":
+                    break
+
+                try:
+                    idade = int(idade_input)
+
+                    # Idade mínima
+                    if idade < 14:
+                        clear_screen()
+                        console.print("[bold red]⚠ Idade mínima é 14 anos![/bold red]")
+                        time.sleep(1.5)
+                        continue
+
+                    # Idade máxima
+                    if idade > 150:
+                        clear_screen()
+                        console.print("[bold red]⚠ Idade inválida![/bold red]")
+                        time.sleep(1.5)
+                        continue
+
+                    # Menores de idade
+                    if idade < 18:
+                        console.print("[bold yellow]⚠ Menores de 18 anos só podem treinar acompanhados de responsável.[/bold yellow]")
+                        responsavel = console.input("[cyan]Nome do responsável: [/cyan]").strip()
+                        usuario["Responsável"] = responsavel
+
+                    # Salvar idade
+                    usuario["Idade"] = idade
+                    clear_screen()
+                    console.print("[bold green]✔ Idade atualizada com sucesso![/bold green]")
+                    time.sleep(1.2)
+                    break
+
+                except ValueError:
+                    clear_screen()
+                    console.print("[bold red]⚠ Digite apenas números![/bold red]")
+                    time.sleep(1.3)
+
+        # ======================================================
+        #   EDITAR SEXO
+        # ======================================================
+        elif opc == "3":
+            while True:
+                clear_screen()
+                console.print(Panel("[bold magenta]Editar Sexo[/bold magenta]", expand=False))
+                console.print("""
+[yellow]1[/yellow] Masculino
+[yellow]2[/yellow] Feminino
+[yellow]3[/yellow] Indefinido
+""")
+
+                sx = console.input("[cyan]→ [/cyan]").strip()
+
+                if sx == "":
+                    break
+
+                if sx == "1":
+                    usuario["Sexo"] = "Masculino"
+                elif sx == "2":
+                    usuario["Sexo"] = "Feminino"
+                elif sx == "3":
+                    usuario["Sexo"] = "Indefinido"
+                else:
+                    console.print("[red]⚠ Opção inválida![/red]")
+                    time.sleep(1.3)
+                    continue
+                break
+
+        # ======================================================
+        #   EDITAR PESO
+        # ======================================================
+        elif opc == "4":
+            while True:
+                clear_screen()
+                console.print(Panel("[bold magenta]Editar Peso[/bold magenta]\nDigite o peso em kg.", expand=False))
+                p = console.input("[cyan]Peso: [/cyan]").strip()
+
+                if p == "":
+                    break
+
+                try:
+                    p = float(p)
+                    if p <= 0 or p > 500:
+                        console.print("[red]⚠ Peso inválido![/red]")
+                        time.sleep(1.2)
+                        continue
+                    usuario["Peso"] = p
+                    break
+                except:
+                    console.print("[red]⚠ Digite apenas números![/red]")
+                    time.sleep(1.2)
+
+        # ======================================================
+        #   EDITAR OBJETIVO
+        # ======================================================
+        elif opc == "5":
+            objetivos = [
+                "Ganhar Massa Muscular (Hipertrofia)",
+                "Perder Peso / Reduzir Gordura Corporal",
+                "Melhorar Saúde e Bem-estar Geral",
+                "Treinos para Performance Esportiva Específica"
+            ]
+
+            while True:
+                clear_screen()
+                console.print(Panel("[bold magenta]Editar Objetivo[/bold magenta]", expand=False))
+
+                for i, o in enumerate(objetivos, 1):
+                    console.print(f"[yellow]{i}[/yellow] - {o}")
+
+                op = console.input("[cyan]→ [/cyan]").strip()
+
+                if op == "":
+                    break
+
+                try:
+                    usuario["Objetivo"] = objetivos[int(op) - 1]
+                    break
+                except:
+                    console.print("[red]⚠ Opção inválida![/red]")
+                    time.sleep(1.2)
+
+        # ======================================================
+        #   EDITAR LESÕES
+        # ======================================================
+        elif opc == "6":
+            clear_screen()
+            console.print(Panel("[bold magenta]Editar Lesões[/bold magenta]", expand=False))
+            console.print("[cyan]Digite cada lesão (ENTER para sair)[/cyan]")
+
+            nova_lista = []
+            while True:
+                lesao = console.input("- ").strip()
+                if lesao == "":
+                    break
+                nova_lista.append(lesao)
+
+            if nova_lista:
+                usuario["Lesões"] = nova_lista
+
+        # ======================================================
+        #   VOLTAR
+        # ======================================================
+        elif opc == "7":
+            break
+
+        else:
+            console.print("[red]⚠ Opção inválida![/red]")
+            time.sleep(1.2)
+
+        # ======================================================
+        #   SALVAR ALTERAÇÕES NO JSON
+        # ======================================================
+        caminho = "data/usuario.json"
+        with open(caminho, "r", encoding="utf-8") as arq:
+            usuarios = json.load(arq)
+
+        # Atualiza apenas o usuário editado
+        for i, u in enumerate(usuarios):
+            if u["Nome"] == usuario["Nome"]:
+                usuarios[i] = usuario
+
+        with open(caminho, "w", encoding="utf-8") as arq:
+            json.dump(usuarios, arq, ensure_ascii=False, indent=4)
+
+        console.print("[green]✔ Perfil atualizado![/green]")
+        time.sleep(1.5)
 
 # ===== Execução =====
 
