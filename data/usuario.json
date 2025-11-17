@@ -151,5 +151,17 @@
             "Distensão muscular"
         ],
         "Senha": "1234"
+    },
+    {
+        "Nome": "Kevin Camargo",
+        "Idade": 15,
+        "Sexo": "Masculino",
+        "Peso": 55.0,
+        "Objetivo": "Ganhar Massa Muscular (Hipertrofia)",
+        "Lesões": [
+            "Nenhuma lesão relatada"
+        ],
+        "Senha": "2119",
+        "Responsável": "Daniel"
     }
 ]

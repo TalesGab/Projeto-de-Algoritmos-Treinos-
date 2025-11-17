@@ -70,17 +70,22 @@ def criar_usuario():
                 continue
             try:
                 idade = int(idade_input)
-                if idade < 18:
+                if idade < 14:
                     clear_screen()
-                    console.print("[bold red]⚠ Idade mínima é 18 anos![/bold red]")
+                    console.print("[bold red]⚠ Idade mínima é 14 anos![/bold red]")
                     time.sleep(1.5)
-                elif idade > 150:
+                elif 14 <= idade < 18:
+                    console.print("[bold yellow]⚠ Menores de 18 anos só podem treinar acompanhados de responsável.[/bold yellow]")
+                    responsavel = console.input("[bold cyan]Digite o nome do responsável: [/bold cyan]").strip()
                     clear_screen()
-                    console.print("[bold red]⚠ Idade inválida![/bold red]")
-                    time.sleep(1.5)
-                else:
                     carregando()
                     i += 1
+                elif 18 <= idade <= 150:
+                    carregando()
+                    i += 1
+                else:
+                    console.print("[bold red]⚠ Digite apenas números![/bold red]")
+                    time.sleep(2)
             except ValueError:
                 clear_screen()
                 console.print("[bold red]⚠ Digite apenas números![/bold red]")
@@ -184,6 +189,7 @@ def criar_usuario():
         # --- Senha ---
         elif etapa == "senha":
             console.print(Panel("[bold magenta]Etapa 7 de 7[/bold magenta]\nCrie uma [cyan]senha[/cyan] para sua conta.\n[grey58](Digite 'voltar' para voltar à etapa anterior)[/grey58]", expand=False))
+            console.print(Panel("[bold white]Especificação:[/bold white]\n[grey58]A senha deve conter no mínimo 4 caracteres.[/grey58]", expand=False))
             senha = console.input("[bold cyan]→ [/bold cyan]").strip()
             if senha.lower() == "voltar":
                 i -= 1
@@ -215,7 +221,8 @@ def criar_usuario():
         "Peso": peso,
         "Objetivo": obj,
         "Lesões": lesoes_usuario,
-        "Senha": senha
+        "Senha": senha,
+        "Responsável": responsavel
     }
 
     treino_usuario = [

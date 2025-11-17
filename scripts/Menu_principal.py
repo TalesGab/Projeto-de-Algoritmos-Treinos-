@@ -92,26 +92,6 @@ def carregar_usuarios():
             console.print("[red]❌ Senha incorreta! Tente novamente.[/red]")
             time.sleep(1.5)
 
-    # === VERIFICAÇÃO DA SENHA ===
-    tentativas = 3
-    while tentativas > 0:
-        senha_digitada = console.input("[bold cyan]Senha: [/bold cyan]").strip()
-        senha_salva = usuario.get("Senha", "")
-
-        if senha_digitada == senha_salva:
-            console.print("[bold green]✅ Acesso permitido![/bold green]")
-            time.sleep(1)
-            menu_usuario(usuario)  # Vai direto para o menu do usuário
-            return
-        else:
-            tentativas -= 1
-            console.print(f"[red]❌ Senha incorreta! Tentativas restantes: {tentativas}[/red]")
-
-    console.print("[bold red]🚫 Acesso negado![/bold red]")
-    time.sleep(2)
-    return
-
-
 # ===== Verificação de Erros =====
 
 def verificarTodosTreinosVazios() -> None:
@@ -354,25 +334,27 @@ def treinar(usuario):
 def mostrar_perfil(usuario):
     clear_screen()
     console.print(Panel("[bold green]👤 Perfil do Usuário[/bold green]", expand=False))
+    
     console.print(f"Nome: [bold]{usuario['Nome']}[/bold]")
     console.print(f"Idade: [bold]{usuario['Idade']}[/bold]")
     console.print(f"Sexo: [bold]{usuario.get('Sexo', 'Não informado')}[/bold]")
-
+    if usuario.get("Responsável"):
+        console.print(f"Responsável: [bold]{usuario['Responsável']}[/bold]")
     console.print("\n[yellow]1[/yellow] - Voltar")
     console.print("[red]2[/red] - Deletar perfil")
 
     opcao = console.input("\n[bold cyan]Escolha uma opção: [/bold cyan]").strip()
 
     if opcao == "1":
-        return  # apenas volta
+        return
     elif opcao == "2":
         confirmar = console.input("[red]Tem certeza que deseja deletar este perfil? (s/n): [/red]").lower()
         if confirmar == "s":
             deletar_usuario(usuario)
             console.print(f"[green]✅ Usuário {usuario['Nome']} deletado com sucesso![/green]")
             time.sleep(2)
-            menu_principal()  # volta direto para o menu inicial
-            sys.exit()  # encerra o loop atual
+            menu_principal()
+            sys.exit()
         else:
             console.print("[yellow]Operação cancelada.[/yellow]")
             time.sleep(1.5)
