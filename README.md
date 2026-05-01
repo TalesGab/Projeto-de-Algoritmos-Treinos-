@@ -93,7 +93,9 @@ Este projeto foi desenvolvido com foco em prática de lógica de programação e
 
 **Tales Gabriel**
 🔗 https://github.com/TalesGab
+
 **Alice Salmazi**
 🔗 https://github.com/alicesalmazi
+
 **Kevin Camargo**
 🔗 https://github.com/kevinviniciuss
