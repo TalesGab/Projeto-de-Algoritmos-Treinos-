@@ -18,7 +18,7 @@ Aplicação desenvolvida para gerenciar treinos pessoais, permitindo o controle 
 ## 🛠️ Tecnologias utilizadas
 
 * Python
-* (adicione aqui se usou mais: SQLite, Flask, etc.)
+* Json
 
 ---
 
